@@ -1,4 +1,4 @@
-import { keepPreviousData, useQueries, useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQueries } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { getAllCategories, getStaffList } from '../../../../services/staff';
 import { useState } from 'react';
@@ -22,7 +22,7 @@ function StaffList() {
     queries: [
       {
         queryKey: ['staff', page, filters],
-        queryFn: () => getStaffList(page),
+        queryFn: () => getStaffList(page, filters),
         placeholderData: keepPreviousData,
       },
       {

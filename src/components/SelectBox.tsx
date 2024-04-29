@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { AllCategoriesType } from '../types/types';
 
 export default function SelectBox({
@@ -18,8 +16,6 @@ export default function SelectBox({
       [category]: value, // Update the specific category
     });
   };
-
-  console.log(filters);
 
   return (
     <div>

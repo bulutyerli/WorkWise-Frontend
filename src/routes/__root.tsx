@@ -3,7 +3,6 @@ import {
   Outlet,
   useRouterState,
 } from '@tanstack/react-router';
-import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
@@ -19,7 +18,6 @@ function RootRoute() {
     <>
       {!isAppRoute && <Header />}
       <Outlet />
-      <TanStackRouterDevtools position="bottom-right" initialIsOpen={false} />
       {!isAppRoute && <Footer />}
     </>
   );

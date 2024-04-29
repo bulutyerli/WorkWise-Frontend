@@ -35,3 +35,26 @@ export interface AllCategoriesType {
     shifts: CategoryType[];
   };
 }
+
+export interface HierarchyData {
+  id: number;
+  name: string;
+  surname: string;
+  role_name: string;
+  parentId: number | null;
+  shift?: string | null;
+  office?: string | null;
+  department: string;
+  children?: HierarchyData[] | null;
+  _directSubordinates?: string
+  _totalSubordinates: string
+}
+
+export interface HierarchyType {
+  data: HierarchyData[];
+}
+
+export interface HierarchyMap {
+  [key: number]: HierarchyData;
+}
+
