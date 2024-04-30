@@ -53,6 +53,7 @@ function StaffDetails() {
   return (
     <section className="w-full">
       <h2 className="text-red-700 mb-5">Staff Details</h2>
+
       <article className="flex flex-col md:mx-auto mt-10 lg:text-xl">
         <div className="flex justify-between items-center mb-10">
           <div className="flex flex-col gap-2">

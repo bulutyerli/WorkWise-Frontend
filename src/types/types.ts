@@ -46,8 +46,8 @@ export interface HierarchyData {
   office?: string | null;
   department: string;
   children?: HierarchyData[] | null;
-  _directSubordinates?: string
-  _totalSubordinates: string
+  _directSubordinates?: string;
+  _totalSubordinates: string;
 }
 
 export interface HierarchyType {
@@ -58,3 +58,4 @@ export interface HierarchyMap {
   [key: number]: HierarchyData;
 }
 
+export type OrderType = 'name' | 'email' | 'role' | 'department' | 'id';
