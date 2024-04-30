@@ -36,7 +36,7 @@ function LayoutComponent() {
     return appMenuRoutes.map(
       (route: { name: string; href: string; icon: React.ReactNode }) => {
         return (
-          <li className="text-neutral-300 " key={route.href}>
+          <li className="text-neutral-200 " key={route.href}>
             <Link
               to={route.href}
               className="flex items-center gap-5"
