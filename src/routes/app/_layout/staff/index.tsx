@@ -25,7 +25,7 @@ function StaffList() {
   const [sortFilter, setSortFilter] = useState<{
     order: OrderType;
     direction: 'asc' | 'desc';
-  }>();
+  }>({ order: 'name', direction: 'asc' });
   const [staffQuery, categoryQuery] = useQueries({
     queries: [
       {

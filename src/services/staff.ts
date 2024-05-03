@@ -13,28 +13,34 @@ export async function getStaffList(
   filters: Record<string, string | null>,
   sortFilters?: { order: OrderType; direction: 'asc' | 'desc' }
 ): Promise<StaffType> {
-  let url = `${API_URL}/staff/?page=${page}`;
+  const url = `${API_URL}/staff`;
 
   const params = new URLSearchParams();
+  params.append('page', page.toString());
+
+  // Append filters to params
   Object.entries(filters).forEach(([key, value]) => {
     if (value !== null) {
       params.append(key, value);
     }
   });
 
+  // Append sort filters to params
   if (sortFilters) {
-    // Adding sorting parameters to the URL
     params.append('order', sortFilters.order);
     params.append('direction', sortFilters.direction);
   }
 
-  if (params.toString() !== '') {
-    // Adding filter params to url
-    url += '&' + params.toString();
-  }
+  try {
+    const response: AxiosResponse<StaffType> = await axios.get(url, {
+      params: params,
+    });
 
-  const response: AxiosResponse<StaffType> = await axios.get(url);
-  return response.data;
+    return response.data;
+  } catch (error) {
+    // Handle errors
+    throw new Error(`Error fetching staff list: ${error}`);
+  }
 }
 
 export async function getStaffById(id: number): Promise<StaffData> {
