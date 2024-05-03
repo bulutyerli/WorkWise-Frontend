@@ -59,3 +59,25 @@ export interface HierarchyMap {
 }
 
 export type OrderType = 'name' | 'email' | 'role' | 'department' | 'id';
+
+export interface IncomeData {
+  id: number;
+  description: string;
+  amount: string;
+  date: Date;
+  created_at: string;
+  category: string;
+}
+
+export interface IncomeType {
+  data: IncomeData[];
+}
+
+export interface FinanceData {
+  year: number;
+  amount: string;
+}
+
+export interface FinanceType {
+  data: FinanceData[];
+}

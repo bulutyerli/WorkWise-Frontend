@@ -71,9 +71,9 @@ function LayoutComponent() {
         </Link>
         <MobileMenu routes={appMenuRoutes} app={true} />
       </div>
-      <div className="w-full  xl:px-16">
+      <div className="w-full xl:px-16">
         <QueryClientProvider client={queryClient}>
-          <div className="p-5 flex flex-col w-full mt-12">
+          <div className="py-5 flex flex-col w-full mt-12">
             <Outlet />
           </div>
         </QueryClientProvider>

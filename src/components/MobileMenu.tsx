@@ -46,7 +46,7 @@ export default function MobileMenu({
       >
         <nav
           ref={mobileRef}
-          className={`absolute top-0 right-0 bg-red-700 h-screen ${app ? 'w-fit' : 'w-[80%]'}`}
+          className={`absolute top-0 right-0 bg-red-700 h-screen z-20 ${app ? 'w-fit' : 'w-[80%]'}`}
         >
           <ul className="flex flex-col items-end pt-10 pr-5 gap-10 text-gray-300 px-10">
             <RiCloseLine size={24} onClick={() => setMenu(false)} />
