@@ -21,6 +21,7 @@ import { Route as AppLayoutIndexImport } from './routes/app/_layout/index'
 import { Route as AppLayoutSicknessLeaveImport } from './routes/app/_layout/sickness-leave'
 import { Route as AppLayoutIncomeImport } from './routes/app/_layout/income'
 import { Route as AppLayoutHierarchyImport } from './routes/app/_layout/hierarchy'
+import { Route as AppLayoutFinanceChartsImport } from './routes/app/_layout/finance-charts'
 import { Route as AppLayoutExpenseImport } from './routes/app/_layout/expense'
 import { Route as AppLayoutAnnualLeaveImport } from './routes/app/_layout/annual-leave'
 import { Route as AppLayoutStaffIndexImport } from './routes/app/_layout/staff/index'
@@ -75,6 +76,11 @@ const AppLayoutIncomeRoute = AppLayoutIncomeImport.update({
 
 const AppLayoutHierarchyRoute = AppLayoutHierarchyImport.update({
   path: '/hierarchy',
+  getParentRoute: () => AppLayoutRoute,
+} as any)
+
+const AppLayoutFinanceChartsRoute = AppLayoutFinanceChartsImport.update({
+  path: '/finance-charts',
   getParentRoute: () => AppLayoutRoute,
 } as any)
 
@@ -138,6 +144,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppLayoutExpenseImport
       parentRoute: typeof AppLayoutImport
     }
+    '/app/_layout/finance-charts': {
+      preLoaderRoute: typeof AppLayoutFinanceChartsImport
+      parentRoute: typeof AppLayoutImport
+    }
     '/app/_layout/hierarchy': {
       preLoaderRoute: typeof AppLayoutHierarchyImport
       parentRoute: typeof AppLayoutImport
@@ -179,6 +189,7 @@ export const routeTree = rootRoute.addChildren([
     AppLayoutRoute.addChildren([
       AppLayoutAnnualLeaveRoute,
       AppLayoutExpenseRoute,
+      AppLayoutFinanceChartsRoute,
       AppLayoutHierarchyRoute,
       AppLayoutIncomeRoute,
       AppLayoutSicknessLeaveRoute,

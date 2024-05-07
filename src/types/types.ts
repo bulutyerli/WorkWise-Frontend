@@ -75,9 +75,31 @@ export interface IncomeType {
 
 export interface FinanceData {
   year: number;
-  amount: string;
+  amount?: string;
+  income?: string;
+  expense?: string;
 }
 
 export interface FinanceType {
   data: FinanceData[];
+}
+
+export interface ByCategoryData {
+  year: number;
+  amount: string;
+  category: string;
+  id: number;
+}
+
+export interface ByYearData {
+  data: ByCategoryData[];
+}
+
+export interface CategoriesData {
+  id: number;
+  category: string;
+}
+
+export interface FinanceByCategoryType {
+  data: { valuesData: ByCategoryData[]; categoryData: CategoriesData[] };
 }
