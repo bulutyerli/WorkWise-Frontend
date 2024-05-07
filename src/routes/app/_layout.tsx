@@ -1,10 +1,9 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Outlet, createFileRoute, Link } from '@tanstack/react-router';
 import logo from '/app-logo.svg';
-import { GiExpense, GiMoneyStack } from 'react-icons/gi';
+import { GiExpense, GiMoneyStack, GiIsland } from 'react-icons/gi';
 import { IoIosPeople } from 'react-icons/io';
-import { FaRegHospital } from 'react-icons/fa';
-import { GiIsland } from 'react-icons/gi';
+import { FaRegHospital, FaChartPie } from 'react-icons/fa';
 import { TbHierarchy } from 'react-icons/tb';
 import MobileMenu from '../../components/MobileMenu';
 
@@ -17,6 +16,16 @@ const queryClient = new QueryClient();
 function LayoutComponent() {
   const appMenuRoutes = [
     { name: 'Staff List', href: '/app/staff', icon: <IoIosPeople /> },
+    {
+      name: 'Company Hierarchy',
+      href: '/app/hierarchy',
+      icon: <TbHierarchy />,
+    },
+    {
+      name: 'Finance Charts',
+      href: '/app/finance-charts',
+      icon: <FaChartPie />,
+    },
     { name: 'Income Report', href: '/app/income', icon: <GiMoneyStack /> },
     { name: 'Expense Report', href: '/app/expense', icon: <GiExpense /> },
     { name: 'Annual Leave', href: '/app/annual-leave', icon: <GiIsland /> },
@@ -24,11 +33,6 @@ function LayoutComponent() {
       name: 'Sickness Leave',
       href: '/app/sickness-leave',
       icon: <FaRegHospital />,
-    },
-    {
-      name: 'Company Hierarchy',
-      href: '/app/hierarchy',
-      icon: <TbHierarchy />,
     },
   ];
 
