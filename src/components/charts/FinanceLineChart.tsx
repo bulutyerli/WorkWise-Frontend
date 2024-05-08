@@ -29,10 +29,10 @@ export default function FinanceLineChart<T>({
         <XAxis dataKey="year" tickSize={15} />
         <YAxis
           type="number"
-          domain={['auto', 'auto']}
+          domain={['dataMin', 'auto']}
           tickFormatter={(value) => `$${value / 1000000}m`}
           tickSize={6}
-          tickCount={6}
+          tickCount={4}
         />
         <Tooltip formatter={addCommasToMillion} />
         <Legend height={36} />

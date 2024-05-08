@@ -1,18 +1,18 @@
 import { keepPreviousData, useQueries } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import {
-  getIncome,
+  getIncomeTotal,
   getIncomeByCategory,
   getIncomeByYear,
 } from '../../../services/income';
 import {
-  getExpenses,
+  getExpensesTotal,
   getExpensesByCategory,
   getExpensesByYear,
 } from '../../../services/expenses';
 import FinanceLineChart from '../../../components/charts/FinanceLineChart';
 import { useState } from 'react';
-import { CategoriesData } from '../../../types/types';
+import { CategoriesData, FinanceData } from '../../../types/types';
 import createCategoryData from '../../../utils/createCategoryData';
 import CategoryFilter from '../../../components/CategoryFilter';
 import LoadingSpinner from '../../../components/LoadingSpinner';
@@ -43,8 +43,8 @@ export default function FinanceCharts() {
     expenseYearQuery,
   ] = useQueries({
     queries: [
-      { queryKey: ['income'], queryFn: () => getIncome() },
-      { queryKey: ['expenses'], queryFn: () => getExpenses() },
+      { queryKey: ['income-total'], queryFn: () => getIncomeTotal() },
+      { queryKey: ['expenses-total'], queryFn: () => getExpensesTotal() },
       {
         queryKey: ['income_by_category', selectedIncomeCat],
         queryFn: () => getIncomeByCategory(selectedIncomeCat.id),
@@ -114,14 +114,34 @@ export default function FinanceCharts() {
     }
   };
 
-  const incomeAndExpenseData = incomeData.map((income) => ({
+  const handleIncomeYearFilter = (e: string) => {
+    if (e) {
+      const selectedYear = availableYears.find((year) => year === parseInt(e));
+
+      if (selectedYear) {
+        setSelectedIncomeYear(selectedYear);
+      }
+    }
+  };
+
+  const handleExpenseYearFilter = (e: string) => {
+    if (e) {
+      const selectedYear = availableYears.find((year) => year === parseInt(e));
+
+      if (selectedYear) {
+        setSelectedExpenseYear(selectedYear);
+      }
+    }
+  };
+
+  const incomeAndExpenseData: FinanceData[] = incomeData.map((income) => ({
     year: income.year,
     income: income.amount,
     expense: expensesData.find((expense) => expense.year === income.year)
       ?.amount,
   }));
 
-  console.log(incomePieData);
+  const availableYears = incomeData.map((year) => year.year);
 
   return (
     <div className="w-full h-full text-xs lg:text-base px-2">
@@ -130,12 +150,14 @@ export default function FinanceCharts() {
           <h2 className="text-lg lg:text-xl text-slate-700 text-start mb-5 ml-2">
             Company Income and Expense By Years
           </h2>
-          <FinanceLineChart
+          <FinanceLineChart<FinanceData>
             data={incomeAndExpenseData}
             dataKeys={['income', 'expense']}
             colors={['#15803d', '#b91c1c']}
           />
         </div>
+        <div className="hidden lg:block border-b-2 min-w-full border-slate-100 mb-6"></div>
+
         <div className="flex flex-col lg:flex-row justify-between lg:gap-10">
           <div className="mb-12 w-full">
             <h2 className="text-lg lg:text-xl text-slate-700 text-start mb-5 ml-2">
@@ -145,10 +167,13 @@ export default function FinanceCharts() {
               <LoadingSpinner />
             ) : (
               <div className="flex flex-col">
-                <CategoryFilter
+                <CategoryFilter<CategoriesData>
                   onFilterSelect={handleIncomeCatFilter}
                   selectedCategory={selectedIncomeCat}
                   categories={incomeCategories}
+                  keyCreator={(category) => category.id}
+                  option={(category) => category.category}
+                  title="Category:"
                 />
                 <FinanceLineChart
                   data={incomeCategoryData}
@@ -158,6 +183,7 @@ export default function FinanceCharts() {
               </div>
             )}
           </div>
+          <div className="hidden lg:block border-l-2 min-h-full border-slate-100"></div>
           <div className="mb-12 w-full">
             <h2 className="text-lg lg:text-xl text-slate-700 text-start mb-5 ml-2">
               Annual Expense Trends
@@ -166,10 +192,13 @@ export default function FinanceCharts() {
               <LoadingSpinner />
             ) : (
               <div>
-                <CategoryFilter
+                <CategoryFilter<CategoriesData>
                   onFilterSelect={handleExpensesCatFilter}
                   selectedCategory={selectedExpenseCat}
                   categories={expenseCategories}
+                  keyCreator={(category) => category.id}
+                  option={(category) => category.category}
+                  title="Category:"
                 />
                 <FinanceLineChart
                   data={expenseCategoryData}
@@ -180,7 +209,7 @@ export default function FinanceCharts() {
             )}
           </div>
         </div>
-        <div className="flex flex-col lg:flex-row justify-between lg:gap-10">
+        <div className="flex flex-col lg:flex-row justify-between lg:gap-10 px-2">
           <div className="w-full">
             <h2 className="text-lg lg:text-xl text-slate-700 text-start mb-5 ml-2">
               Income Distribution By Category
@@ -189,10 +218,19 @@ export default function FinanceCharts() {
               <LoadingSpinner />
             ) : (
               <div>
+                <CategoryFilter<number>
+                  onFilterSelect={handleIncomeYearFilter}
+                  selectedCategory={selectedIncomeYear}
+                  categories={availableYears}
+                  keyCreator={(year) => year}
+                  option={(year) => year}
+                  title="Year:"
+                />
                 <FinancePieChart data={incomePieData} />
               </div>
             )}
           </div>
+          <div className="hidden lg:block border-l-2 min-h-full border-slate-100"></div>
           <div className="w-full">
             <h2 className="text-lg lg:text-xl text-slate-700 text-start mb-5 ml-2">
               Expense Distribution By Category
@@ -201,6 +239,14 @@ export default function FinanceCharts() {
               <LoadingSpinner />
             ) : (
               <div>
+                <CategoryFilter<number>
+                  onFilterSelect={handleExpenseYearFilter}
+                  selectedCategory={selectedExpenseYear}
+                  categories={availableYears}
+                  keyCreator={(year) => year}
+                  option={(year) => year}
+                  title="Year:"
+                />
                 <FinancePieChart data={expensePieData} />
               </div>
             )}

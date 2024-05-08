@@ -1,27 +1,40 @@
-import { CategoriesData } from '../types/types';
-
-export default function CategoryFilter({
+export default function CategoryFilter<T>({
   categories,
   onFilterSelect,
   selectedCategory,
+  keyCreator,
+  option,
+  title,
+  addAll,
 }: {
-  categories: CategoriesData[];
+  categories: T[];
   onFilterSelect: (e: string) => void;
-  selectedCategory: CategoriesData;
+  selectedCategory: T;
+  keyCreator: (item: T) => number | string;
+  option: (item: T) => string | number;
+  title: string;
+  addAll?: boolean;
 }) {
   return (
     <div className="text-end flex items-center justify-end gap-2">
       <label htmlFor="filter" className="font-semibold text-slate-600">
-        Category:
+        {title}
       </label>
       <select
-        value={selectedCategory.id}
+        value={keyCreator(selectedCategory)}
         onChange={(e) => onFilterSelect(e.target.value)}
       >
+        {addAll && (
+          <option key="all" value="0">
+            All
+          </option>
+        )}
         {categories.map((category) => {
+          const key = keyCreator(category);
+          const newOption = option(category);
           return (
-            <option key={category.id} value={category.id}>
-              {category.category}
+            <option key={key} value={key}>
+              {newOption}
             </option>
           );
         })}
