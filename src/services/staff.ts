@@ -33,7 +33,7 @@ export async function getStaffList(
 
   try {
     const response: AxiosResponse<StaffType> = await axios.get(url, {
-      params: params,
+      params,
     });
 
     return response.data;

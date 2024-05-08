@@ -77,7 +77,7 @@ function LayoutComponent() {
       </div>
       <div className="w-full xl:px-16">
         <QueryClientProvider client={queryClient}>
-          <div className="py-5 flex flex-col w-full mt-12">
+          <div className="py-5 px-2 flex flex-col w-full mt-12">
             <Outlet />
           </div>
         </QueryClientProvider>

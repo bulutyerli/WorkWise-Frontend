@@ -1,7 +1,7 @@
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, LabelList } from 'recharts';
 import { ByCategoryData } from '../../types/types';
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#4d7c0f'];
 
 const RADIAN = Math.PI / 180;
 
@@ -41,11 +41,9 @@ const renderCustomizedLabel = ({
 };
 
 const FinancePieChart = ({ data }: { data: ByCategoryData[] }) => {
-  console.log(data);
-
   const parsedData = data.map((item) => ({
     ...item,
-    amount: parseFloat(item.amount),
+    amount: +item.amount,
   }));
   return (
     <ResponsiveContainer width="100%" height={400}>
@@ -55,12 +53,19 @@ const FinancePieChart = ({ data }: { data: ByCategoryData[] }) => {
           cx="50%"
           cy="50%"
           label={renderCustomizedLabel}
-          outerRadius={80}
+          outerRadius={120}
           fill="#8884d8"
           dataKey="amount"
-          nameKey="category"
+          labelLine={false}
         >
-          {data.map((_, index) => (
+          <LabelList
+            dataKey="category"
+            position="outside"
+            stroke="120"
+            width={20}
+            offset={15}
+          />
+          {parsedData.map((_, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>

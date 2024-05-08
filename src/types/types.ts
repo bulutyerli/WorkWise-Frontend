@@ -59,19 +59,13 @@ export interface HierarchyMap {
 }
 
 export type OrderType = 'name' | 'email' | 'role' | 'department' | 'id';
-
-export interface IncomeData {
-  id: number;
-  description: string;
-  amount: string;
-  date: Date;
-  created_at: string;
-  category: string;
-}
-
-export interface IncomeType {
-  data: IncomeData[];
-}
+export type FinanceOrderType =
+  | 'id'
+  | 'description'
+  | 'amount'
+  | 'date'
+  | 'category'
+  | 'category_id';
 
 export interface FinanceData {
   year: number;
@@ -86,13 +80,9 @@ export interface FinanceType {
 
 export interface ByCategoryData {
   year: number;
-  amount: string;
+  amount: number;
   category: string;
   id: number;
-}
-
-export interface ByYearData {
-  data: ByCategoryData[];
 }
 
 export interface CategoriesData {
@@ -102,4 +92,22 @@ export interface CategoriesData {
 
 export interface FinanceByCategoryType {
   data: { valuesData: ByCategoryData[]; categoryData: CategoriesData[] };
+}
+
+export interface FinanceListType {
+  description: string;
+  amount: number;
+  date: Date;
+  category_id: number;
+  category: string;
+  id: number;
+}
+
+export interface FinanceListResponseType {
+  success: boolean;
+  totalPages: number;
+  totalStaff: number;
+  hasMore: boolean;
+  categories: CategoriesData[];
+  data: FinanceListType[];
 }

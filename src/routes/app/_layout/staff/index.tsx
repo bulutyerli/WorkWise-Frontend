@@ -4,15 +4,11 @@ import { getAllCategories, getStaffList } from '../../../../services/staff';
 import { useState } from 'react';
 import StaffListTable from '../../../../components/StaffListTable';
 import { FaFilter, FaFilterCircleXmark } from 'react-icons/fa6';
-import {
-  MdOutlineSkipPrevious,
-  MdOutlineSkipNext,
-  MdArrowBackIosNew,
-  MdArrowForwardIos,
-} from 'react-icons/md';
 import SelectBox from '../../../../components/SelectBox';
 import { Transition } from '@headlessui/react';
 import { OrderType } from '../../../../types/types';
+import Pagination from '../../../../components/Pagination';
+import LoadingSpinner from '../../../../components/LoadingSpinner';
 
 export const Route = createFileRoute('/app/_layout/staff/')({
   component: StaffList,
@@ -57,7 +53,7 @@ function StaffList() {
   };
 
   if (staffQuery.isPending) {
-    return <span>Loading...</span>;
+    return <LoadingSpinner />;
   }
 
   if (staffQuery.isError) {
@@ -69,7 +65,7 @@ function StaffList() {
   }
 
   if (categoryQuery.isPending) {
-    return <span>Loading...</span>;
+    return <LoadingSpinner />;
   }
 
   if (categoryQuery.isError) {
@@ -128,34 +124,16 @@ function StaffList() {
       />
       {staffQuery.isFetching ? (
         <span className="flex items-center text-xl gap-2 justify-center mt-4 text-slate-600">
-          Loading...
+          <LoadingSpinner />
         </span>
       ) : (
-        <div className="flex items-center text-lg gap-2 justify-center mt-4 text-slate-600 w-full">
-          <button onClick={() => setPage(1)}>
-            <MdOutlineSkipPrevious />
-          </button>
-          <button
-            onClick={() => setPage((old) => Math.max(old - 1, 1))}
-            disabled={page === 0}
-          >
-            <MdArrowBackIosNew />
-          </button>
-          <div>{page}</div>/<div>{staffQuery.data.totalPages}</div>
-          <button
-            onClick={() => {
-              if (!staffQuery.isPlaceholderData && staffQuery.data.hasMore) {
-                setPage((old) => old + 1);
-              }
-            }}
-            disabled={staffQuery.isPlaceholderData || !staffQuery.data?.hasMore}
-          >
-            <MdArrowForwardIos />
-          </button>
-          <button onClick={() => setPage(staffQuery.data.totalPages)}>
-            <MdOutlineSkipNext />
-          </button>
-        </div>
+        <Pagination
+          currentPage={page}
+          hasMore={staffQuery.data.hasMore}
+          totalPages={staffQuery.data.totalPages}
+          handlePage={(page) => setPage(page)}
+          isPlaceHolder={staffQuery.isPlaceholderData}
+        />
       )}{' '}
       <span className="text-slate-500">
         Total Staff: {staffQuery.data.totalStaff}
