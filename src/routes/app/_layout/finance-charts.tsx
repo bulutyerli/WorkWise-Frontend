@@ -4,11 +4,13 @@ import {
   getIncomeTotal,
   getIncomeByCategory,
   getIncomeByYear,
+  getIncomeByMonth,
 } from '../../../services/income';
 import {
   getExpensesTotal,
   getExpensesByCategory,
   getExpensesByYear,
+  getExpenseByMonth,
 } from '../../../services/expenses';
 import FinanceLineChart from '../../../components/charts/FinanceLineChart';
 import { useState } from 'react';
@@ -17,6 +19,7 @@ import createCategoryData from '../../../utils/createCategoryData';
 import CategoryFilter from '../../../components/CategoryFilter';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import FinancePieChart from '../../../components/charts/FinancePieChart';
+import FinanceBarChart from '../../../components/charts/FinanceBarChart';
 
 export const Route = createFileRoute('/app/_layout/finance-charts')({
   component: FinanceCharts,
@@ -33,6 +36,20 @@ export default function FinanceCharts() {
   });
   const [selectedIncomeYear, setSelectedIncomeYear] = useState<number>(2023);
   const [selectedExpenseYear, setSelectedExpenseYear] = useState<number>(2023);
+  const [selectedYearMonthIncome, setSelectedYearMonthIncome] =
+    useState<number>(2023);
+  const [selectedCategoryMonthIncome, setSelectedCategoryMonthIncome] =
+    useState<CategoriesData>({
+      id: 1,
+      category: 'Ticket Sales',
+    });
+  const [selectedYearMonthExpense, setSelectedYearMonthExpense] =
+    useState<number>(2023);
+  const [selectedCategoryMonthExpense, setSelectedCategoryMonthExpense] =
+    useState<CategoriesData>({
+      id: 1,
+      category: 'Salary',
+    });
 
   const [
     incomeQuery,
@@ -41,6 +58,8 @@ export default function FinanceCharts() {
     expenseCatQuery,
     incomeYearQuery,
     expenseYearQuery,
+    incomeMonthQuery,
+    expenseMonthQuery,
   ] = useQueries({
     queries: [
       { queryKey: ['income-total'], queryFn: () => getIncomeTotal() },
@@ -64,6 +83,30 @@ export default function FinanceCharts() {
         queryKey: ['expenses_by_year', selectedExpenseYear],
         queryFn: () => getExpensesByYear(selectedExpenseYear),
         placeholderData: keepPreviousData,
+      },
+      {
+        queryKey: [
+          'income-month',
+          selectedCategoryMonthIncome,
+          selectedYearMonthIncome,
+        ],
+        queryFn: () =>
+          getIncomeByMonth(
+            selectedYearMonthIncome,
+            selectedCategoryMonthIncome.id
+          ),
+      },
+      {
+        queryKey: [
+          'expense-month',
+          selectedCategoryMonthExpense,
+          selectedYearMonthExpense,
+        ],
+        queryFn: () =>
+          getExpenseByMonth(
+            selectedYearMonthExpense,
+            selectedCategoryMonthExpense.id
+          ),
       },
     ],
   });
@@ -91,6 +134,8 @@ export default function FinanceCharts() {
   );
   const incomePieData = incomeYearQuery.data?.data || [];
   const expensePieData = expenseYearQuery.data?.data || [];
+  const incomeMonthData = incomeMonthQuery.data?.data || [];
+  const expenseMonthData = expenseMonthQuery.data?.data || [];
 
   const handleIncomeCatFilter = (e: string) => {
     if (e) {
@@ -134,6 +179,46 @@ export default function FinanceCharts() {
     }
   };
 
+  const handleExpenseMonthFilter = (e: string) => {
+    if (e) {
+      const selectedYear = availableYears.find((year) => year === parseInt(e));
+      if (selectedYear) {
+        setSelectedYearMonthExpense(selectedYear);
+      }
+    }
+  };
+
+  const handleExpenseMonthFilterCat = (e: string) => {
+    if (e) {
+      const selectedCategory = expenseCategories.find(
+        (cat) => cat.id === parseInt(e)
+      );
+      if (selectedCategory) {
+        setSelectedCategoryMonthExpense(selectedCategory);
+      }
+    }
+  };
+
+  const handleIncomeMonthFilter = (e: string) => {
+    if (e) {
+      const selectedYear = availableYears.find((year) => year === parseInt(e));
+      if (selectedYear) {
+        setSelectedYearMonthIncome(selectedYear);
+      }
+    }
+  };
+
+  const handleIncomeMonthFilterCat = (e: string) => {
+    if (e) {
+      const selectedCategory = incomeCategories.find(
+        (cat) => cat.id === parseInt(e)
+      );
+      if (selectedCategory) {
+        setSelectedCategoryMonthIncome(selectedCategory);
+      }
+    }
+  };
+
   const incomeAndExpenseData: FinanceData[] = incomeData.map((income) => ({
     year: income.year,
     income: income.amount,
@@ -146,7 +231,7 @@ export default function FinanceCharts() {
   return (
     <div className="w-full h-full text-xs lg:text-base px-2">
       <section>
-        <div className="mb-12">
+        <div>
           <h2 className="text-lg lg:text-xl text-slate-700 text-start mb-5 ml-2">
             Company Income and Expense By Years
           </h2>
@@ -156,10 +241,9 @@ export default function FinanceCharts() {
             colors={['#15803d', '#b91c1c']}
           />
         </div>
-        <div className="hidden lg:block border-b-2 min-w-full border-slate-100 mb-6"></div>
-
+        <div className="border-b-2 min-w-full border-slate-100 my-12"></div>
         <div className="flex flex-col lg:flex-row justify-between lg:gap-10">
-          <div className="mb-12 w-full">
+          <div className="w-full">
             <h2 className="text-lg lg:text-xl text-slate-700 text-start mb-5 ml-2">
               Annual Income Trends
             </h2>
@@ -184,7 +268,7 @@ export default function FinanceCharts() {
             )}
           </div>
           <div className="hidden lg:block border-l-2 min-h-full border-slate-100"></div>
-          <div className="mb-12 w-full">
+          <div className="w-full">
             <h2 className="text-lg lg:text-xl text-slate-700 text-start mb-5 ml-2">
               Annual Expense Trends
             </h2>
@@ -209,7 +293,8 @@ export default function FinanceCharts() {
             )}
           </div>
         </div>
-        <div className="flex flex-col lg:flex-row justify-between lg:gap-10 px-2">
+        <div className="border-b-2 min-w-full border-slate-100 my-12"></div>
+        <div className="flex flex-col lg:flex-row justify-between gap-10 px-2">
           <div className="w-full">
             <h2 className="text-lg lg:text-xl text-slate-700 text-start mb-5 ml-2">
               Income Distribution By Category
@@ -250,6 +335,67 @@ export default function FinanceCharts() {
                 <FinancePieChart data={expensePieData} />
               </div>
             )}
+          </div>
+        </div>
+        <div className="border-b-2 min-w-full border-slate-100 my-12"></div>
+        <div className="flex flex-col gap-10 lg:flex-row justify-between px-2">
+          <div className="w-full">
+            <h2 className="text-lg lg:text-xl text-slate-700 text-start mb-5 ml-2">
+              Monthly Income BarChart
+            </h2>
+            <div className="flex gap-10 pb-2 justify-end">
+              <CategoryFilter<CategoriesData>
+                onFilterSelect={handleIncomeMonthFilterCat}
+                selectedCategory={selectedCategoryMonthIncome}
+                categories={incomeCategories}
+                keyCreator={(category) => category.id}
+                option={(category) => category.category}
+                title="Category:"
+              />
+              <CategoryFilter<number>
+                onFilterSelect={handleIncomeMonthFilter}
+                selectedCategory={selectedYearMonthIncome}
+                categories={availableYears}
+                keyCreator={(year) => year}
+                option={(year) => year}
+                title="Year:"
+              />
+            </div>
+            <FinanceBarChart
+              data={incomeMonthData}
+              color="#15803d"
+              label="Income"
+            />
+          </div>
+          <div className="hidden lg:block border-l-2 min-h-full border-slate-100"></div>
+
+          <div className="w-full">
+            <h2 className="text-lg lg:text-xl text-slate-700 text-start mb-5 ml-2">
+              Monthly Expense BarChart
+            </h2>
+            <div className="flex gap-10 pb-2 justify-end">
+              <CategoryFilter<CategoriesData>
+                onFilterSelect={handleExpenseMonthFilterCat}
+                selectedCategory={selectedCategoryMonthExpense}
+                categories={expenseCategories}
+                keyCreator={(category) => category.id}
+                option={(category) => category.category}
+                title="Category:"
+              />
+              <CategoryFilter<number>
+                onFilterSelect={handleExpenseMonthFilter}
+                selectedCategory={selectedYearMonthExpense}
+                categories={availableYears}
+                keyCreator={(year) => year}
+                option={(year) => year}
+                title="Year:"
+              />
+            </div>
+            <FinanceBarChart
+              data={expenseMonthData}
+              color="#b91c1c"
+              label="Expense"
+            />
           </div>
         </div>
       </section>

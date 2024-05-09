@@ -52,6 +52,29 @@ export async function getExpensesByYear(
   return response.data;
 }
 
+export async function getExpenseByMonth(
+  year?: number,
+  category?: number
+): Promise<ByCategoryData> {
+  const url = `${API_URL}/expense-month`;
+
+  const params = new URLSearchParams();
+
+  if (category) {
+    params.append('category', category.toString());
+  }
+
+  if (year) {
+    params.append('year', year.toString());
+  }
+
+  const response: AxiosResponse<ByCategoryData> = await axios.get(url, {
+    params: params,
+  });
+
+  return response.data;
+}
+
 export async function getAllExpenses(
   page?: number,
   category?: number,
