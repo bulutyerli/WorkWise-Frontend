@@ -85,6 +85,10 @@ export interface ByCategoryData {
   id: number;
 }
 
+export interface ByMonthData extends ByCategoryData {
+  month: number;
+}
+
 export interface CategoriesData {
   id: number;
   category: string;

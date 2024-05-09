@@ -50,6 +50,29 @@ export async function getIncomeByYear(year?: number): Promise<ByCategoryData> {
   return response.data;
 }
 
+export async function getIncomeByMonth(
+  year?: number,
+  category?: number
+): Promise<ByCategoryData> {
+  const url = `${API_URL}/income-month`;
+
+  const params = new URLSearchParams();
+
+  if (category) {
+    params.append('category', category.toString());
+  }
+
+  if (year) {
+    params.append('year', year.toString());
+  }
+
+  const response: AxiosResponse<ByCategoryData> = await axios.get(url, {
+    params: params,
+  });
+
+  return response.data;
+}
+
 export async function getAllIncome(
   page?: number,
   category?: number,
