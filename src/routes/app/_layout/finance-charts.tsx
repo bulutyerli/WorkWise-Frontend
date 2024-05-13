@@ -112,7 +112,7 @@ export default function FinanceCharts() {
   });
 
   if (incomeQuery.isLoading || expensesQuery.isLoading)
-    return <LoadingSpinner />;
+    return <LoadingSpinner size="8" />;
   if (
     incomeQuery.error ||
     expensesQuery.error ||
@@ -248,7 +248,7 @@ export default function FinanceCharts() {
               Annual Income Trends
             </h2>
             {incomeCatQuery.isPending ? (
-              <LoadingSpinner />
+              <LoadingSpinner size="8" />
             ) : (
               <div className="flex flex-col">
                 <CategoryFilter<CategoriesData>
@@ -273,7 +273,7 @@ export default function FinanceCharts() {
               Annual Expense Trends
             </h2>
             {expenseCatQuery.isPending ? (
-              <LoadingSpinner />
+              <LoadingSpinner size="8" />
             ) : (
               <div>
                 <CategoryFilter<CategoriesData>
@@ -300,7 +300,7 @@ export default function FinanceCharts() {
               Income Distribution By Category
             </h2>
             {incomeYearQuery.isPending ? (
-              <LoadingSpinner />
+              <LoadingSpinner size="8" />
             ) : (
               <div>
                 <CategoryFilter<number>
@@ -321,7 +321,7 @@ export default function FinanceCharts() {
               Expense Distribution By Category
             </h2>
             {expenseYearQuery.isPending ? (
-              <LoadingSpinner />
+              <LoadingSpinner size="8" />
             ) : (
               <div>
                 <CategoryFilter<number>

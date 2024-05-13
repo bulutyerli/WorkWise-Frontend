@@ -6,6 +6,8 @@ import { IoIosPeople } from 'react-icons/io';
 import { FaRegHospital, FaChartPie } from 'react-icons/fa';
 import { TbHierarchy } from 'react-icons/tb';
 import MobileMenu from '../../components/MobileMenu';
+import { CiLogin, CiLogout } from 'react-icons/ci';
+import { useAuth } from '../../providers/AuthProvider';
 
 export const Route = createFileRoute('/app/_layout')({
   component: LayoutComponent,
@@ -14,6 +16,9 @@ export const Route = createFileRoute('/app/_layout')({
 const queryClient = new QueryClient();
 
 function LayoutComponent() {
+  const auth = useAuth();
+  const user = auth.user;
+
   const appMenuRoutes = [
     { name: 'Staff List', href: '/app/staff', icon: <IoIosPeople /> },
     {
@@ -59,6 +64,10 @@ function LayoutComponent() {
     );
   };
 
+  const handleSignOut = async () => {
+    auth.logout();
+  };
+
   return (
     <aside className="flex flex-col lg:flex-row lg:min-h-screen relative">
       <nav className="hidden bg-red-700 lg:flex flex-col pl-5 pr-20">
@@ -66,6 +75,21 @@ function LayoutComponent() {
           <img src={logo} alt="WorkWise Logo" className="w-24 pt-5 pb-10" />
         </Link>
         <ul className="flex flex-col gap-5">
+          {!user ? (
+            <li className="flex items-center gap-5 text-indigo-200">
+              <div className="text-3xl">
+                <CiLogin />
+              </div>
+              <Link to="/app/auth/sign-in">Sign In</Link>
+            </li>
+          ) : (
+            <li className="flex items-center gap-5 text-indigo-200">
+              <div className="text-3xl">
+                <CiLogout />
+              </div>
+              <button onClick={() => handleSignOut()}>Sign Out</button>
+            </li>
+          )}
           <AppMenu />
         </ul>
       </nav>
@@ -77,7 +101,7 @@ function LayoutComponent() {
       </div>
       <div className="w-full xl:px-16">
         <QueryClientProvider client={queryClient}>
-          <div className="py-5 px-2 flex flex-col w-full mt-12">
+          <div className="h-full py-5 px-2 flex flex-col w-full">
             <Outlet />
           </div>
         </QueryClientProvider>

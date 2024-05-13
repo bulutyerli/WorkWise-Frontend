@@ -3,6 +3,8 @@ import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { routeTree } from './routeTree.gen';
 import './index.css';
 import NotFound from './components/NotFound';
+import './config/firebase-config';
+import { AuthProvider, useAuth } from './providers/AuthProvider';
 
 // Set up a Router instance
 const router = createRouter({
@@ -10,6 +12,9 @@ const router = createRouter({
   defaultPreload: 'intent',
   defaultNotFoundComponent: () => {
     return <NotFound />;
+  },
+  context: {
+    auth: undefined!, // This will be set after we wrap the app in an AuthProvider
   },
 });
 
@@ -20,9 +25,22 @@ declare module '@tanstack/react-router' {
   }
 }
 
+function InnerApp() {
+  const auth = useAuth();
+  return <RouterProvider router={router} context={{ auth }} />;
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <InnerApp />
+    </AuthProvider>
+  );
+}
+
 const rootElement = document.getElementById('app')!;
 
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
-  root.render(<RouterProvider router={router} />);
+  root.render(<App />);
 }

@@ -53,7 +53,7 @@ function StaffList() {
   };
 
   if (staffQuery.isPending) {
-    return <LoadingSpinner />;
+    return <LoadingSpinner size="8" />;
   }
 
   if (staffQuery.isError) {
@@ -65,7 +65,7 @@ function StaffList() {
   }
 
   if (categoryQuery.isPending) {
-    return <LoadingSpinner />;
+    return <LoadingSpinner size="8" />;
   }
 
   if (categoryQuery.isError) {
@@ -124,7 +124,7 @@ function StaffList() {
       />
       {staffQuery.isFetching ? (
         <span className="flex items-center text-xl gap-2 justify-center mt-4 text-slate-600">
-          <LoadingSpinner />
+          <LoadingSpinner size="8" />
         </span>
       ) : (
         <Pagination
