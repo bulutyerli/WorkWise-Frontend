@@ -22,7 +22,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",
-    "recharts": "^2.12.6"
+    "recharts": "^2.12.6",
+    "firebase": "^10.11.1",
+    "react-hook-form": "^7.51.4"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.28.11",
@@ -42,3 +44,4 @@
     "vite": "^5.2.0"
   }
 }
+
