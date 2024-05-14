@@ -1,4 +1,4 @@
-import { getAuth, onAuthStateChanged, signOut, User } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import {
   createContext,
   useCallback,
@@ -10,20 +10,20 @@ import {
 export interface AuthContext {
   isAuthenticated: boolean;
   logout: () => void;
-  user: User | null;
+  user: string | undefined;
 }
 
 const AuthContext = createContext<AuthContext | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<string | undefined>(undefined);
   const isAuthenticated = !!user;
   const auth = getAuth();
 
   const logout = useCallback(async () => {
     try {
       await signOut(auth);
-      setUser(null);
+      setUser(undefined);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       throw new Error(error);
@@ -33,12 +33,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     //onAuthStateChanged check if the user is still logged in or not
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
+      setUser(user?.uid);
     });
     return unsubscribe;
   }, [auth]);
 
-  console.log(user);
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, user, logout }}>

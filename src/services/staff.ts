@@ -5,6 +5,7 @@ import {
   StaffData,
   StaffType,
 } from '../types/types';
+import getToken from './getToken';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -32,8 +33,10 @@ export async function getStaffList(
   }
 
   try {
+    const token = await getToken();
     const response: AxiosResponse<StaffType> = await axios.get(url, {
       params,
+      headers: { Authorization: `Bearer ${token}` },
     });
 
     return response.data;

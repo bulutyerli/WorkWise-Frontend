@@ -1,14 +1,16 @@
 import { keepPreviousData, useQueries } from '@tanstack/react-query';
-import { createFileRoute } from '@tanstack/react-router';
+import { Link, createFileRoute } from '@tanstack/react-router';
 import { getAllCategories, getStaffList } from '../../../../services/staff';
 import { useState } from 'react';
 import StaffListTable from '../../../../components/StaffListTable';
 import { FaFilter, FaFilterCircleXmark } from 'react-icons/fa6';
+import { IoPersonAdd } from 'react-icons/io5';
 import SelectBox from '../../../../components/SelectBox';
 import { Transition } from '@headlessui/react';
 import { OrderType } from '../../../../types/types';
 import Pagination from '../../../../components/Pagination';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
+import CustomButton from '../../../../components/CustomButton';
 
 export const Route = createFileRoute('/app/_layout/staff/')({
   component: StaffList,
@@ -85,14 +87,21 @@ function StaffList() {
           details
         </h2>
       </div>
-      <button
-        type="button"
-        className="inline-flex items-center gap-x-1.5 rounded-md bg-orange-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-        onClick={() => setFiltersOn(!filtersOn)}
-      >
-        Filters
-        <FaFilter />
-      </button>
+      <div className="flex justify-between">
+        <CustomButton
+          color="primary"
+          icon={<FaFilter />}
+          onClick={() => setFiltersOn(!filtersOn)}
+          text="Filters"
+        />
+        <Link
+          to="/app/staff/add-new"
+          className="bg-purple-700 hover:bg-purple-500 inline-flex gap-x-2 items-center text-white text-sm font-semibold rounded-md px-2.5"
+        >
+          <span>New Staff</span>
+          <IoPersonAdd />
+        </Link>
+      </div>
       {Object.keys(filters).length > 0 && (
         <button
           type="button"

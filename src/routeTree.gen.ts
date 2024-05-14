@@ -25,6 +25,7 @@ import { Route as AppLayoutFinanceChartsImport } from './routes/app/_layout/fina
 import { Route as AppLayoutExpenseImport } from './routes/app/_layout/expense'
 import { Route as AppLayoutAnnualLeaveImport } from './routes/app/_layout/annual-leave'
 import { Route as AppLayoutStaffIndexImport } from './routes/app/_layout/staff/index'
+import { Route as AppLayoutStaffAddNewImport } from './routes/app/_layout/staff/add-new'
 import { Route as AppLayoutAuthSignInImport } from './routes/app/_layout/auth/sign-in'
 import { Route as AppLayoutStaffStaffIdIndexImport } from './routes/app/_layout/staff/$staffId/index'
 import { Route as AppLayoutStaffStaffIdEditStaffImport } from './routes/app/_layout/staff/$staffId/edit-staff'
@@ -97,6 +98,11 @@ const AppLayoutAnnualLeaveRoute = AppLayoutAnnualLeaveImport.update({
 
 const AppLayoutStaffIndexRoute = AppLayoutStaffIndexImport.update({
   path: '/staff/',
+  getParentRoute: () => AppLayoutRoute,
+} as any)
+
+const AppLayoutStaffAddNewRoute = AppLayoutStaffAddNewImport.update({
+  path: '/staff/add-new',
   getParentRoute: () => AppLayoutRoute,
 } as any)
 
@@ -174,6 +180,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppLayoutAuthSignInImport
       parentRoute: typeof AppLayoutImport
     }
+    '/app/_layout/staff/add-new': {
+      preLoaderRoute: typeof AppLayoutStaffAddNewImport
+      parentRoute: typeof AppLayoutImport
+    }
     '/app/_layout/staff/': {
       preLoaderRoute: typeof AppLayoutStaffIndexImport
       parentRoute: typeof AppLayoutImport
@@ -205,6 +215,7 @@ export const routeTree = rootRoute.addChildren([
       AppLayoutSicknessLeaveRoute,
       AppLayoutIndexRoute,
       AppLayoutAuthSignInRoute,
+      AppLayoutStaffAddNewRoute,
       AppLayoutStaffIndexRoute,
       AppLayoutStaffStaffIdEditStaffRoute,
       AppLayoutStaffStaffIdIndexRoute,
