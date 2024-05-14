@@ -115,3 +115,10 @@ export interface FinanceListResponseType {
   categories: CategoriesData[];
   data: FinanceListType[];
 }
+
+export interface ButtonType {
+  onClick: () => void;
+  icon?: React.ReactElement;
+  color: 'primary' | 'secondary' | 'neutral';
+  text: string;
+}
