@@ -1,78 +1,97 @@
-import axios, { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import {
-  ByCategoryData,
+  ByCategoryType,
+  ByMonthType,
+  ErrorResponse,
   FinanceByCategoryType,
   FinanceListResponseType,
   FinanceOrderType,
   FinanceType,
 } from '../types/types';
-
-const API_URL = import.meta.env.VITE_API_URL;
+import { handleAxiosError } from '../utils/errorHandler';
+import axiosAuth from '../utils/axiosAuth';
 
 export async function getExpensesTotal(): Promise<FinanceType> {
-  const url = `${API_URL}/expenses-total`;
-
-  const response: AxiosResponse<FinanceType> = await axios.get(url);
+  const response: AxiosResponse<FinanceType> =
+    await axiosAuth.get('/expenses-total');
   return response.data;
 }
 
 export async function getExpensesByCategory(
   category?: number
 ): Promise<FinanceByCategoryType> {
-  const url = `${API_URL}/expenses-category`;
+  try {
+    const params = new URLSearchParams();
 
-  const params = new URLSearchParams();
+    if (category) {
+      params.append('category', category.toString());
+    }
 
-  if (category) {
-    params.append('category', category.toString());
+    const response: AxiosResponse<FinanceByCategoryType> = await axiosAuth.get(
+      '/expenses-category',
+      {
+        params: params,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    handleAxiosError(error as AxiosError<ErrorResponse>);
+    throw new Error('Unreachable');
   }
-
-  const response: AxiosResponse<FinanceByCategoryType> = await axios.get(url, {
-    params: params,
-  });
-
-  return response.data;
 }
 
 export async function getExpensesByYear(
   year?: number
-): Promise<ByCategoryData> {
-  const url = `${API_URL}/expense-year`;
+): Promise<ByCategoryType> {
+  try {
+    const params = new URLSearchParams();
 
-  const params = new URLSearchParams();
+    if (year) {
+      params.append('year', year.toString());
+    }
 
-  if (year) {
-    params.append('year', year.toString());
+    const response: AxiosResponse<ByCategoryType> = await axiosAuth.get(
+      '/expense-year',
+      {
+        params: params,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    handleAxiosError(error as AxiosError<ErrorResponse>);
+    throw new Error('Unreachable');
   }
-
-  const response: AxiosResponse<ByCategoryData> = await axios.get(url, {
-    params: params,
-  });
-
-  return response.data;
 }
 
 export async function getExpenseByMonth(
   year?: number,
   category?: number
-): Promise<ByCategoryData> {
-  const url = `${API_URL}/expense-month`;
+): Promise<ByMonthType> {
+  try {
+    const params = new URLSearchParams();
 
-  const params = new URLSearchParams();
+    if (category) {
+      params.append('category', category.toString());
+    }
 
-  if (category) {
-    params.append('category', category.toString());
+    if (year) {
+      params.append('year', year.toString());
+    }
+
+    const response: AxiosResponse<ByMonthType> = await axiosAuth.get(
+      '/expense-month',
+      {
+        params: params,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    handleAxiosError(error as AxiosError<ErrorResponse>);
+    throw new Error('Unreachable');
   }
-
-  if (year) {
-    params.append('year', year.toString());
-  }
-
-  const response: AxiosResponse<ByCategoryData> = await axios.get(url, {
-    params: params,
-  });
-
-  return response.data;
 }
 
 export async function getAllExpenses(
@@ -80,28 +99,29 @@ export async function getAllExpenses(
   category?: number,
   sortFilters?: { order: FinanceOrderType; direction: 'asc' | 'desc' }
 ): Promise<FinanceListResponseType> {
-  const url = `${API_URL}/expenses`;
+  try {
+    const params = new URLSearchParams();
 
-  const params = new URLSearchParams();
-
-  if (page) {
-    params.append('page', page.toString());
-  }
-  if (category) {
-    params.append('category', category.toString());
-  }
-
-  if (sortFilters) {
-    params.append('order', sortFilters.order);
-    params.append('direction', sortFilters.direction);
-  }
-
-  const response: AxiosResponse<FinanceListResponseType> = await axios.get(
-    url,
-    {
-      params,
+    if (page) {
+      params.append('page', page.toString());
     }
-  );
+    if (category) {
+      params.append('category', category.toString());
+    }
 
-  return response.data;
+    if (sortFilters) {
+      params.append('order', sortFilters.order);
+      params.append('direction', sortFilters.direction);
+    }
+
+    const response: AxiosResponse<FinanceListResponseType> =
+      await axiosAuth.get('/expenses', {
+        params,
+      });
+
+    return response.data;
+  } catch (error) {
+    handleAxiosError(error as AxiosError<ErrorResponse>);
+    throw new Error('Unreachable');
+  }
 }

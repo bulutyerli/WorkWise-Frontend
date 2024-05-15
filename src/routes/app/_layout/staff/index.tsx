@@ -54,32 +54,32 @@ function StaffList() {
     setSortFilter({ order, direction });
   };
 
-  if (staffQuery.isPending) {
-    return <LoadingSpinner size="8" />;
+  if (staffQuery.isPending || categoryQuery.isPending) {
+    return (
+      <div className="m-auto">
+        <LoadingSpinner size="8" />
+      </div>
+    );
   }
 
   if (staffQuery.isError) {
     return (
-      <span className="text-red-800 text-xl">
+      <span className="text-red-800 text-xl m-auto">
         Error: {staffQuery.error.message}
       </span>
     );
   }
 
-  if (categoryQuery.isPending) {
-    return <LoadingSpinner size="8" />;
-  }
-
   if (categoryQuery.isError) {
     return (
-      <span className="text-red-800 text-xl">
+      <span className="text-red-800 text-xl m-auto">
         Error: {categoryQuery.error.message}
       </span>
     );
   }
 
   return (
-    <main className="min-w-full">
+    <main className="min-w-full px-2 md:px-11">
       <div className="items-center mb-6">
         <h1 className="text-red-700 text-2xl">Staff List</h1>
         <h2 className="text-slate-500 text-sm">
@@ -103,14 +103,14 @@ function StaffList() {
         </Link>
       </div>
       {Object.keys(filters).length > 0 && (
-        <button
-          type="button"
-          className="inline-flex items-center gap-x-1.5 rounded-md bg-orange-700 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500 ml-5"
-          onClick={() => setFilters({})}
-        >
-          Reset All
-          <FaFilterCircleXmark />
-        </button>
+        <div className="mt-2">
+          <CustomButton
+            onClick={() => setFilters({})}
+            color="secondary"
+            icon={<FaFilterCircleXmark />}
+            text="Reset All"
+          />
+        </div>
       )}
       <Transition
         show={filtersOn}

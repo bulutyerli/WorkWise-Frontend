@@ -1,11 +1,15 @@
-import axios, { AxiosResponse } from 'axios';
-import { HierarchyType } from '../types/types';
-
-const API_URL = import.meta.env.VITE_API_URL;
+import { AxiosError, AxiosResponse } from 'axios';
+import { ErrorResponse, HierarchyType } from '../types/types';
+import { handleAxiosError } from '../utils/errorHandler';
+import axiosAuth from '../utils/axiosAuth';
 
 export async function getHierarchy(): Promise<HierarchyType> {
-  const url = `${API_URL}/hierarchy`;
-
-  const response: AxiosResponse<HierarchyType> = await axios.get(url);
-  return response.data;
+  try {
+    const response: AxiosResponse<HierarchyType> =
+      await axiosAuth.get('/hierarchy');
+    return response.data;
+  } catch (error) {
+    handleAxiosError(error as AxiosError<ErrorResponse>);
+    throw new Error('Unreachable');
+  }
 }

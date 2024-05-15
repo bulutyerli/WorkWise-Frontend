@@ -37,7 +37,7 @@ export default function FinanceBarChart({
 }) {
   return (
     <ResponsiveContainer width="100%" height={300}>
-      <BarChart width={730} height={250} data={data}>
+      <BarChart width={750} height={250} data={data}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis
           dataKey="month"

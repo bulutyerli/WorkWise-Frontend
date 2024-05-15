@@ -99,9 +99,9 @@ function LayoutComponent() {
         </Link>
         <MobileMenu routes={appMenuRoutes} app={true} />
       </div>
-      <div className="w-full xl:px-16">
+      <div className="w-full xl:px-2">
         <QueryClientProvider client={queryClient}>
-          <div className="h-full py-5 px-2 flex flex-col w-full">
+          <div className="h-full py-5  flex flex-col w-full">
             <Outlet />
           </div>
         </QueryClientProvider>

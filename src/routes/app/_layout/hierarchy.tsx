@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { getHierarchy } from '../../../services/hierarchy';
-import { HiearchyChart } from '../../../components/HierarchyChart';
+import { HiearchyChart } from '../../../components/charts/HierarchyChart';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 
 export const Route = createFileRoute('/app/_layout/hierarchy')({
   component: Hierarchy,
@@ -14,10 +15,18 @@ function Hierarchy() {
   });
 
   if (isPending) {
-    return <span>Loading...</span>;
+    return (
+      <div className="m-auto">
+        <LoadingSpinner size="8" />
+      </div>
+    );
   }
   if (isError) {
-    return <span>Error: {error.message}</span>;
+    return (
+      <span className="text-red-800 text-xl m-auto">
+        Error: {error.message}
+      </span>
+    );
   }
 
   return (

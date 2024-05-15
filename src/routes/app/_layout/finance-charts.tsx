@@ -111,7 +111,7 @@ export default function FinanceCharts() {
     ],
   });
 
-  if (incomeQuery.isLoading || expensesQuery.isLoading)
+  if (incomeQuery.isPending || expensesQuery.isPending)
     return <LoadingSpinner size="8" />;
   if (
     incomeQuery.error ||
@@ -121,21 +121,21 @@ export default function FinanceCharts() {
   )
     return 'An error has occured';
 
-  const incomeData = incomeQuery.data?.data || [];
-  const expensesData = expensesQuery.data?.data || [];
-  const incomeCategories = incomeCatQuery?.data?.data.categoryData || [];
+  const incomeData = incomeQuery.data?.data ?? [];
+  const expensesData = expensesQuery.data?.data ?? [];
+  const incomeCategories = incomeCatQuery?.data?.data.categoryData ?? [];
   const incomeCategoryData = createCategoryData(
-    incomeCatQuery?.data?.data.valuesData || []
+    incomeCatQuery?.data?.data.valuesData ?? []
   );
 
-  const expenseCategories = expenseCatQuery.data?.data.categoryData || [];
+  const expenseCategories = expenseCatQuery.data?.data.categoryData ?? [];
   const expenseCategoryData = createCategoryData(
     expenseCatQuery?.data?.data.valuesData || []
   );
-  const incomePieData = incomeYearQuery.data?.data || [];
-  const expensePieData = expenseYearQuery.data?.data || [];
-  const incomeMonthData = incomeMonthQuery.data?.data || [];
-  const expenseMonthData = expenseMonthQuery.data?.data || [];
+  const incomePieData = incomeYearQuery.data?.data ?? [];
+  const expensePieData = expenseYearQuery.data?.data ?? [];
+  const incomeMonthData = incomeMonthQuery.data?.data ?? [];
+  const expenseMonthData = expenseMonthQuery.data?.data ?? [];
 
   const handleIncomeCatFilter = (e: string) => {
     if (e) {
