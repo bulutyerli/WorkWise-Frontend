@@ -23,7 +23,7 @@ export default function FinanceListTable({
   };
 
   return (
-    <table className="min-w-full divide-y divide-gray-300">
+    <table className="min-w-full mx-2 md:mx-20 divide-y divide-gray-300">
       <thead>
         <tr>
           <th

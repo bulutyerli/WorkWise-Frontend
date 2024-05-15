@@ -1,21 +1,20 @@
-import axios, { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import {
   AllCategoriesType,
+  ErrorResponse,
+  NewStaffType,
   OrderType,
   StaffData,
   StaffType,
 } from '../types/types';
-import getToken from './getToken';
-
-const API_URL = import.meta.env.VITE_API_URL;
+import { handleAxiosError } from '../utils/errorHandler';
+import axiosAuth from '../utils/axiosAuth';
 
 export async function getStaffList(
   page: number,
   filters: Record<string, string | null>,
   sortFilters?: { order: OrderType; direction: 'asc' | 'desc' }
 ): Promise<StaffType> {
-  const url = `${API_URL}/staff`;
-
   const params = new URLSearchParams();
   params.append('page', page.toString());
 
@@ -33,29 +32,49 @@ export async function getStaffList(
   }
 
   try {
-    const token = await getToken();
-    const response: AxiosResponse<StaffType> = await axios.get(url, {
+    const response: AxiosResponse<StaffType> = await axiosAuth.get('/staff', {
       params,
-      headers: { Authorization: `Bearer ${token}` },
     });
 
     return response.data;
   } catch (error) {
-    // Handle errors
-    throw new Error(`Error fetching staff list: ${error}`);
+    handleAxiosError(error as AxiosError<ErrorResponse>);
+    throw new Error('Unreachable');
   }
 }
 
 export async function getStaffById(id: number): Promise<StaffData> {
-  const response: AxiosResponse<StaffData> = await axios.get(
-    `${API_URL}/staff/${id}`
-  );
-  return response.data;
+  try {
+    const response: AxiosResponse<StaffData> = await axiosAuth.get(
+      `/staff/${id}`
+    );
+
+    return response.data;
+  } catch (error) {
+    handleAxiosError(error as AxiosError<ErrorResponse>);
+    throw new Error('Unreachable');
+  }
 }
 
 export async function getAllCategories(): Promise<AllCategoriesType> {
-  const response: AxiosResponse<AllCategoriesType> = await axios.get(
-    `${API_URL}/categories`
-  );
-  return response.data;
+  try {
+    const response: AxiosResponse<AllCategoriesType> =
+      await axiosAuth.get(`/categories`);
+    return response.data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error) {
+    handleAxiosError(error as AxiosError<ErrorResponse>);
+    throw new Error('Unreachable');
+  }
+}
+
+export async function createNewStaff(data: NewStaffType) {
+  try {
+    const response = await axiosAuth.post(`/staff/`, data);
+
+    return response.data;
+  } catch (error) {
+    handleAxiosError(error as AxiosError<ErrorResponse>);
+    throw new Error('Unreachable');
+  }
 }

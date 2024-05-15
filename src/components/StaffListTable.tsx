@@ -98,15 +98,16 @@ export default function StaffListTable({
               >
                 {staff.name} {staff.surname}
               </Link>
-              <dl className="font-normal lg:hidden">
-                <dd className="mt-1 truncate text-gray-500 lg:hidden">
-                  {staff.email}
-                </dd>
-              </dl>
+              <Link
+                to={`mailto:${staff.email}`}
+                className="mt-1 truncate text-gray-500 lg:hidden font-normal"
+              >
+                {staff.email}
+              </Link>
             </td>
 
             <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">
-              {staff.email}
+              <Link to={`mailto:${staff.email}`}> {staff.email}</Link>
             </td>
             <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">
               {staff.role}

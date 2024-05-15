@@ -51,7 +51,7 @@ function StaffDetails() {
   const newBirthday = dateFormat(birthday);
 
   return (
-    <section className="w-full">
+    <section className="w-full mx-2 md:mx-20">
       <h2 className="text-red-700 mb-5">Staff Details</h2>
 
       <article className="flex flex-col md:mx-auto mt-10 lg:text-xl">

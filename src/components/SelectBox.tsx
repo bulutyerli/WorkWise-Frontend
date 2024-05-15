@@ -9,17 +9,21 @@ export default function SelectBox({
   onFilterChange: (selectedFilters: Record<string, string | null>) => void;
   filters: Record<string, string | null>;
 }) {
-  const allCategories = categories.data;
+  // Filter out the 'managers' category
+  const filteredCategories = Object.entries(categories.data).filter(
+    ([key]) => key !== 'managers'
+  );
 
   const handleCategoryChange = (category: string, value: string) => {
     onFilterChange({
+      ...filters, // Preserve other filters
       [category]: value, // Update the specific category
     });
   };
 
   return (
     <div className="flex gap-2 max-w-full overflow-auto filter-scroll my-5">
-      {Object.entries(allCategories).map(([cat, subCat]) => {
+      {filteredCategories.map(([cat, subCat]) => {
         const catName = cat[0].toUpperCase() + cat.slice(1);
         return (
           <div key={catName}>
@@ -32,7 +36,7 @@ export default function SelectBox({
               <option value="All">All</option>
               {subCat.map((sub) => {
                 return (
-                  <option key={sub.name} value={sub.name}>
+                  <option key={sub.id} value={sub.name}>
                     {sub.name}
                   </option>
                 );
