@@ -17,7 +17,7 @@ function Hierarchy() {
   if (isPending) {
     return (
       <div className="m-auto">
-        <LoadingSpinner size="8" />
+        <LoadingSpinner />
       </div>
     );
   }

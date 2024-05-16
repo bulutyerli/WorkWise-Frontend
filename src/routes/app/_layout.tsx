@@ -8,6 +8,8 @@ import { TbHierarchy } from 'react-icons/tb';
 import MobileMenu from '../../components/MobileMenu';
 import { CiLogin, CiLogout } from 'react-icons/ci';
 import { useAuth } from '../../providers/AuthProvider';
+import { useState } from 'react';
+import Modal from '../../components/Modal';
 
 export const Route = createFileRoute('/app/_layout')({
   component: LayoutComponent,
@@ -17,7 +19,7 @@ const queryClient = new QueryClient();
 
 function LayoutComponent() {
   const auth = useAuth();
-  const user = auth.user;
+  const [modal, setModal] = useState<boolean>(false);
 
   const appMenuRoutes = [
     { name: 'Staff List', href: '/app/staff', icon: <IoIosPeople /> },
@@ -64,8 +66,9 @@ function LayoutComponent() {
     );
   };
 
-  const handleSignOut = async () => {
+  const handleSignOut = () => {
     auth.logout();
+    setModal(false);
   };
 
   return (
@@ -75,7 +78,12 @@ function LayoutComponent() {
           <img src={logo} alt="WorkWise Logo" className="w-24 pt-5 pb-10" />
         </Link>
         <ul className="flex flex-col gap-5">
-          {!user ? (
+          {auth.isAuthenticated && (
+            <span className="text-indigo-100">
+              Welcome {auth?.user?.fullname}
+            </span>
+          )}
+          {!auth.isAuthenticated ? (
             <li className="flex items-center gap-5 text-indigo-200">
               <div className="text-3xl">
                 <CiLogin />
@@ -87,7 +95,7 @@ function LayoutComponent() {
               <div className="text-3xl">
                 <CiLogout />
               </div>
-              <button onClick={() => handleSignOut()}>Sign Out</button>
+              <button onClick={() => setModal(true)}>Sign Out</button>
             </li>
           )}
           <AppMenu />
@@ -107,6 +115,15 @@ function LayoutComponent() {
         </QueryClientProvider>
       </div>
       <div className="hidden lg:block border-red-700 border-r-4"></div>
+      {modal && (
+        <Modal
+          isOpen={modal}
+          onClick={handleSignOut}
+          onClose={() => setModal(false)}
+          title="Sign Out"
+          description="Are you sure you want to sign out?"
+        />
+      )}
     </aside>
   );
 }

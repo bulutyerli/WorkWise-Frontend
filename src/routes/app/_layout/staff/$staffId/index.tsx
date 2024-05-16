@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
-import { createFileRoute } from '@tanstack/react-router';
-import { getStaffById } from '../../../../../services/staff';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { deleteStaff, getStaffById } from '../../../../../services/staff';
 import dateFormat from '../../../../../utils/dateFormat';
 import {
   FaPhoneAlt,
@@ -12,6 +12,11 @@ import { GiIsland } from 'react-icons/gi';
 import { GiMoneyStack } from 'react-icons/gi';
 import { MdAbc } from 'react-icons/md';
 import { ImOffice } from 'react-icons/im';
+import CustomButton from '../../../../../components/CustomButton';
+import LoadingSpinner from '../../../../../components/LoadingSpinner';
+import Modal from '../../../../../components/Modal';
+import { useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 
 export const Route = createFileRoute('/app/_layout/staff/$staffId/')({
   component: StaffDetails,
@@ -19,16 +24,45 @@ export const Route = createFileRoute('/app/_layout/staff/$staffId/')({
 
 function StaffDetails() {
   const { staffId }: { staffId: number } = Route.useParams();
+  const [modal, setModal] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const { isPending, isError, data, error } = useQuery({
     queryKey: ['staff', staffId],
     queryFn: () => getStaffById(staffId),
   });
+
+  const mutation = useMutation({
+    mutationFn: () => {
+      return deleteStaff(staffId);
+    },
+    onError: () => {
+      toast.error('Could not delete staff, try again.');
+      setModal(false);
+    },
+    onSuccess: () => {
+      setModal(false);
+      navigate({ to: '/app/staff' });
+    },
+  });
+
+  const handleDelete = () => {
+    mutation.mutate();
+  };
+
   if (isPending) {
-    return <span>Loading...</span>;
+    return (
+      <div className="m-auto">
+        <LoadingSpinner />
+      </div>
+    );
   }
   if (isError) {
-    return <span>Error: {error.message}</span>;
+    return (
+      <span className="text-red-800 text-xl m-auto">
+        Error: {error.message}
+      </span>
+    );
   }
   const {
     name,
@@ -49,6 +83,11 @@ function StaffDetails() {
   const formatSalary = `$${salary}`;
   const joinDate = dateFormat(join_date);
   const newBirthday = dateFormat(birthday);
+
+  const handleEdit = () => {};
+  const handleClose = () => {
+    setModal(false);
+  };
 
   return (
     <section className="w-full mx-2 md:mx-20">
@@ -147,6 +186,30 @@ function StaffDetails() {
           </div>
         </div>
       </article>
+      <div className="flex gap-5">
+        <CustomButton
+          text="Edit"
+          color="secondary"
+          isLoading={false}
+          onClick={handleEdit}
+        />
+        <CustomButton
+          text="Delete"
+          color="danger"
+          isLoading={mutation.isPending}
+          onClick={() => setModal(true)}
+        />
+      </div>
+      {modal && (
+        <Modal
+          title="Delete Staff"
+          description="Are you sure you want to delete this staff member? This action cannot be undone."
+          onClick={handleDelete}
+          isOpen={modal}
+          onClose={handleClose}
+        />
+      )}
+      <Toaster />
     </section>
   );
 }

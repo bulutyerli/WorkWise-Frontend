@@ -57,7 +57,7 @@ function StaffList() {
   if (staffQuery.isPending || categoryQuery.isPending) {
     return (
       <div className="m-auto">
-        <LoadingSpinner size="8" />
+        <LoadingSpinner />
       </div>
     );
   }
@@ -133,7 +133,7 @@ function StaffList() {
       />
       {staffQuery.isFetching ? (
         <span className="flex items-center text-xl gap-2 justify-center mt-4 text-slate-600">
-          <LoadingSpinner size="8" />
+          <LoadingSpinner />
         </span>
       ) : (
         <Pagination

@@ -28,7 +28,6 @@ import { Route as AppLayoutStaffIndexImport } from './routes/app/_layout/staff/i
 import { Route as AppLayoutStaffAddNewImport } from './routes/app/_layout/staff/add-new'
 import { Route as AppLayoutAuthSignInImport } from './routes/app/_layout/auth/sign-in'
 import { Route as AppLayoutStaffStaffIdIndexImport } from './routes/app/_layout/staff/$staffId/index'
-import { Route as AppLayoutStaffStaffIdEditStaffImport } from './routes/app/_layout/staff/$staffId/edit-staff'
 
 // Create Virtual Routes
 
@@ -118,12 +117,6 @@ const AppLayoutStaffStaffIdIndexRoute = AppLayoutStaffStaffIdIndexImport.update(
   } as any,
 )
 
-const AppLayoutStaffStaffIdEditStaffRoute =
-  AppLayoutStaffStaffIdEditStaffImport.update({
-    path: '/staff/$staffId/edit-staff',
-    getParentRoute: () => AppLayoutRoute,
-  } as any)
-
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -188,10 +181,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppLayoutStaffIndexImport
       parentRoute: typeof AppLayoutImport
     }
-    '/app/_layout/staff/$staffId/edit-staff': {
-      preLoaderRoute: typeof AppLayoutStaffStaffIdEditStaffImport
-      parentRoute: typeof AppLayoutImport
-    }
     '/app/_layout/staff/$staffId/': {
       preLoaderRoute: typeof AppLayoutStaffStaffIdIndexImport
       parentRoute: typeof AppLayoutImport
@@ -217,7 +206,6 @@ export const routeTree = rootRoute.addChildren([
       AppLayoutAuthSignInRoute,
       AppLayoutStaffAddNewRoute,
       AppLayoutStaffIndexRoute,
-      AppLayoutStaffStaffIdEditStaffRoute,
       AppLayoutStaffStaffIdIndexRoute,
     ]),
   ]),
