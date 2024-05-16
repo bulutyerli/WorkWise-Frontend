@@ -33,19 +33,15 @@ function SignIn() {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
-      setIsLoading(true)
-       await signInWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password
-      );
+      setIsLoading(true);
+      await signInWithEmailAndPassword(auth, data.email, data.password);
       navigate({ to: '/app' });
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       setError('Wrong email or password');
-    } finally{
-      setIsLoading(false)
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -89,7 +85,7 @@ function SignIn() {
           type="submit"
           className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
-          {isLoading ? <LoadingSpinner size="4" /> : 'Sign in'}
+          {isLoading ? <LoadingSpinner /> : 'Sign in'}
         </button>
       </form>
     </div>

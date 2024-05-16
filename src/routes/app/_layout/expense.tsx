@@ -6,6 +6,7 @@ import { CategoriesData, FinanceOrderType } from '../../../types/types';
 import Pagination from '../../../components/Pagination';
 import CategoryFilter from '../../../components/CategoryFilter';
 import { getAllExpenses } from '../../../services/expenses';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 
 export const Route = createFileRoute('/app/_layout/expense')({
   component: Expense,
@@ -22,18 +23,26 @@ function Expense() {
     direction: 'asc' | 'desc';
   }>();
   const { isPending, isError, data, error, isPlaceholderData } = useQuery({
-    queryKey: ['income', page, filter, sortFilter],
+    queryKey: ['expense', page, filter, sortFilter],
     queryFn: () => getAllExpenses(page, filter?.id, sortFilter),
   });
 
   if (isPending) {
-    return <span>Loading...</span>;
+    return (
+      <div className="m-auto">
+        <LoadingSpinner />
+      </div>
+    );
   }
   if (isError) {
-    return <span>Error: {error.message}</span>;
+    return (
+      <span className="text-red-800 text-xl m-auto">
+        Error: {error.message}
+      </span>
+    );
   }
 
-  const incomeList = data.data;
+  const expenseList = data.data;
 
   const handleSortFilter = (
     order: FinanceOrderType,
@@ -59,7 +68,7 @@ function Expense() {
     <div className="w-full h-full text-xs lg:text-base">
       <section>
         <h2 className="text-lg lg:text-xl text-slate-700 text-center mb-5">
-          Income Records
+          Expense Records
         </h2>
         <CategoryFilter<CategoriesData>
           onFilterSelect={handleFilterChange}
@@ -71,7 +80,7 @@ function Expense() {
           addAll
         />
         <FinanceListTable
-          data={incomeList}
+          data={expenseList}
           sortFilterChange={handleSortFilter}
           amountColor="text-red-700"
         />

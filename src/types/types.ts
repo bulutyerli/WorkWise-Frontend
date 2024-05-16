@@ -138,7 +138,7 @@ export interface FinanceListResponseType {
 export interface ButtonType {
   onClick: () => void;
   icon?: React.ReactElement;
-  color: 'primary' | 'secondary' | 'neutral';
+  color: 'primary' | 'secondary' | 'neutral' | 'danger';
   text: string;
   isLoading?: boolean;
 }

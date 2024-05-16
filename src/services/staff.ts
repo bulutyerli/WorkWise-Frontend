@@ -78,3 +78,14 @@ export async function createNewStaff(data: NewStaffType) {
     throw new Error('Unreachable');
   }
 }
+
+export async function deleteStaff(id: number) {
+  try {
+    const response = await axiosAuth.delete(`/staff/${id}`);
+
+    return response.data;
+  } catch (error) {
+    handleAxiosError(error as AxiosError<ErrorResponse>);
+    throw new Error('Unreachable');
+  }
+}

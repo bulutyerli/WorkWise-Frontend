@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { CategoriesData, FinanceOrderType } from '../../../types/types';
 import Pagination from '../../../components/Pagination';
 import CategoryFilter from '../../../components/CategoryFilter';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 
 export const Route = createFileRoute('/app/_layout/income')({
   component: Income,
@@ -27,10 +28,18 @@ function Income() {
   });
 
   if (isPending) {
-    return <span>Loading...</span>;
+    return (
+      <div className="m-auto">
+        <LoadingSpinner />
+      </div>
+    );
   }
   if (isError) {
-    return <span>Error: {error.message}</span>;
+    return (
+      <span className="text-red-800 text-xl m-auto">
+        Error: {error.message}
+      </span>
+    );
   }
 
   const incomeList = data.data;
