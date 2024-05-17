@@ -7,7 +7,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { AuthContext } from '../providers/AuthProvider';
 
-interface MyRouterContext {
+export interface MyRouterContext {
   auth: AuthContext;
 }
 

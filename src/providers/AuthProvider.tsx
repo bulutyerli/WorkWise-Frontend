@@ -1,4 +1,4 @@
-import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 import {
   createContext,
   useCallback,
@@ -6,25 +6,29 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { getUserRole } from '../services/auth';
+import { auth } from '../config/firebase-config';
 
 interface User {
   id: string | undefined;
   fullname: string | undefined | null;
+  isAdmin: boolean | undefined;
 }
 
 export interface AuthContext {
   isAuthenticated: boolean;
   logout: () => void;
   user: User | null;
+  isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContext | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const isAuthenticated = !!user;
-  const auth = getAuth();
 
   const logout = useCallback(async () => {
     try {
@@ -34,20 +38,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch (error: any) {
       throw new Error(error);
     }
-  }, [auth]);
+  }, []);
 
   useEffect(() => {
     //onAuthStateChanged check if the user is still logged in or not
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        setUser({ id: user?.uid, fullname: user?.displayName });
+        const { isAdmin } = await getUserRole(user.uid);
+        setUser({
+          id: user?.uid,
+          fullname: user?.displayName,
+          isAdmin: isAdmin,
+        });
+      } else {
+        setUser(null);
       }
+      setIsLoading(false);
     });
     return unsubscribe;
-  }, [auth]);
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, logout, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

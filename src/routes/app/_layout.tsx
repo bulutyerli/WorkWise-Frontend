@@ -122,6 +122,7 @@ function LayoutComponent() {
           onClose={() => setModal(false)}
           title="Sign Out"
           description="Are you sure you want to sign out?"
+          buttonText="Yes"
         />
       )}
     </aside>

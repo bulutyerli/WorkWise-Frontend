@@ -5,6 +5,7 @@ import './index.css';
 import NotFound from './components/NotFound';
 import './config/firebase-config';
 import { AuthProvider, useAuth } from './providers/AuthProvider';
+import LoadingSpinner from './components/LoadingSpinner';
 
 // Set up a Router instance
 const router = createRouter({
@@ -27,6 +28,15 @@ declare module '@tanstack/react-router' {
 
 function InnerApp() {
   const auth = useAuth();
+
+  if (auth.isLoading) {
+    return (
+      <div className="m-auto">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
   return <RouterProvider router={router} context={{ auth }} />;
 }
 

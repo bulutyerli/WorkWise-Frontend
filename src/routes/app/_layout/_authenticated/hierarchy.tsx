@@ -1,15 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { createFileRoute, redirect } from '@tanstack/react-router';
-import { getHierarchy } from '../../../services/hierarchy';
-import { HiearchyChart } from '../../../components/charts/HierarchyChart';
-import LoadingSpinner from '../../../components/LoadingSpinner';
+import { createFileRoute } from '@tanstack/react-router';
+import { getHierarchy } from '../../../../services/hierarchy';
+import { HiearchyChart } from '../../../../components/charts/HierarchyChart';
+import LoadingSpinner from '../../../../components/LoadingSpinner';
 
-export const Route = createFileRoute('/app/_layout/hierarchy')({
-  beforeLoad: async ({ context }) => {
-    if (!context.auth.isAuthenticated) {
-      throw redirect({ to: '/app/auth/sign-in' });
-    }
-  },
+export const Route = createFileRoute('/app/_layout/_authenticated/hierarchy')({
   component: Hierarchy,
 });
 

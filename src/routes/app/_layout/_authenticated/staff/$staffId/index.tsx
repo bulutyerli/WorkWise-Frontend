@@ -1,12 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import {
-  Link,
-  createFileRoute,
-  redirect,
-  useNavigate,
-} from '@tanstack/react-router';
-import { deleteStaff, getStaffById } from '../../../../../services/staff';
-import dateFormat from '../../../../../utils/dateFormat';
+import { Link, createFileRoute, useNavigate } from '@tanstack/react-router';
 import {
   FaPhoneAlt,
   FaBirthdayCake,
@@ -17,18 +10,17 @@ import { GiIsland } from 'react-icons/gi';
 import { GiMoneyStack } from 'react-icons/gi';
 import { MdAbc } from 'react-icons/md';
 import { ImOffice } from 'react-icons/im';
-import CustomButton from '../../../../../components/CustomButton';
-import LoadingSpinner from '../../../../../components/LoadingSpinner';
-import Modal from '../../../../../components/Modal';
 import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
+import { deleteStaff, getStaffById } from '../../../../../../services/staff';
+import LoadingSpinner from '../../../../../../components/LoadingSpinner';
+import dateFormat from '../../../../../../utils/dateFormat';
+import Modal from '../../../../../../components/Modal';
+import CustomButton from '../../../../../../components/CustomButton';
 
-export const Route = createFileRoute('/app/_layout/staff/$staffId/')({
-  beforeLoad: async ({ context }) => {
-    if (!context.auth.isAuthenticated) {
-      throw redirect({ to: '/app/auth/sign-in' });
-    }
-  },
+export const Route = createFileRoute(
+  '/app/_layout/_authenticated/staff/$staffId/'
+)({
   component: StaffDetails,
 });
 
