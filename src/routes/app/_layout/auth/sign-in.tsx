@@ -4,11 +4,25 @@ import logo from '/workwise.svg';
 import { useState } from 'react';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { MyRouterContext } from '../../../__root';
+
+const fallback = '/app';
+
+interface SearchType {
+  redirect: string | null;
+}
 
 export const Route = createFileRoute('/app/_layout/auth/sign-in')({
-  beforeLoad: async ({ context }) => {
-    if (context.auth.isAuthenticated) {
-      throw redirect({ to: '/app' });
+  beforeLoad: ({
+    context,
+    search,
+  }: {
+    context: MyRouterContext;
+    search: SearchType;
+  }) => {
+    const auth = context.auth.isAuthenticated;
+    if (auth) {
+      throw redirect({ to: search.redirect || fallback });
     }
   },
   component: SignIn,

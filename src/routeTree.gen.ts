@@ -17,18 +17,19 @@ import { Route as ContactImport } from './routes/contact'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 import { Route as AppLayoutImport } from './routes/app/_layout'
-import { Route as AppLayoutIndexImport } from './routes/app/_layout/index'
-import { Route as AppLayoutSicknessLeaveImport } from './routes/app/_layout/sickness-leave'
-import { Route as AppLayoutIncomeImport } from './routes/app/_layout/income'
-import { Route as AppLayoutHierarchyImport } from './routes/app/_layout/hierarchy'
-import { Route as AppLayoutFinanceChartsImport } from './routes/app/_layout/finance-charts'
-import { Route as AppLayoutExpenseImport } from './routes/app/_layout/expense'
-import { Route as AppLayoutAnnualLeaveImport } from './routes/app/_layout/annual-leave'
-import { Route as AppLayoutStaffIndexImport } from './routes/app/_layout/staff/index'
-import { Route as AppLayoutStaffAddNewImport } from './routes/app/_layout/staff/add-new'
+import { Route as AppLayoutAuthenticatedImport } from './routes/app/_layout/_authenticated'
+import { Route as AppLayoutAuthenticatedIndexImport } from './routes/app/_layout/_authenticated/index'
 import { Route as AppLayoutAuthSignInImport } from './routes/app/_layout/auth/sign-in'
-import { Route as AppLayoutStaffStaffIdIndexImport } from './routes/app/_layout/staff/$staffId/index'
-import { Route as AppLayoutStaffUpdateStaffIdIndexImport } from './routes/app/_layout/staff/update/$staffId/index'
+import { Route as AppLayoutAuthenticatedSicknessLeaveImport } from './routes/app/_layout/_authenticated/sickness-leave'
+import { Route as AppLayoutAuthenticatedIncomeImport } from './routes/app/_layout/_authenticated/income'
+import { Route as AppLayoutAuthenticatedHierarchyImport } from './routes/app/_layout/_authenticated/hierarchy'
+import { Route as AppLayoutAuthenticatedFinanceChartsImport } from './routes/app/_layout/_authenticated/finance-charts'
+import { Route as AppLayoutAuthenticatedExpenseImport } from './routes/app/_layout/_authenticated/expense'
+import { Route as AppLayoutAuthenticatedAnnualLeaveImport } from './routes/app/_layout/_authenticated/annual-leave'
+import { Route as AppLayoutAuthenticatedStaffIndexImport } from './routes/app/_layout/_authenticated/staff/index'
+import { Route as AppLayoutAuthenticatedStaffAddNewImport } from './routes/app/_layout/_authenticated/staff/add-new'
+import { Route as AppLayoutAuthenticatedStaffStaffIdIndexImport } from './routes/app/_layout/_authenticated/staff/$staffId/index'
+import { Route as AppLayoutAuthenticatedStaffUpdateStaffIdIndexImport } from './routes/app/_layout/_authenticated/staff/update/$staffId/index'
 
 // Create Virtual Routes
 
@@ -61,67 +62,80 @@ const AppLayoutRoute = AppLayoutImport.update({
   getParentRoute: () => AppRoute,
 } as any)
 
-const AppLayoutIndexRoute = AppLayoutIndexImport.update({
-  path: '/',
+const AppLayoutAuthenticatedRoute = AppLayoutAuthenticatedImport.update({
+  id: '/_authenticated',
   getParentRoute: () => AppLayoutRoute,
 } as any)
 
-const AppLayoutSicknessLeaveRoute = AppLayoutSicknessLeaveImport.update({
-  path: '/sickness-leave',
-  getParentRoute: () => AppLayoutRoute,
-} as any)
-
-const AppLayoutIncomeRoute = AppLayoutIncomeImport.update({
-  path: '/income',
-  getParentRoute: () => AppLayoutRoute,
-} as any)
-
-const AppLayoutHierarchyRoute = AppLayoutHierarchyImport.update({
-  path: '/hierarchy',
-  getParentRoute: () => AppLayoutRoute,
-} as any)
-
-const AppLayoutFinanceChartsRoute = AppLayoutFinanceChartsImport.update({
-  path: '/finance-charts',
-  getParentRoute: () => AppLayoutRoute,
-} as any)
-
-const AppLayoutExpenseRoute = AppLayoutExpenseImport.update({
-  path: '/expense',
-  getParentRoute: () => AppLayoutRoute,
-} as any)
-
-const AppLayoutAnnualLeaveRoute = AppLayoutAnnualLeaveImport.update({
-  path: '/annual-leave',
-  getParentRoute: () => AppLayoutRoute,
-} as any)
-
-const AppLayoutStaffIndexRoute = AppLayoutStaffIndexImport.update({
-  path: '/staff/',
-  getParentRoute: () => AppLayoutRoute,
-} as any)
-
-const AppLayoutStaffAddNewRoute = AppLayoutStaffAddNewImport.update({
-  path: '/staff/add-new',
-  getParentRoute: () => AppLayoutRoute,
-} as any)
+const AppLayoutAuthenticatedIndexRoute =
+  AppLayoutAuthenticatedIndexImport.update({
+    path: '/',
+    getParentRoute: () => AppLayoutAuthenticatedRoute,
+  } as any)
 
 const AppLayoutAuthSignInRoute = AppLayoutAuthSignInImport.update({
   path: '/auth/sign-in',
   getParentRoute: () => AppLayoutRoute,
 } as any)
 
-const AppLayoutStaffStaffIdIndexRoute = AppLayoutStaffStaffIdIndexImport.update(
-  {
-    path: '/staff/$staffId/',
-    getParentRoute: () => AppLayoutRoute,
-  } as any,
-)
+const AppLayoutAuthenticatedSicknessLeaveRoute =
+  AppLayoutAuthenticatedSicknessLeaveImport.update({
+    path: '/sickness-leave',
+    getParentRoute: () => AppLayoutAuthenticatedRoute,
+  } as any)
 
-const AppLayoutStaffUpdateStaffIdIndexRoute =
-  AppLayoutStaffUpdateStaffIdIndexImport.update({
+const AppLayoutAuthenticatedIncomeRoute =
+  AppLayoutAuthenticatedIncomeImport.update({
+    path: '/income',
+    getParentRoute: () => AppLayoutAuthenticatedRoute,
+  } as any)
+
+const AppLayoutAuthenticatedHierarchyRoute =
+  AppLayoutAuthenticatedHierarchyImport.update({
+    path: '/hierarchy',
+    getParentRoute: () => AppLayoutAuthenticatedRoute,
+  } as any)
+
+const AppLayoutAuthenticatedFinanceChartsRoute =
+  AppLayoutAuthenticatedFinanceChartsImport.update({
+    path: '/finance-charts',
+    getParentRoute: () => AppLayoutAuthenticatedRoute,
+  } as any)
+
+const AppLayoutAuthenticatedExpenseRoute =
+  AppLayoutAuthenticatedExpenseImport.update({
+    path: '/expense',
+    getParentRoute: () => AppLayoutAuthenticatedRoute,
+  } as any)
+
+const AppLayoutAuthenticatedAnnualLeaveRoute =
+  AppLayoutAuthenticatedAnnualLeaveImport.update({
+    path: '/annual-leave',
+    getParentRoute: () => AppLayoutAuthenticatedRoute,
+  } as any)
+
+const AppLayoutAuthenticatedStaffIndexRoute =
+  AppLayoutAuthenticatedStaffIndexImport.update({
+    path: '/staff/',
+    getParentRoute: () => AppLayoutAuthenticatedRoute,
+  } as any)
+
+const AppLayoutAuthenticatedStaffAddNewRoute =
+  AppLayoutAuthenticatedStaffAddNewImport.update({
+    path: '/staff/add-new',
+    getParentRoute: () => AppLayoutAuthenticatedRoute,
+  } as any)
+
+const AppLayoutAuthenticatedStaffStaffIdIndexRoute =
+  AppLayoutAuthenticatedStaffStaffIdIndexImport.update({
+    path: '/staff/$staffId/',
+    getParentRoute: () => AppLayoutAuthenticatedRoute,
+  } as any)
+
+const AppLayoutAuthenticatedStaffUpdateStaffIdIndexRoute =
+  AppLayoutAuthenticatedStaffUpdateStaffIdIndexImport.update({
     path: '/staff/update/$staffId/',
-    getParentRoute: () => AppLayoutRoute,
+    getParentRoute: () => AppLayoutAuthenticatedRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -148,53 +162,57 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppLayoutImport
       parentRoute: typeof AppRoute
     }
-    '/app/_layout/annual-leave': {
-      preLoaderRoute: typeof AppLayoutAnnualLeaveImport
+    '/app/_layout/_authenticated': {
+      preLoaderRoute: typeof AppLayoutAuthenticatedImport
       parentRoute: typeof AppLayoutImport
     }
-    '/app/_layout/expense': {
-      preLoaderRoute: typeof AppLayoutExpenseImport
-      parentRoute: typeof AppLayoutImport
+    '/app/_layout/_authenticated/annual-leave': {
+      preLoaderRoute: typeof AppLayoutAuthenticatedAnnualLeaveImport
+      parentRoute: typeof AppLayoutAuthenticatedImport
     }
-    '/app/_layout/finance-charts': {
-      preLoaderRoute: typeof AppLayoutFinanceChartsImport
-      parentRoute: typeof AppLayoutImport
+    '/app/_layout/_authenticated/expense': {
+      preLoaderRoute: typeof AppLayoutAuthenticatedExpenseImport
+      parentRoute: typeof AppLayoutAuthenticatedImport
     }
-    '/app/_layout/hierarchy': {
-      preLoaderRoute: typeof AppLayoutHierarchyImport
-      parentRoute: typeof AppLayoutImport
+    '/app/_layout/_authenticated/finance-charts': {
+      preLoaderRoute: typeof AppLayoutAuthenticatedFinanceChartsImport
+      parentRoute: typeof AppLayoutAuthenticatedImport
     }
-    '/app/_layout/income': {
-      preLoaderRoute: typeof AppLayoutIncomeImport
-      parentRoute: typeof AppLayoutImport
+    '/app/_layout/_authenticated/hierarchy': {
+      preLoaderRoute: typeof AppLayoutAuthenticatedHierarchyImport
+      parentRoute: typeof AppLayoutAuthenticatedImport
     }
-    '/app/_layout/sickness-leave': {
-      preLoaderRoute: typeof AppLayoutSicknessLeaveImport
-      parentRoute: typeof AppLayoutImport
+    '/app/_layout/_authenticated/income': {
+      preLoaderRoute: typeof AppLayoutAuthenticatedIncomeImport
+      parentRoute: typeof AppLayoutAuthenticatedImport
     }
-    '/app/_layout/': {
-      preLoaderRoute: typeof AppLayoutIndexImport
-      parentRoute: typeof AppLayoutImport
+    '/app/_layout/_authenticated/sickness-leave': {
+      preLoaderRoute: typeof AppLayoutAuthenticatedSicknessLeaveImport
+      parentRoute: typeof AppLayoutAuthenticatedImport
     }
     '/app/_layout/auth/sign-in': {
       preLoaderRoute: typeof AppLayoutAuthSignInImport
       parentRoute: typeof AppLayoutImport
     }
-    '/app/_layout/staff/add-new': {
-      preLoaderRoute: typeof AppLayoutStaffAddNewImport
-      parentRoute: typeof AppLayoutImport
+    '/app/_layout/_authenticated/': {
+      preLoaderRoute: typeof AppLayoutAuthenticatedIndexImport
+      parentRoute: typeof AppLayoutAuthenticatedImport
     }
-    '/app/_layout/staff/': {
-      preLoaderRoute: typeof AppLayoutStaffIndexImport
-      parentRoute: typeof AppLayoutImport
+    '/app/_layout/_authenticated/staff/add-new': {
+      preLoaderRoute: typeof AppLayoutAuthenticatedStaffAddNewImport
+      parentRoute: typeof AppLayoutAuthenticatedImport
     }
-    '/app/_layout/staff/$staffId/': {
-      preLoaderRoute: typeof AppLayoutStaffStaffIdIndexImport
-      parentRoute: typeof AppLayoutImport
+    '/app/_layout/_authenticated/staff/': {
+      preLoaderRoute: typeof AppLayoutAuthenticatedStaffIndexImport
+      parentRoute: typeof AppLayoutAuthenticatedImport
     }
-    '/app/_layout/staff/update/$staffId/': {
-      preLoaderRoute: typeof AppLayoutStaffUpdateStaffIdIndexImport
-      parentRoute: typeof AppLayoutImport
+    '/app/_layout/_authenticated/staff/$staffId/': {
+      preLoaderRoute: typeof AppLayoutAuthenticatedStaffStaffIdIndexImport
+      parentRoute: typeof AppLayoutAuthenticatedImport
+    }
+    '/app/_layout/_authenticated/staff/update/$staffId/': {
+      preLoaderRoute: typeof AppLayoutAuthenticatedStaffUpdateStaffIdIndexImport
+      parentRoute: typeof AppLayoutAuthenticatedImport
     }
   }
 }
@@ -207,18 +225,20 @@ export const routeTree = rootRoute.addChildren([
   ContactRoute,
   AppRoute.addChildren([
     AppLayoutRoute.addChildren([
-      AppLayoutAnnualLeaveRoute,
-      AppLayoutExpenseRoute,
-      AppLayoutFinanceChartsRoute,
-      AppLayoutHierarchyRoute,
-      AppLayoutIncomeRoute,
-      AppLayoutSicknessLeaveRoute,
-      AppLayoutIndexRoute,
+      AppLayoutAuthenticatedRoute.addChildren([
+        AppLayoutAuthenticatedAnnualLeaveRoute,
+        AppLayoutAuthenticatedExpenseRoute,
+        AppLayoutAuthenticatedFinanceChartsRoute,
+        AppLayoutAuthenticatedHierarchyRoute,
+        AppLayoutAuthenticatedIncomeRoute,
+        AppLayoutAuthenticatedSicknessLeaveRoute,
+        AppLayoutAuthenticatedIndexRoute,
+        AppLayoutAuthenticatedStaffAddNewRoute,
+        AppLayoutAuthenticatedStaffIndexRoute,
+        AppLayoutAuthenticatedStaffStaffIdIndexRoute,
+        AppLayoutAuthenticatedStaffUpdateStaffIdIndexRoute,
+      ]),
       AppLayoutAuthSignInRoute,
-      AppLayoutStaffAddNewRoute,
-      AppLayoutStaffIndexRoute,
-      AppLayoutStaffStaffIdIndexRoute,
-      AppLayoutStaffUpdateStaffIdIndexRoute,
     ]),
   ]),
 ])

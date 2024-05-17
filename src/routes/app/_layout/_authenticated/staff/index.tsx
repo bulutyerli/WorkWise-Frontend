@@ -1,23 +1,18 @@
 import { keepPreviousData, useQueries } from '@tanstack/react-query';
-import { Link, createFileRoute, redirect } from '@tanstack/react-router';
-import { getAllCategories, getStaffList } from '../../../../services/staff';
+import { Link, createFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
-import StaffListTable from '../../../../components/StaffListTable';
 import { FaFilter, FaFilterCircleXmark } from 'react-icons/fa6';
 import { IoPersonAdd } from 'react-icons/io5';
-import SelectBox from '../../../../components/SelectBox';
 import { Transition } from '@headlessui/react';
-import { OrderType } from '../../../../types/types';
-import Pagination from '../../../../components/Pagination';
-import LoadingSpinner from '../../../../components/LoadingSpinner';
-import CustomButton from '../../../../components/CustomButton';
+import { OrderType } from '../../../../../types/types';
+import { getAllCategories, getStaffList } from '../../../../../services/staff';
+import LoadingSpinner from '../../../../../components/LoadingSpinner';
+import CustomButton from '../../../../../components/CustomButton';
+import SelectBox from '../../../../../components/SelectBox';
+import StaffListTable from '../../../../../components/StaffListTable';
+import Pagination from '../../../../../components/Pagination';
 
-export const Route = createFileRoute('/app/_layout/staff/')({
-  beforeLoad: async ({ context }) => {
-    if (!context.auth.isAuthenticated) {
-      throw redirect({ to: '/app/auth/sign-in' });
-    }
-  },
+export const Route = createFileRoute('/app/_layout/_authenticated/staff/')({
   component: StaffList,
 });
 

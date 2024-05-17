@@ -1,18 +1,18 @@
-import { createFileRoute, redirect } from '@tanstack/react-router';
-import NewStaffForm from '../../../../components/NewStaffForm';
-import { NewStaffType } from '../../../../types/types';
+import { createFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { createNewStaff, getAllCategories } from '../../../../services/staff';
 import toast, { Toaster } from 'react-hot-toast';
-import LoadingSpinner from '../../../../components/LoadingSpinner';
+import {
+  createNewStaff,
+  getAllCategories,
+} from '../../../../../services/staff';
+import { NewStaffType } from '../../../../../types/types';
+import LoadingSpinner from '../../../../../components/LoadingSpinner';
+import NewStaffForm from '../../../../../components/NewStaffForm';
 
-export const Route = createFileRoute('/app/_layout/staff/add-new')({
-  beforeLoad: async ({ context }) => {
-    if (!context.auth.isAuthenticated) {
-      throw redirect({ to: '/app/auth/sign-in' });
-    }
-  },
+export const Route = createFileRoute(
+  '/app/_layout/_authenticated/staff/add-new'
+)({
   component: AddNew,
 });
 

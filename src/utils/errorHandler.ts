@@ -5,6 +5,7 @@ export const handleAxiosError = (error: AxiosError<ErrorResponse>): void => {
   if (error.response && error.response.data && error.response.data.error) {
     throw new Error(error.response.data.error);
   } else {
+    console.log(error);
     throw new Error('Something went wrong');
   }
 };

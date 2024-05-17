@@ -1,19 +1,14 @@
-import { createFileRoute, redirect } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
-import FinanceListTable from '../../../components/FinanceListTable';
-import { getAllIncome } from '../../../services/income';
+import FinanceListTable from '../../../../components/FinanceListTable';
+import { getAllIncome } from '../../../../services/income';
 import { useState } from 'react';
-import { CategoriesData, FinanceOrderType } from '../../../types/types';
-import Pagination from '../../../components/Pagination';
-import CategoryFilter from '../../../components/CategoryFilter';
-import LoadingSpinner from '../../../components/LoadingSpinner';
+import { CategoriesData, FinanceOrderType } from '../../../../types/types';
+import Pagination from '../../../../components/Pagination';
+import CategoryFilter from '../../../../components/CategoryFilter';
+import LoadingSpinner from '../../../../components/LoadingSpinner';
 
-export const Route = createFileRoute('/app/_layout/income')({
-  beforeLoad: async ({ context }) => {
-    if (!context.auth.isAuthenticated) {
-      throw redirect({ to: '/app/auth/sign-in' });
-    }
-  },
+export const Route = createFileRoute('/app/_layout/_authenticated/income')({
   component: Income,
 });
 

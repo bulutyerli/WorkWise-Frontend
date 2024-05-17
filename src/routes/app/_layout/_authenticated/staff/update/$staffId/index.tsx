@@ -1,22 +1,19 @@
-import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
-import UpdateStaffForm from '../../../../../../components/UpdateStaffForm';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
 import { useMutation, useQueries } from '@tanstack/react-query';
+import toast, { Toaster } from 'react-hot-toast';
 import {
   getAllCategories,
   getStaffById,
   updateStaff,
-} from '../../../../../../services/staff';
-import toast, { Toaster } from 'react-hot-toast';
-import LoadingSpinner from '../../../../../../components/LoadingSpinner';
-import { StaffData } from '../../../../../../types/types';
+} from '../../../../../../../services/staff';
+import { StaffData } from '../../../../../../../types/types';
+import LoadingSpinner from '../../../../../../../components/LoadingSpinner';
+import UpdateStaffForm from '../../../../../../../components/UpdateStaffForm';
 
-export const Route = createFileRoute('/app/_layout/staff/update/$staffId/')({
-  beforeLoad: async ({ context }) => {
-    if (!context.auth.isAuthenticated) {
-      throw redirect({ to: '/app/auth/sign-in' });
-    }
-  },
+export const Route = createFileRoute(
+  '/app/_layout/_authenticated/staff/update/$staffId/'
+)({
   component: UpdateStaff,
 });
 

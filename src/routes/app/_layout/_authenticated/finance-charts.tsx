@@ -1,32 +1,29 @@
 import { keepPreviousData, useQueries } from '@tanstack/react-query';
-import { createFileRoute, redirect } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import {
   getIncomeTotal,
   getIncomeByCategory,
   getIncomeByYear,
   getIncomeByMonth,
-} from '../../../services/income';
+} from '../../../../services/income';
 import {
   getExpensesTotal,
   getExpensesByCategory,
   getExpensesByYear,
   getExpenseByMonth,
-} from '../../../services/expenses';
-import FinanceLineChart from '../../../components/charts/FinanceLineChart';
+} from '../../../../services/expenses';
+import FinanceLineChart from '../../../../components/charts/FinanceLineChart';
 import { useState } from 'react';
-import { CategoriesData, FinanceData } from '../../../types/types';
-import createCategoryData from '../../../utils/createCategoryData';
-import CategoryFilter from '../../../components/CategoryFilter';
-import LoadingSpinner from '../../../components/LoadingSpinner';
-import FinancePieChart from '../../../components/charts/FinancePieChart';
-import FinanceBarChart from '../../../components/charts/FinanceBarChart';
+import { CategoriesData, FinanceData } from '../../../../types/types';
+import createCategoryData from '../../../../utils/createCategoryData';
+import CategoryFilter from '../../../../components/CategoryFilter';
+import LoadingSpinner from '../../../../components/LoadingSpinner';
+import FinancePieChart from '../../../../components/charts/FinancePieChart';
+import FinanceBarChart from '../../../../components/charts/FinanceBarChart';
 
-export const Route = createFileRoute('/app/_layout/finance-charts')({
-  beforeLoad: async ({ context }) => {
-    if (!context.auth.isAuthenticated) {
-      throw redirect({ to: '/app/auth/sign-in' });
-    }
-  },
+export const Route = createFileRoute(
+  '/app/_layout/_authenticated/finance-charts'
+)({
   component: FinanceCharts,
 });
 
@@ -117,7 +114,11 @@ export default function FinanceCharts() {
   });
 
   if (incomeQuery.isPending || expensesQuery.isPending)
-    return <LoadingSpinner />;
+    return (
+      <div className="m-auto">
+        <LoadingSpinner />
+      </div>
+    );
   if (
     incomeQuery.error ||
     expensesQuery.error ||
