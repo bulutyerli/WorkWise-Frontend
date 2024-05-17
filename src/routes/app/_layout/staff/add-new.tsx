@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 import NewStaffForm from '../../../../components/NewStaffForm';
 import { NewStaffType } from '../../../../types/types';
 import { useState } from 'react';
@@ -8,6 +8,11 @@ import toast, { Toaster } from 'react-hot-toast';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
 
 export const Route = createFileRoute('/app/_layout/staff/add-new')({
+  beforeLoad: async ({ context }) => {
+    if (!context.auth.isAuthenticated) {
+      throw redirect({ to: '/app/auth/sign-in' });
+    }
+  },
   component: AddNew,
 });
 
@@ -34,7 +39,7 @@ function AddNew() {
   });
 
   if (isPending) {
-    return <LoadingSpinner size="8" />;
+    return <LoadingSpinner />;
   }
 
   if (isError) {

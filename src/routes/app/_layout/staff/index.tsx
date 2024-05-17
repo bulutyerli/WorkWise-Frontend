@@ -1,5 +1,5 @@
 import { keepPreviousData, useQueries } from '@tanstack/react-query';
-import { Link, createFileRoute } from '@tanstack/react-router';
+import { Link, createFileRoute, redirect } from '@tanstack/react-router';
 import { getAllCategories, getStaffList } from '../../../../services/staff';
 import { useState } from 'react';
 import StaffListTable from '../../../../components/StaffListTable';
@@ -13,6 +13,11 @@ import LoadingSpinner from '../../../../components/LoadingSpinner';
 import CustomButton from '../../../../components/CustomButton';
 
 export const Route = createFileRoute('/app/_layout/staff/')({
+  beforeLoad: async ({ context }) => {
+    if (!context.auth.isAuthenticated) {
+      throw redirect({ to: '/app/auth/sign-in' });
+    }
+  },
   component: StaffList,
 });
 

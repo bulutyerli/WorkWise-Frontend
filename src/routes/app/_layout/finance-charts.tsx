@@ -1,5 +1,5 @@
 import { keepPreviousData, useQueries } from '@tanstack/react-query';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 import {
   getIncomeTotal,
   getIncomeByCategory,
@@ -22,6 +22,11 @@ import FinancePieChart from '../../../components/charts/FinancePieChart';
 import FinanceBarChart from '../../../components/charts/FinanceBarChart';
 
 export const Route = createFileRoute('/app/_layout/finance-charts')({
+  beforeLoad: async ({ context }) => {
+    if (!context.auth.isAuthenticated) {
+      throw redirect({ to: '/app/auth/sign-in' });
+    }
+  },
   component: FinanceCharts,
 });
 
@@ -112,7 +117,7 @@ export default function FinanceCharts() {
   });
 
   if (incomeQuery.isPending || expensesQuery.isPending)
-    return <LoadingSpinner size="8" />;
+    return <LoadingSpinner />;
   if (
     incomeQuery.error ||
     expensesQuery.error ||
@@ -248,7 +253,7 @@ export default function FinanceCharts() {
               Annual Income Trends
             </h2>
             {incomeCatQuery.isPending ? (
-              <LoadingSpinner size="8" />
+              <LoadingSpinner />
             ) : (
               <div className="flex flex-col">
                 <CategoryFilter<CategoriesData>
@@ -273,7 +278,7 @@ export default function FinanceCharts() {
               Annual Expense Trends
             </h2>
             {expenseCatQuery.isPending ? (
-              <LoadingSpinner size="8" />
+              <LoadingSpinner />
             ) : (
               <div>
                 <CategoryFilter<CategoriesData>
@@ -300,7 +305,7 @@ export default function FinanceCharts() {
               Income Distribution By Category
             </h2>
             {incomeYearQuery.isPending ? (
-              <LoadingSpinner size="8" />
+              <LoadingSpinner />
             ) : (
               <div>
                 <CategoryFilter<number>
@@ -321,7 +326,7 @@ export default function FinanceCharts() {
               Expense Distribution By Category
             </h2>
             {expenseYearQuery.isPending ? (
-              <LoadingSpinner size="8" />
+              <LoadingSpinner />
             ) : (
               <div>
                 <CategoryFilter<number>

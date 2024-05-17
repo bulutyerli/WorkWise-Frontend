@@ -1,4 +1,4 @@
-export default function dateFormat(birthday: Date) {
+export default function dateFormat(birthday: string) {
   const monthNames = [
     'January',
     'February',

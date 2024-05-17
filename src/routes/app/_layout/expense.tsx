@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
 import FinanceListTable from '../../../components/FinanceListTable';
 import { useState } from 'react';
@@ -9,6 +9,11 @@ import { getAllExpenses } from '../../../services/expenses';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 
 export const Route = createFileRoute('/app/_layout/expense')({
+  beforeLoad: async ({ context }) => {
+    if (!context.auth.isAuthenticated) {
+      throw redirect({ to: '/app/auth/sign-in' });
+    }
+  },
   component: Expense,
 });
 
