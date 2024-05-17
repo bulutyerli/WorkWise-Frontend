@@ -10,17 +10,27 @@ export interface StaffData {
   id: number;
   name: string;
   surname: string;
-  birthday: Date;
+  birthday: string;
   phone: string;
   salary: number;
-  join_date: Date;
+  join_date: string;
   annual_leave: number;
   sickness_leave: number;
   department: string;
+  department_id: number;
+  manager_id: number;
   office: string;
+  office_id: number;
   role: string;
+  role_id: number;
   shift: string;
+  shift_id: number;
   email: string;
+}
+
+export interface NewStaffType extends StaffData {
+  password: string;
+  repassword: string;
 }
 
 export interface CategoryType {
@@ -156,23 +166,6 @@ export interface NewStaffData {
   shift_id: number;
   manager_id: number;
   firebase_id: number;
-}
-
-export interface NewStaffType {
-  name: string;
-  surname: string;
-  email: string;
-  password: string;
-  repassword: string;
-  phone: string;
-  birthdate: Date;
-  office: string;
-  manager: string;
-  department: string;
-  role: string;
-  shift: string;
-  joindate: Date;
-  salary: number;
 }
 
 export interface ErrorResponse {

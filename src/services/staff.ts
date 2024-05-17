@@ -79,6 +79,17 @@ export async function createNewStaff(data: NewStaffType) {
   }
 }
 
+export async function updateStaff(id: number, staffData: StaffData) {
+  try {
+    const response = await axiosAuth.put(`/staff/${id}`, staffData);
+
+    return response.data;
+  } catch (error) {
+    handleAxiosError(error as AxiosError<ErrorResponse>);
+    throw new Error('Unreachable');
+  }
+}
+
 export async function deleteStaff(id: number) {
   try {
     const response = await axiosAuth.delete(`/staff/${id}`);

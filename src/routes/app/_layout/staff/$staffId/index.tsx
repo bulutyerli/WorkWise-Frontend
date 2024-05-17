@@ -1,5 +1,10 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import {
+  Link,
+  createFileRoute,
+  redirect,
+  useNavigate,
+} from '@tanstack/react-router';
 import { deleteStaff, getStaffById } from '../../../../../services/staff';
 import dateFormat from '../../../../../utils/dateFormat';
 import {
@@ -19,6 +24,11 @@ import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 
 export const Route = createFileRoute('/app/_layout/staff/$staffId/')({
+  beforeLoad: async ({ context }) => {
+    if (!context.auth.isAuthenticated) {
+      throw redirect({ to: '/app/auth/sign-in' });
+    }
+  },
   component: StaffDetails,
 });
 
@@ -84,7 +94,6 @@ function StaffDetails() {
   const joinDate = dateFormat(join_date);
   const newBirthday = dateFormat(birthday);
 
-  const handleEdit = () => {};
   const handleClose = () => {
     setModal(false);
   };
@@ -187,12 +196,14 @@ function StaffDetails() {
         </div>
       </article>
       <div className="flex gap-5">
-        <CustomButton
-          text="Edit"
-          color="secondary"
-          isLoading={false}
-          onClick={handleEdit}
-        />
+        <Link
+          className="inline-flex justify-center items-center text-purple-600 font-semibold hover:underline hover:text-purple-700"
+          to="/app/staff/update/$staffId"
+          params={{ staffId: String(data.id) }}
+        >
+          Edit
+        </Link>
+
         <CustomButton
           text="Delete"
           color="danger"
@@ -207,6 +218,7 @@ function StaffDetails() {
           onClick={handleDelete}
           isOpen={modal}
           onClose={handleClose}
+          buttonText="Delete"
         />
       )}
       <Toaster />

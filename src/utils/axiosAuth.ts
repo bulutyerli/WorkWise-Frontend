@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getAuth } from 'firebase/auth';
+import { auth } from '../config/firebase-config';
 
 // Create a new Axios instance
 const axiosAuth = axios.create({
@@ -9,7 +9,7 @@ const axiosAuth = axios.create({
 axiosAuth.interceptors.request.use(
   async (config) => {
     // Get the current user's token
-    const token = await getAuth().currentUser?.getIdToken();
+    const token = await auth.currentUser?.getIdToken(true);
     config.headers.Authorization = `Bearer ${token}`;
     return config;
   },

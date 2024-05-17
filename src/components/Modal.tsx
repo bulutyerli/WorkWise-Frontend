@@ -6,12 +6,14 @@ import { CgDanger } from 'react-icons/cg';
 export default function Modal({
   title,
   description,
+  buttonText,
   onClick,
   onClose,
   isOpen,
 }: {
   title: string;
   description: string;
+  buttonText: string;
   onClick: () => void;
   isOpen: boolean;
   onClose: () => void;
@@ -78,7 +80,7 @@ export default function Modal({
                     className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
                     onClick={onClick}
                   >
-                    Deactivate
+                    {buttonText}
                   </button>
                   <button
                     type="button"
