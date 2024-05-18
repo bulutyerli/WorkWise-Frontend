@@ -171,3 +171,8 @@ export interface NewStaffData {
 export interface ErrorResponse {
   error: string;
 }
+
+export interface SignInType {
+  email: string;
+  password: string;
+}
