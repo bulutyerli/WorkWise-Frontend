@@ -1,10 +1,12 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import logo from '/workwise.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { MyRouterContext } from '../../../__root';
+import { auth } from '../../../../config/firebase-config';
+import { useAuth } from '../../../../providers/AuthProvider';
 
 const fallback = '/app';
 
@@ -13,7 +15,7 @@ interface SearchType {
 }
 
 export const Route = createFileRoute('/app/_layout/auth/sign-in')({
-  beforeLoad: ({
+  beforeLoad: async ({
     context,
     search,
   }: {
@@ -21,7 +23,8 @@ export const Route = createFileRoute('/app/_layout/auth/sign-in')({
     search: SearchType;
   }) => {
     const auth = context.auth.isAuthenticated;
-    if (auth) {
+    const isLoading = context.auth.isLoading;
+    if (auth && !isLoading) {
       throw redirect({ to: search.redirect || fallback });
     }
   },
@@ -42,14 +45,13 @@ function SignIn() {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const auth = getAuth();
   const navigate = Route.useNavigate();
+  const { isAuthenticated } = useAuth();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
       setIsLoading(true);
       await signInWithEmailAndPassword(auth, data.email, data.password);
-      navigate({ to: '/app' });
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -58,6 +60,12 @@ function SignIn() {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate({ to: '/app' });
+    }
+  }, [isAuthenticated, navigate]);
 
   return (
     <div className="m-auto h-full items-center flex flex-col justify-center gap-10 w-full px-6 sm:max-w-96">
