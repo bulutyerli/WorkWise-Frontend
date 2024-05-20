@@ -10,7 +10,7 @@ import { getUserRole } from '../services/auth';
 import { auth } from '../config/firebase-config';
 
 interface User {
-  id: string | undefined;
+  id: string;
   fullname: string | undefined | null;
   isAdmin: boolean | undefined;
 }
