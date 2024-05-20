@@ -74,6 +74,7 @@ export async function createNewStaff(data: NewStaffType) {
 
     return response.data;
   } catch (error) {
+    console.log(error);
     handleAxiosError(error as AxiosError<ErrorResponse>);
     throw new Error('Unreachable');
   }

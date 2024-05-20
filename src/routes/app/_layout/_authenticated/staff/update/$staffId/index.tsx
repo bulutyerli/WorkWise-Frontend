@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
 import { useMutation, useQueries } from '@tanstack/react-query';
 import toast, { Toaster } from 'react-hot-toast';
@@ -14,6 +14,16 @@ import UpdateStaffForm from '../../../../../../../components/UpdateStaffForm';
 export const Route = createFileRoute(
   '/app/_layout/_authenticated/staff/update/$staffId/'
 )({
+  beforeLoad: async ({ context }) => {
+    const auth = context.auth.isAuthenticated;
+    const isAdmin = context.auth.user?.isAdmin;
+
+    if (!auth || (auth && !isAdmin)) {
+      throw redirect({
+        to: '/app/staff',
+      });
+    }
+  },
   component: UpdateStaff,
 });
 
@@ -41,8 +51,8 @@ function UpdateStaff() {
       setFormReset(true);
       navigate({ to: '/app/staff/$staffId', params: { staffId } });
     },
-    onError: () => {
-      toast.error('Failed to update staff');
+    onError: (error) => {
+      toast.error(error.message);
       setFormReset(true);
     },
   });
