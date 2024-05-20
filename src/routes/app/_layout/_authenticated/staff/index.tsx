@@ -11,12 +11,15 @@ import CustomButton from '../../../../../components/CustomButton';
 import SelectBox from '../../../../../components/SelectBox';
 import StaffListTable from '../../../../../components/StaffListTable';
 import Pagination from '../../../../../components/Pagination';
+import { useAuth } from '../../../../../providers/AuthProvider';
 
 export const Route = createFileRoute('/app/_layout/_authenticated/staff/')({
   component: StaffList,
 });
 
 function StaffList() {
+  const isAdmin = useAuth().user?.isAdmin;
+
   const [page, setPage] = useState(1);
   const [filters, setFilters] = useState<Record<string, string | null>>({});
   const [filtersOn, setFiltersOn] = useState<boolean>(false);
@@ -94,13 +97,15 @@ function StaffList() {
           onClick={() => setFiltersOn(!filtersOn)}
           text="Filters"
         />
-        <Link
-          to="/app/staff/add-new"
-          className="bg-purple-700 hover:bg-purple-500 inline-flex gap-x-2 items-center text-white text-sm font-semibold rounded-md px-2.5"
-        >
-          <span>New Staff</span>
-          <IoPersonAdd />
-        </Link>
+        {isAdmin && (
+          <Link
+            to="/app/staff/add-new"
+            className="bg-purple-700 hover:bg-purple-500 inline-flex gap-x-2 items-center text-white text-sm font-semibold rounded-md px-2.5"
+          >
+            <span>New Staff</span>
+            <IoPersonAdd />
+          </Link>
+        )}
       </div>
       {Object.keys(filters).length > 0 && (
         <div className="mt-2">

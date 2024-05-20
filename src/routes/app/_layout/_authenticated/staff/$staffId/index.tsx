@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQueries } from '@tanstack/react-query';
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router';
 import {
   FaPhoneAlt,
@@ -17,6 +17,8 @@ import LoadingSpinner from '../../../../../../components/LoadingSpinner';
 import dateFormat from '../../../../../../utils/dateFormat';
 import Modal from '../../../../../../components/Modal';
 import CustomButton from '../../../../../../components/CustomButton';
+import { useAuth } from '../../../../../../providers/AuthProvider';
+import { getCurrentAnnual } from '../../../../../../services/annual';
 
 export const Route = createFileRoute(
   '/app/_layout/_authenticated/staff/$staffId/'
@@ -25,21 +27,30 @@ export const Route = createFileRoute(
 });
 
 function StaffDetails() {
+  const isAdmin = useAuth().user?.isAdmin;
   const { staffId }: { staffId: number } = Route.useParams();
   const [modal, setModal] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const { isPending, isError, data, error } = useQuery({
-    queryKey: ['staff', staffId],
-    queryFn: () => getStaffById(staffId),
+  const [staffQuery, annualQuery] = useQueries({
+    queries: [
+      {
+        queryKey: ['staff', staffId],
+        queryFn: () => getStaffById(staffId),
+      },
+      {
+        queryKey: ['annual_leave', staffId],
+        queryFn: () => getCurrentAnnual(staffId),
+      },
+    ],
   });
 
   const mutation = useMutation({
     mutationFn: () => {
       return deleteStaff(staffId);
     },
-    onError: () => {
-      toast.error('Could not delete staff, try again.');
+    onError: (error) => {
+      toast.error(error.message);
       setModal(false);
     },
     onSuccess: () => {
@@ -52,17 +63,17 @@ function StaffDetails() {
     mutation.mutate();
   };
 
-  if (isPending) {
+  if (staffQuery.isPending) {
     return (
       <div className="m-auto">
         <LoadingSpinner />
       </div>
     );
   }
-  if (isError) {
+  if (staffQuery.isError) {
     return (
       <span className="text-red-800 text-xl m-auto">
-        Error: {error.message}
+        Error: {staffQuery.error.message}
       </span>
     );
   }
@@ -73,18 +84,19 @@ function StaffDetails() {
     salary,
     join_date,
     sickness_leave,
-    annual_leave,
     phone,
     department,
     role,
     shift,
     email,
     office,
-  } = data;
+  } = staffQuery.data;
 
   const formatSalary = `$${salary}`;
   const joinDate = dateFormat(join_date);
   const newBirthday = dateFormat(birthday);
+
+  const annual_leave = annualQuery?.data?.data;
 
   const handleClose = () => {
     setModal(false);
@@ -156,16 +168,20 @@ function StaffDetails() {
         </div>
         <div className="flex flex-col md:flex-row lg:gap-60">
           <div className="mb-10">
-            <div className="flex space-x-2 text-slate-600 items-center border-b-2 w-44 mb-1">
-              <GiIsland />
-              <h4>Annual Leave</h4>
-            </div>
+            {annualQuery.isPending ? (
+              <LoadingSpinner />
+            ) : (
+              <div className="flex space-x-2 text-slate-600 items-center border-b-2 w-44 mb-1">
+                <GiIsland />
+                <h4 className="text-nowrap">Annual Leave Left</h4>
+              </div>
+            )}
             <span className="text-slate-900">{annual_leave}</span>
           </div>
           <div className="mb-10 text-nowrap">
             <div className="flex space-x-2 text-slate-600 items-center border-b-2 w-44 mb-1">
               <FaRegHospital />
-              <h4>Sickness Leave</h4>
+              <h4 className="text-nowrap">Used Sickness Leave</h4>
             </div>
             <span className="text-slate-900">{sickness_leave}</span>
           </div>
@@ -187,22 +203,24 @@ function StaffDetails() {
           </div>
         </div>
       </article>
-      <div className="flex gap-5">
-        <Link
-          className="inline-flex justify-center items-center text-purple-600 font-semibold hover:underline hover:text-purple-700"
-          to="/app/staff/update/$staffId"
-          params={{ staffId: String(data.id) }}
-        >
-          Edit
-        </Link>
+      {isAdmin && (
+        <div className="flex gap-5">
+          <Link
+            className="inline-flex justify-center items-center text-purple-600 font-semibold hover:underline hover:text-purple-700"
+            to="/app/staff/update/$staffId"
+            params={{ staffId: String(staffQuery.data.id) }}
+          >
+            Edit
+          </Link>
 
-        <CustomButton
-          text="Delete"
-          color="danger"
-          isLoading={mutation.isPending}
-          onClick={() => setModal(true)}
-        />
-      </div>
+          <CustomButton
+            text="Delete"
+            color="danger"
+            isLoading={mutation.isPending}
+            onClick={() => setModal(true)}
+          />
+        </div>
+      )}
       {modal && (
         <Modal
           title="Delete Staff"

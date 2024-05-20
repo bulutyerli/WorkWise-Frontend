@@ -14,7 +14,6 @@ export interface StaffData {
   phone: string;
   salary: number;
   join_date: string;
-  annual_leave: number;
   sickness_leave: number;
   department: string;
   department_id: number;
@@ -170,9 +169,17 @@ export interface NewStaffData {
 
 export interface ErrorResponse {
   error: string;
+  message: string;
 }
 
 export interface SignInType {
   email: string;
   password: string;
+}
+
+export interface AnnualLeaveType {
+  end_date: string;
+  starting_date: string;
+  id: number;
+  user_id: number;
 }

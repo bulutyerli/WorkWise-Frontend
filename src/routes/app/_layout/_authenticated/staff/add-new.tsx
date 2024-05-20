@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 import { useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import toast, { Toaster } from 'react-hot-toast';
@@ -13,6 +13,16 @@ import NewStaffForm from '../../../../../components/NewStaffForm';
 export const Route = createFileRoute(
   '/app/_layout/_authenticated/staff/add-new'
 )({
+  beforeLoad: async ({ context }) => {
+    const auth = context.auth.isAuthenticated;
+    const isAdmin = context.auth.user?.isAdmin;
+
+    if (!auth || (auth && !isAdmin)) {
+      throw redirect({
+        to: '/app/staff',
+      });
+    }
+  },
   component: AddNew,
 });
 
@@ -32,8 +42,8 @@ function AddNew() {
       toast.success('New staff created successfully');
       setFormReset(true);
     },
-    onError: () => {
-      toast.error('Failed to create new staff');
+    onError: (error) => {
+      toast.error(error.message);
       setFormReset(true);
     },
   });
