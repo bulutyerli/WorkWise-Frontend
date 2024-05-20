@@ -180,6 +180,6 @@ export interface SignInType {
 export interface AnnualLeaveType {
   end_date: string;
   starting_date: string;
-  id: number;
-  user_id: number;
+  firebase_id: string;
+  status?: 'approved' | 'pending' | 'rejected';
 }
