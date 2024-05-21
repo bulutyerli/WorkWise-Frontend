@@ -181,5 +181,7 @@ export interface AnnualLeaveType {
   end_date: string;
   starting_date: string;
   firebase_id: string;
+  user_id: number;
   status?: 'approved' | 'pending' | 'rejected';
+  id?: number;
 }

@@ -1,8 +1,17 @@
 import { AnnualLeaveType } from '../types/types';
 import dateFormat from '../utils/dateFormat';
 import { getDateDifference } from '../utils/getDateDifference';
+import CustomButton from './CustomButton';
 
-export default function AnnualTable({ data }: { data: AnnualLeaveType[] }) {
+export default function AnnualTable({
+  data,
+  isDelete,
+  deleteHandler,
+}: {
+  data: AnnualLeaveType[];
+  isDelete?: boolean;
+  deleteHandler?: (requestId: number) => void;
+}) {
   return (
     <table className="min-w-full divide-y divide-gray-300">
       <thead>
@@ -47,6 +56,16 @@ export default function AnnualTable({ data }: { data: AnnualLeaveType[] }) {
               <td className="px-3 py-4 text-sm text-gray-500 lg:table-cell">
                 {difference}
               </td>
+
+              {isDelete && deleteHandler && (
+                <td className="px-3 py-4 text-sm text-gray-500 lg:table-cell">
+                  <CustomButton
+                    text="Delete"
+                    color="primary"
+                    onClick={() => deleteHandler(item.id!)}
+                  />
+                </td>
+              )}
             </tr>
           );
         })}

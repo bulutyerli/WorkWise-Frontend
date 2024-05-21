@@ -39,3 +39,12 @@ export async function newAnnualRequest(data: AnnualLeaveType) {
     throw new Error('Unreachable');
   }
 }
+
+export async function deleteLeaveRequest(requestId: number) {
+  try {
+    await axiosAuth.delete(`/annual/${requestId}`);
+  } catch (error) {
+    handleAxiosError(error as AxiosError<ErrorResponse>);
+    throw new Error('Unreachable');
+  }
+}

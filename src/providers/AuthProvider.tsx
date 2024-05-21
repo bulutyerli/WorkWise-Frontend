@@ -10,7 +10,8 @@ import { getUserRole } from '../services/auth';
 import { auth } from '../config/firebase-config';
 
 interface User {
-  id: string;
+  id: number;
+  firebase_id: string;
   fullname: string | undefined | null;
   isAdmin: boolean | undefined;
 }
@@ -44,10 +45,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     //onAuthStateChanged check if the user is still logged in or not
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const { isAdmin } = await getUserRole(user.uid);
+        const { isAdmin, userId } = await getUserRole(user.uid);
         setUser({
-          id: user?.uid,
+          id: userId,
           fullname: user?.displayName,
+          firebase_id: user?.uid,
           isAdmin: isAdmin,
         });
       } else {
