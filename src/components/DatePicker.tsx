@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import {
@@ -49,6 +49,19 @@ export default function DatePicker({
       setSelectedDate([selectedDate[0], date]);
     }
   };
+
+  useEffect(() => {
+    if (selectedDate[0] && selectedDate[1]) {
+      const difference = getDateDifference(
+        selectedDate[0].toLocaleDateString(),
+        selectedDate[1].toLocaleDateString()
+      );
+
+      if (difference < 1) {
+        setSelectedDate([null, null]);
+      }
+    }
+  }, [selectedDate]);
 
   return (
     <div className="flex flex-col md:flex-row justify-between">
