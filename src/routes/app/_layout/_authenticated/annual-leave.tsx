@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import AnnualTable from '../../../../components/AnnualTable';
 import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
 import {
+  deleteLeaveRequest,
   getAnnualLeaves,
   getCurrentAnnual,
   newAnnualRequest,
@@ -20,9 +21,11 @@ export const Route = createFileRoute(
 });
 
 function AnnualLeave() {
-  const userId = useAuth().user!.id;
+  const { firebase_id, id } = useAuth().user!;
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [date, setDates] = useState<[Date, Date]>([new Date(), new Date()]);
+  const [deleteModal, setDeleteModal] = useState<boolean>(false);
+  const [requestToDelete, setRequestToDelete] = useState<number>();
 
   const queryClient = useQueryClient();
 
@@ -30,11 +33,11 @@ function AnnualLeave() {
     queries: [
       {
         queryKey: ['annual_leaves'],
-        queryFn: () => getAnnualLeaves(userId),
+        queryFn: () => getAnnualLeaves(id.toString()),
       },
       {
         queryKey: ['current_annual'],
-        queryFn: () => getCurrentAnnual(userId),
+        queryFn: () => getCurrentAnnual(id.toString()),
       },
     ],
   });
@@ -44,7 +47,8 @@ function AnnualLeave() {
       const data = {
         starting_date: date[0].toISOString(),
         end_date: date[1].toISOString(),
-        firebase_id: userId,
+        firebase_id,
+        user_id: id,
       };
       return newAnnualRequest(data);
     },
@@ -53,18 +57,37 @@ function AnnualLeave() {
       toast.success('Your leave request has been sent');
       queryClient.invalidateQueries({ queryKey: ['annual_leaves'] });
     },
-    onError: (error) => {
+    onError: () => {
       setIsModalOpen(false);
-      console.log(error);
       toast.error('Something went wrong, try again');
     },
   });
 
+  const deleteMutation = useMutation({
+    mutationFn: () => {
+      return deleteLeaveRequest(Number(requestToDelete));
+    },
+    onSuccess: () => {
+      setDeleteModal(false);
+      toast.success('Your leave request has been deleted');
+      queryClient.invalidateQueries({ queryKey: ['annual_leaves'] });
+    },
+    onError: () => {
+      setDeleteModal(false);
+      toast.error('Deletion failed, try again.');
+    },
+  });
+
   const getDates = (dates: [Date, Date]) => {
-    console.log(dates);
     setIsModalOpen(true);
     setDates(dates);
   };
+
+  const getRequest = (requstId: number) => {
+    setDeleteModal(true);
+    setRequestToDelete(requstId);
+  };
+
   if (annualQuery.isPending || currentAnnualQuery.isPending) {
     return (
       <div className="m-auto">
@@ -109,7 +132,11 @@ function AnnualLeave() {
           List of all annual leave requests pending for manager approval
         </h3>
         {pendingLeaves.length > 0 ? (
-          <AnnualTable data={pendingLeaves} />
+          <AnnualTable
+            data={pendingLeaves}
+            isDelete={true}
+            deleteHandler={getRequest}
+          />
         ) : (
           <span>You don't have any pending leave requests.</span>
         )}
@@ -142,6 +169,14 @@ function AnnualLeave() {
         onClose={() => setIsModalOpen(false)}
         isOpen={isModalOpen}
         buttonText="Yes"
+      />
+      <Modal
+        title="Delete Annual Leave Request?"
+        description="Are you sure you want to delete this leave request?"
+        onClick={deleteMutation.mutate}
+        onClose={() => setDeleteModal(false)}
+        isOpen={deleteModal}
+        buttonText="Delete"
       />
     </div>
   );

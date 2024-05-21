@@ -96,7 +96,7 @@ function StaffDetails() {
   const joinDate = dateFormat(join_date);
   const newBirthday = dateFormat(birthday);
 
-  const annual_leave = annualQuery?.data?.data;
+  const annual_leave = annualQuery?.data;
 
   const handleClose = () => {
     setModal(false);
