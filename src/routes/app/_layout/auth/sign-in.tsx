@@ -8,8 +8,6 @@ import { MyRouterContext } from '../../../__root';
 import { auth } from '../../../../config/firebase-config';
 import { useAuth } from '../../../../providers/AuthProvider';
 
-const fallback = '/app';
-
 interface SearchType {
   redirect: string | null;
 }
@@ -17,7 +15,6 @@ interface SearchType {
 export const Route = createFileRoute('/app/_layout/auth/sign-in')({
   beforeLoad: async ({
     context,
-    search,
   }: {
     context: MyRouterContext;
     search: SearchType;
@@ -25,7 +22,7 @@ export const Route = createFileRoute('/app/_layout/auth/sign-in')({
     const auth = context.auth.isAuthenticated;
     const isLoading = context.auth.isLoading;
     if (auth && !isLoading) {
-      throw redirect({ to: search.redirect || fallback });
+      throw redirect({ to: '/app' });
     }
   },
   component: SignIn,
@@ -65,7 +62,8 @@ function SignIn() {
     if (isAuthenticated) {
       navigate({ to: '/app' });
     }
-  }, [isAuthenticated, navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
 
   return (
     <div className="m-auto h-full items-center flex flex-col justify-center gap-10 w-full px-6 sm:max-w-96">
@@ -100,6 +98,7 @@ function SignIn() {
         <input
           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 mb-10 p-2"
           id="password"
+          type="password"
           {...register('password', { required: true })}
         />
         <span className="text-red-700 mb-2">{error && error}</span>

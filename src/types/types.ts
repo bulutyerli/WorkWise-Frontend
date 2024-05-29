@@ -14,7 +14,6 @@ export interface StaffData {
   phone: string;
   salary: number;
   join_date: string;
-  sickness_leave: number;
   department: string;
   department_id: number;
   manager_id: number;
@@ -184,4 +183,33 @@ export interface AnnualLeaveType {
   user_id: number;
   status?: 'approved' | 'pending' | 'rejected';
   id?: number;
+  name?: string;
+  surname?: string;
+}
+
+export type RequestStatus = 'approved' | 'pending' | 'rejected';
+
+export interface BirthdayDataType {
+  birthday: Date;
+  department: string;
+  id: number;
+  name: string;
+  surname: string;
+  office: string;
+  role: string;
+}
+
+export interface NewJoinTableType {
+  id: number;
+  join_date: Date;
+  name: string;
+  surname: string;
+  role: string;
+  department: string;
+  office: string;
+}
+
+export interface StaffDatesType {
+  birthdays: BirthdayDataType[];
+  newJoins: NewJoinTableType[];
 }

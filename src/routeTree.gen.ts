@@ -20,13 +20,13 @@ import { Route as AppLayoutImport } from './routes/app/_layout'
 import { Route as AppLayoutAuthenticatedImport } from './routes/app/_layout/_authenticated'
 import { Route as AppLayoutAuthenticatedIndexImport } from './routes/app/_layout/_authenticated/index'
 import { Route as AppLayoutAuthSignInImport } from './routes/app/_layout/auth/sign-in'
-import { Route as AppLayoutAuthenticatedSicknessLeaveImport } from './routes/app/_layout/_authenticated/sickness-leave'
 import { Route as AppLayoutAuthenticatedIncomeImport } from './routes/app/_layout/_authenticated/income'
 import { Route as AppLayoutAuthenticatedHierarchyImport } from './routes/app/_layout/_authenticated/hierarchy'
 import { Route as AppLayoutAuthenticatedFinanceChartsImport } from './routes/app/_layout/_authenticated/finance-charts'
 import { Route as AppLayoutAuthenticatedExpenseImport } from './routes/app/_layout/_authenticated/expense'
 import { Route as AppLayoutAuthenticatedAnnualLeaveImport } from './routes/app/_layout/_authenticated/annual-leave'
 import { Route as AppLayoutAuthenticatedStaffIndexImport } from './routes/app/_layout/_authenticated/staff/index'
+import { Route as AppLayoutAuthenticatedStaffStaffRequestsImport } from './routes/app/_layout/_authenticated/staff/staff-requests'
 import { Route as AppLayoutAuthenticatedStaffAddNewImport } from './routes/app/_layout/_authenticated/staff/add-new'
 import { Route as AppLayoutAuthenticatedStaffStaffIdIndexImport } from './routes/app/_layout/_authenticated/staff/$staffId/index'
 import { Route as AppLayoutAuthenticatedStaffUpdateStaffIdIndexImport } from './routes/app/_layout/_authenticated/staff/update/$staffId/index'
@@ -78,12 +78,6 @@ const AppLayoutAuthSignInRoute = AppLayoutAuthSignInImport.update({
   getParentRoute: () => AppLayoutRoute,
 } as any)
 
-const AppLayoutAuthenticatedSicknessLeaveRoute =
-  AppLayoutAuthenticatedSicknessLeaveImport.update({
-    path: '/sickness-leave',
-    getParentRoute: () => AppLayoutAuthenticatedRoute,
-  } as any)
-
 const AppLayoutAuthenticatedIncomeRoute =
   AppLayoutAuthenticatedIncomeImport.update({
     path: '/income',
@@ -117,6 +111,12 @@ const AppLayoutAuthenticatedAnnualLeaveRoute =
 const AppLayoutAuthenticatedStaffIndexRoute =
   AppLayoutAuthenticatedStaffIndexImport.update({
     path: '/staff/',
+    getParentRoute: () => AppLayoutAuthenticatedRoute,
+  } as any)
+
+const AppLayoutAuthenticatedStaffStaffRequestsRoute =
+  AppLayoutAuthenticatedStaffStaffRequestsImport.update({
+    path: '/staff/staff-requests',
     getParentRoute: () => AppLayoutAuthenticatedRoute,
   } as any)
 
@@ -186,10 +186,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppLayoutAuthenticatedIncomeImport
       parentRoute: typeof AppLayoutAuthenticatedImport
     }
-    '/app/_layout/_authenticated/sickness-leave': {
-      preLoaderRoute: typeof AppLayoutAuthenticatedSicknessLeaveImport
-      parentRoute: typeof AppLayoutAuthenticatedImport
-    }
     '/app/_layout/auth/sign-in': {
       preLoaderRoute: typeof AppLayoutAuthSignInImport
       parentRoute: typeof AppLayoutImport
@@ -200,6 +196,10 @@ declare module '@tanstack/react-router' {
     }
     '/app/_layout/_authenticated/staff/add-new': {
       preLoaderRoute: typeof AppLayoutAuthenticatedStaffAddNewImport
+      parentRoute: typeof AppLayoutAuthenticatedImport
+    }
+    '/app/_layout/_authenticated/staff/staff-requests': {
+      preLoaderRoute: typeof AppLayoutAuthenticatedStaffStaffRequestsImport
       parentRoute: typeof AppLayoutAuthenticatedImport
     }
     '/app/_layout/_authenticated/staff/': {
@@ -231,9 +231,9 @@ export const routeTree = rootRoute.addChildren([
         AppLayoutAuthenticatedFinanceChartsRoute,
         AppLayoutAuthenticatedHierarchyRoute,
         AppLayoutAuthenticatedIncomeRoute,
-        AppLayoutAuthenticatedSicknessLeaveRoute,
         AppLayoutAuthenticatedIndexRoute,
         AppLayoutAuthenticatedStaffAddNewRoute,
+        AppLayoutAuthenticatedStaffStaffRequestsRoute,
         AppLayoutAuthenticatedStaffIndexRoute,
         AppLayoutAuthenticatedStaffStaffIdIndexRoute,
         AppLayoutAuthenticatedStaffUpdateStaffIdIndexRoute,

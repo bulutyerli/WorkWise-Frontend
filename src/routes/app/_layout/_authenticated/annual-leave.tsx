@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
-import AnnualTable from '../../../../components/AnnualTable';
+import LeaveTable from '../../../../components/LeaveTable';
 import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
 import {
   deleteLeaveRequest,
@@ -21,9 +21,12 @@ export const Route = createFileRoute(
 });
 
 function AnnualLeave() {
-  const { firebase_id, id } = useAuth().user!;
+  const auth = useAuth();
+  const firebase_id = auth.user?.firebase_id;
+  const id = auth.user?.id;
+
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [date, setDates] = useState<[Date, Date]>([new Date(), new Date()]);
+  const [dates, setDates] = useState<[Date, Date]>([new Date(), new Date()]);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const [requestToDelete, setRequestToDelete] = useState<number>();
 
@@ -33,21 +36,25 @@ function AnnualLeave() {
     queries: [
       {
         queryKey: ['annual_leaves'],
-        queryFn: () => getAnnualLeaves(id.toString()),
+        queryFn: () => getAnnualLeaves(id!.toString()),
       },
       {
         queryKey: ['current_annual'],
-        queryFn: () => getCurrentAnnual(id.toString()),
+        queryFn: () => getCurrentAnnual(id!.toString()),
       },
     ],
   });
 
   const mutation = useMutation({
     mutationFn: () => {
+      if (!firebase_id || !id) {
+        toast.error('User information is missing');
+        throw new Error('User information is missing');
+      }
       const data = {
-        starting_date: date[0].toISOString(),
-        end_date: date[1].toISOString(),
-        firebase_id,
+        starting_date: dates[0].toISOString(),
+        end_date: dates[1].toISOString(),
+        firebase_id: firebase_id,
         user_id: id,
       };
       return newAnnualRequest(data);
@@ -132,11 +139,7 @@ function AnnualLeave() {
           List of all annual leave requests pending for manager approval
         </h3>
         {pendingLeaves.length > 0 ? (
-          <AnnualTable
-            data={pendingLeaves}
-            isDelete={true}
-            deleteHandler={getRequest}
-          />
+          <LeaveTable data={pendingLeaves} deleteHandler={getRequest} />
         ) : (
           <span>You don't have any pending leave requests.</span>
         )}
@@ -146,7 +149,7 @@ function AnnualLeave() {
         <h3 className="text-sm text-slate-500 mb-2">
           List of all approved annual leave requests
         </h3>
-        <AnnualTable data={approvedLeaves} />
+        <LeaveTable data={approvedLeaves} />
       </section>
       <section className="">
         <h2 className="text-xl text-red-600">Rejected Leave Requests</h2>
@@ -154,7 +157,7 @@ function AnnualLeave() {
           List of all previously rejected annual leave requests
         </h3>
         {rejectedLeaves.length > 0 ? (
-          <AnnualTable data={rejectedLeaves} />
+          <LeaveTable data={rejectedLeaves} />
         ) : (
           <span className="text-center">
             You don't have any rejected leave requests.
@@ -169,6 +172,7 @@ function AnnualLeave() {
         onClose={() => setIsModalOpen(false)}
         isOpen={isModalOpen}
         buttonText="Yes"
+        isLoading={mutation.isPending}
       />
       <Modal
         title="Delete Annual Leave Request?"
@@ -177,6 +181,7 @@ function AnnualLeave() {
         onClose={() => setDeleteModal(false)}
         isOpen={deleteModal}
         buttonText="Delete"
+        isLoading={deleteMutation.isPending}
       />
     </div>
   );

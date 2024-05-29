@@ -5,6 +5,7 @@ import {
   NewStaffType,
   OrderType,
   StaffData,
+  StaffDatesType,
   StaffType,
 } from '../types/types';
 import { handleAxiosError } from '../utils/errorHandler';
@@ -94,6 +95,18 @@ export async function updateStaff(id: number, staffData: StaffData) {
 export async function deleteStaff(id: number) {
   try {
     const response = await axiosAuth.delete(`/staff/${id}`);
+
+    return response.data;
+  } catch (error) {
+    handleAxiosError(error as AxiosError<ErrorResponse>);
+    throw new Error('Unreachable');
+  }
+}
+
+export async function getStaffDates(): Promise<StaffDatesType> {
+  try {
+    const response: AxiosResponse<StaffDatesType> =
+      await axiosAuth.get('staff-dates');
 
     return response.data;
   } catch (error) {

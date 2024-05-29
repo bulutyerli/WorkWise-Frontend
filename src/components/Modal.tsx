@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { RiCloseLine } from 'react-icons/ri';
 import { CgDanger } from 'react-icons/cg';
+import CustomButton from './CustomButton';
 
 export default function Modal({
   title,
@@ -10,6 +11,7 @@ export default function Modal({
   onClick,
   onClose,
   isOpen,
+  isLoading,
 }: {
   title: string;
   description: string;
@@ -17,6 +19,7 @@ export default function Modal({
   onClick: () => void;
   isOpen: boolean;
   onClose: () => void;
+  isLoading?: boolean;
 }) {
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -74,21 +77,19 @@ export default function Modal({
                     </div>
                   </div>
                 </div>
-                <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-                  <button
-                    type="button"
-                    className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse gap-2">
+                  <CustomButton
+                    text={buttonText}
                     onClick={onClick}
-                  >
-                    {buttonText}
-                  </button>
-                  <button
-                    type="button"
-                    className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                    color="secondary"
+                    isLoading={isLoading}
+                  />
+
+                  <CustomButton
+                    text={'Cancel'}
                     onClick={onClose}
-                  >
-                    Cancel
-                  </button>
+                    color="primary"
+                  />
                 </div>
               </Dialog.Panel>
             </Transition.Child>

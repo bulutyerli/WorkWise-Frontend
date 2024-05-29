@@ -1,11 +1,6 @@
 import { useMutation, useQueries } from '@tanstack/react-query';
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router';
-import {
-  FaPhoneAlt,
-  FaBirthdayCake,
-  FaRegHospital,
-  FaSignature,
-} from 'react-icons/fa';
+import { FaPhoneAlt, FaBirthdayCake, FaSignature } from 'react-icons/fa';
 import { GiIsland } from 'react-icons/gi';
 import { GiMoneyStack } from 'react-icons/gi';
 import { MdAbc } from 'react-icons/md';
@@ -40,7 +35,7 @@ function StaffDetails() {
       },
       {
         queryKey: ['annual_leave', staffId],
-        queryFn: () => getCurrentAnnual(staffId),
+        queryFn: () => getCurrentAnnual(staffId.toString()),
       },
     ],
   });
@@ -83,7 +78,6 @@ function StaffDetails() {
     birthday,
     salary,
     join_date,
-    sickness_leave,
     phone,
     department,
     role,
@@ -97,7 +91,6 @@ function StaffDetails() {
   const newBirthday = dateFormat(birthday);
 
   const annual_leave = annualQuery?.data;
-
   const handleClose = () => {
     setModal(false);
   };
@@ -177,13 +170,6 @@ function StaffDetails() {
               </div>
             )}
             <span className="text-slate-900">{annual_leave}</span>
-          </div>
-          <div className="mb-10 text-nowrap">
-            <div className="flex space-x-2 text-slate-600 items-center border-b-2 w-44 mb-1">
-              <FaRegHospital />
-              <h4 className="text-nowrap">Used Sickness Leave</h4>
-            </div>
-            <span className="text-slate-900">{sickness_leave}</span>
           </div>
         </div>
         <div className="flex flex-col md:flex-row lg:gap-60">
