@@ -2,6 +2,7 @@ import { Transition } from '@headlessui/react';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { Link } from '@tanstack/react-router';
 import { RiMenu3Line, RiCloseLine } from 'react-icons/ri';
+import { GiExitDoor } from 'react-icons/gi';
 
 export default function MobileMenu({
   routes,
@@ -65,6 +66,14 @@ export default function MobileMenu({
                 </Link>
               </li>
             ))}
+            <li>
+              <Link to="/" className="flex items-center gap-5 text-indigo-200">
+                <div className="text-3xl">
+                  <GiExitDoor />
+                </div>
+                <span>Exit App</span>
+              </Link>
+            </li>
           </ul>
         </nav>
       </Transition>

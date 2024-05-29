@@ -13,7 +13,8 @@ interface User {
   id: number;
   firebase_id: string;
   fullname: string | undefined | null;
-  isAdmin: boolean | undefined;
+  isAdmin: boolean;
+  isManager: boolean;
 }
 
 export interface AuthContext {
@@ -45,12 +46,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     //onAuthStateChanged check if the user is still logged in or not
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const { isAdmin, userId } = await getUserRole(user.uid);
+        const { isAdmin, isManager, userId } = await getUserRole(user.uid);
         setUser({
           id: userId,
           fullname: user?.displayName,
           firebase_id: user?.uid,
-          isAdmin: isAdmin,
+          isAdmin,
+          isManager,
         });
       } else {
         setUser(null);

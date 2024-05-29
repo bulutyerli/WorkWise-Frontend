@@ -128,42 +128,6 @@ export default function UpdateStaffForm({
               className="block border-2 rounded-md bg-transparent py-1.5 pl-1 text-slate-900  focus:border-purple-600 sm:text-sm sm:leading-6 focus:ring-0 focus:outline-none shadow-sm w-full"
             />
           </div>
-          <div className="sm:col-span-3 sm:col-start-1">
-            <label
-              className="text-slate-800 block text-sm font-medium leading-6"
-              htmlFor="annual_leave"
-            >
-              Remaining Annual Leave:
-              {errors.annual_leave && (
-                <span className="text-red-700 float-end">
-                  This field is required
-                </span>
-              )}
-            </label>
-            <input
-              type="number"
-              {...register('annual_leave', { required: true })}
-              className="block flex-1 border-2 rounded-md bg-transparent py-1.5 pl-1 text-slate-900  focus:border-purple-600 sm:text-sm sm:leading-6 focus:ring-0 focus:outline-none shadow-sm w-full"
-            />
-          </div>
-          <div className="sm:col-span-3">
-            <label
-              className="text-slate-800 block text-sm font-medium leading-6"
-              htmlFor="sickness_leave"
-            >
-              Used Sickness Leave:
-              {errors.sickness_leave && (
-                <span className="text-red-700 float-end">
-                  This field is required
-                </span>
-              )}
-            </label>
-            <input
-              type="number"
-              {...register('sickness_leave', { required: true })}
-              className="block flex-1 border-2 rounded-md bg-transparent py-1.5 pl-1 text-slate-900  focus:border-purple-600 sm:text-sm sm:leading-6 focus:ring-0 focus:outline-none shadow-sm w-full"
-            />
-          </div>
           <div className="sm:col-span-2 sm:col-start-1">
             <label
               className="text-slate-800 block text-sm font-medium leading-6"

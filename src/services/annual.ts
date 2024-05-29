@@ -1,7 +1,7 @@
 import { AxiosError, AxiosResponse } from 'axios';
 import axiosAuth from '../utils/axiosAuth';
 import { handleAxiosError } from '../utils/errorHandler';
-import { AnnualLeaveType, ErrorResponse } from '../types/types';
+import { AnnualLeaveType, ErrorResponse, RequestStatus } from '../types/types';
 
 export async function getAnnualLeaves(id: string): Promise<AnnualLeaveType[]> {
   try {
@@ -42,7 +42,35 @@ export async function newAnnualRequest(data: AnnualLeaveType) {
 
 export async function deleteLeaveRequest(requestId: number) {
   try {
-    await axiosAuth.delete(`/annual/${requestId}`);
+    await axiosAuth.delete('/annual', { params: { requestId } });
+  } catch (error) {
+    handleAxiosError(error as AxiosError<ErrorResponse>);
+    throw new Error('Unreachable');
+  }
+}
+
+export async function updateLeaveRequest(
+  requestId: number,
+  status: RequestStatus
+) {
+  try {
+    await axiosAuth.put('/annual', { requestId, status });
+  } catch (error) {
+    handleAxiosError(error as AxiosError<ErrorResponse>);
+    throw new Error('Unreachable');
+  }
+}
+
+export async function getStaffAnnualRequests(
+  managerId: number
+): Promise<AnnualLeaveType[]> {
+  try {
+    const response: AxiosResponse<AnnualLeaveType[]> = await axiosAuth.get(
+      'annual',
+      { params: { managerId } }
+    );
+
+    return response.data;
   } catch (error) {
     handleAxiosError(error as AxiosError<ErrorResponse>);
     throw new Error('Unreachable');

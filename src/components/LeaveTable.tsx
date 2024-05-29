@@ -3,19 +3,31 @@ import dateFormat from '../utils/dateFormat';
 import { getDateDifference } from '../utils/getDateDifference';
 import CustomButton from './CustomButton';
 
-export default function AnnualTable({
+export default function LeaveTable({
   data,
-  isDelete,
   deleteHandler,
+  managerTable,
+  approveHandler,
+  rejectHandler,
 }: {
   data: AnnualLeaveType[];
-  isDelete?: boolean;
   deleteHandler?: (requestId: number) => void;
+  managerTable?: boolean;
+  approveHandler?: (requestId: number) => void;
+  rejectHandler?: (requestId: number) => void;
 }) {
   return (
     <table className="min-w-full divide-y divide-gray-300">
       <thead>
         <tr>
+          {managerTable && (
+            <th
+              scope="col"
+              className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+            >
+              <span className="flex items-center gap-1">Name</span>
+            </th>
+          )}
           <th
             scope="col"
             className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
@@ -45,8 +57,14 @@ export default function AnnualTable({
             item.starting_date,
             item.end_date
           );
+          const fullName = `${item.name} ${item.surname}`;
           return (
             <tr key={item.id}>
+              {managerTable && (
+                <td className="px-1 py-4 text-sm text-gray-500 lg:table-cell">
+                  {fullName}
+                </td>
+              )}
               <td className="px-1 py-4 text-sm text-gray-500 lg:table-cell">
                 {fromDate}
               </td>
@@ -57,12 +75,26 @@ export default function AnnualTable({
                 {difference}
               </td>
 
-              {isDelete && deleteHandler && (
-                <td className="px-3 py-4 text-sm text-gray-500 lg:table-cell">
+              {deleteHandler && !approveHandler && (
+                <td className="px-3 py-4 text-sm text-gray-500 lg:table-cell space-x-3">
                   <CustomButton
                     text="Delete"
                     color="primary"
                     onClick={() => deleteHandler(item.id!)}
+                  />
+                </td>
+              )}
+              {approveHandler && rejectHandler && (
+                <td className="px-3 py-4 text-sm text-gray-500 lg:table-cell space-x-3 items-center flex flex-col gap-2 md:flex-row">
+                  <CustomButton
+                    text="Reject"
+                    color="primary"
+                    onClick={() => rejectHandler(item.id!)}
+                  />
+                  <CustomButton
+                    text="Approve"
+                    color="secondary"
+                    onClick={() => approveHandler(item.id!)}
                   />
                 </td>
               )}

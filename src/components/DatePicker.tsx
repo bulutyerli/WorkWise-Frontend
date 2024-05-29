@@ -12,9 +12,12 @@ import {
   eachDayOfInterval,
   isSameMonth,
   isSameDay,
+  isBefore,
+  isAfter,
 } from 'date-fns';
 import { getDateDifference } from '../utils/getDateDifference';
 import CustomButton from './CustomButton';
+import { twMerge } from 'tailwind-merge';
 
 export default function DatePicker({
   handleSubmit,
@@ -58,7 +61,7 @@ export default function DatePicker({
       );
 
       if (difference < 1) {
-        setSelectedDate([null, null]);
+        setSelectedDate([selectedDate[1], null]);
       }
     }
   }, [selectedDate]);
@@ -100,15 +103,22 @@ export default function DatePicker({
               <button
                 key={dayIdx}
                 type="button"
-                className={clsx(
-                  isSameMonth(day, currentMonth)
-                    ? 'bg-white text-gray-900'
-                    : 'bg-gray-50 text-gray-400',
-                  selectedDate[0] &&
-                    (isSameDay(day, selectedDate[0]) ||
-                      (selectedDate[1] && isSameDay(day, selectedDate[1]))) &&
-                    'text-red-700 font-semibold bg-purple-700',
-                  'relative py-1.5 hover:bg-red-100 focus:z-10'
+                className={twMerge(
+                  clsx(
+                    isSameMonth(day, currentMonth)
+                      ? 'bg-white text-gray-900'
+                      : 'bg-gray-50 text-gray-400',
+                    selectedDate[0] &&
+                      (isSameDay(day, selectedDate[0]) ||
+                        (selectedDate[1] && isSameDay(day, selectedDate[1]))) &&
+                      'text-white font-semibold bg-purple-500',
+                    'relative py-1.5 hover:bg-purple-100 focus:z-10 hover:text-gray-900',
+                    selectedDate[0] &&
+                      selectedDate[1] &&
+                      isAfter(day, selectedDate[0]) &&
+                      isBefore(day, selectedDate[1]) &&
+                      'bg-purple-300'
+                  )
                 )}
                 onClick={() => handleDateClick(day)}
               >
