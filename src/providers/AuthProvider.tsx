@@ -29,13 +29,13 @@ const AuthContext = createContext<AuthContext | null>(null);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  const isAuthenticated = !!user;
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   const logout = useCallback(async () => {
     try {
       await signOut(auth);
       setUser(null);
+      setIsAuthenticated(false);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       throw new Error(error);
@@ -54,13 +54,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           isAdmin,
           isManager,
         });
+        setIsAuthenticated(true);
       } else {
         setUser(null);
+        setIsAuthenticated(false);
       }
       setIsLoading(false);
     });
     return unsubscribe;
-  }, []);
+  }, [isAuthenticated]);
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, user, logout, isLoading }}>

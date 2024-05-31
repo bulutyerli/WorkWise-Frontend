@@ -6,13 +6,13 @@ import {
   getAllCategories,
   getStaffById,
   updateStaff,
-} from '../../../../../../../services/staff';
-import { StaffData } from '../../../../../../../types/types';
-import LoadingSpinner from '../../../../../../../components/LoadingSpinner';
-import UpdateStaffForm from '../../../../../../../components/UpdateStaffForm';
+} from '../../../../../../services/staff';
+import { StaffData } from '../../../../../../types/types';
+import LoadingSpinner from '../../../../../../components/LoadingSpinner';
+import UpdateStaffForm from '../../../../../../components/UpdateStaffForm';
 
 export const Route = createFileRoute(
-  '/app/_layout/_authenticated/staff/update/$staffId/'
+  '/_layout/_authenticated/staff/update/$staffId/'
 )({
   beforeLoad: async ({ context }) => {
     const auth = context.auth.isAuthenticated;
@@ -20,7 +20,7 @@ export const Route = createFileRoute(
 
     if (!auth || (auth && !isAdmin)) {
       throw redirect({
-        to: '/app/staff',
+        to: '/staff',
       });
     }
   },
@@ -49,7 +49,7 @@ function UpdateStaff() {
     onSuccess: () => {
       toast.success('Staff updated successfully');
       setFormReset(true);
-      navigate({ to: '/app/staff/$staffId', params: { staffId } });
+      navigate({ to: '/staff/$staffId', params: { staffId } });
     },
     onError: (error) => {
       toast.error(error.message);

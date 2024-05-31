@@ -23,12 +23,12 @@ export default function FinanceListTable({
   };
 
   return (
-    <table className="min-w-full mx-2 md:mx-20 divide-y divide-gray-300">
+    <table className="w-full divide-y divide-gray-300">
       <thead>
         <tr>
           <th
             scope="col"
-            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+            className="text-left text-sm font-semibold text-gray-900 "
           >
             <span className="flex items-center gap-1">
               Id
@@ -40,7 +40,7 @@ export default function FinanceListTable({
           </th>
           <th
             scope="col"
-            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900"
           >
             <span className="flex items-center gap-1 ">
               Description
@@ -52,7 +52,7 @@ export default function FinanceListTable({
           </th>
           <th
             scope="col"
-            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900"
           >
             <span className="flex items-center gap-1">
               Amount
@@ -97,18 +97,18 @@ export default function FinanceListTable({
               <td className="px-1 py-4 text-sm text-gray-500 lg:table-cell">
                 {item.id}
               </td>
-              <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-700 sm:w-auto sm:max-w-none sm:pl-0">
+              <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-700 sm:w-auto sm:max-w-none">
                 {item.description}
               </td>
               <td
-                className={`w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium sm:w-auto sm:max-w-none sm:pl-0 ${amountColor}`}
+                className={`w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium sm:w-auto sm:max-w-none ${amountColor}`}
               >
                 {amount}
               </td>
-              <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-500 sm:w-auto sm:max-w-none sm:pl-0">
+              <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-500 sm:w-auto sm:max-w-none">
                 {newDate}
               </td>
-              <td className="hidden lg:block w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-500 sm:w-auto sm:max-w-none sm:pl-0">
+              <td className="hidden lg:block w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-500 sm:w-auto sm:max-w-none">
                 {item.category}
               </td>
             </tr>

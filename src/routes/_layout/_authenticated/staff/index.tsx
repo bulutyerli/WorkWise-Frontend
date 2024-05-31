@@ -4,16 +4,16 @@ import { useState } from 'react';
 import { FaFilter, FaFilterCircleXmark } from 'react-icons/fa6';
 import { IoPersonAdd } from 'react-icons/io5';
 import { Transition } from '@headlessui/react';
-import { OrderType } from '../../../../../types/types';
-import { getAllCategories, getStaffList } from '../../../../../services/staff';
-import LoadingSpinner from '../../../../../components/LoadingSpinner';
-import CustomButton from '../../../../../components/CustomButton';
-import SelectBox from '../../../../../components/SelectBox';
-import StaffListTable from '../../../../../components/StaffListTable';
-import Pagination from '../../../../../components/Pagination';
-import { useAuth } from '../../../../../providers/AuthProvider';
+import { OrderType } from '../../../../types/types';
+import { useAuth } from '../../../../providers/AuthProvider';
+import { getAllCategories, getStaffList } from '../../../../services/staff';
+import LoadingSpinner from '../../../../components/LoadingSpinner';
+import CustomButton from '../../../../components/CustomButton';
+import SelectBox from '../../../../components/SelectBox';
+import StaffListTable from '../../../../components/StaffListTable';
+import Pagination from '../../../../components/Pagination';
 
-export const Route = createFileRoute('/app/_layout/_authenticated/staff/')({
+export const Route = createFileRoute('/_layout/_authenticated/staff/')({
   component: StaffList,
 });
 
@@ -99,7 +99,7 @@ function StaffList() {
         />
         {isAdmin && (
           <Link
-            to="/app/staff/add-new"
+            to="/staff/add-new"
             className="bg-purple-700 hover:bg-purple-500 inline-flex gap-x-2 items-center text-white text-sm font-semibold rounded-md px-2.5"
           >
             <span>New Staff</span>

@@ -92,7 +92,7 @@ export default function StaffListTable({
             </td>
             <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-0">
               <Link
-                to="/app/staff/$staffId"
+                to="/staff/$staffId"
                 params={{ staffId: String(staff.id) }}
                 className="text-orange-800 hover:text-orange-950"
               >

@@ -1,26 +1,26 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
-import LeaveTable from '../../../../../components/LeaveTable';
+import toast, { Toaster } from 'react-hot-toast';
+import { useState } from 'react';
+import { useAuth } from '../../../../providers/AuthProvider';
 import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
 import {
   getStaffAnnualRequests,
   updateLeaveRequest,
-} from '../../../../../services/annual';
-import { useAuth } from '../../../../../providers/AuthProvider';
-import LoadingSpinner from '../../../../../components/LoadingSpinner';
-import toast, { Toaster } from 'react-hot-toast';
-import { RequestStatus } from '../../../../../types/types';
-import { useState } from 'react';
-import Modal from '../../../../../components/Modal';
+} from '../../../../services/annual';
+import { RequestStatus } from '../../../../types/types';
+import LoadingSpinner from '../../../../components/LoadingSpinner';
+import LeaveTable from '../../../../components/LeaveTable';
+import Modal from '../../../../components/Modal';
 
 export const Route = createFileRoute(
-  '/app/_layout/_authenticated/staff/staff-requests'
+  '/_layout/_authenticated/staff/staff-requests'
 )({
   beforeLoad: async ({ context }) => {
     const isManager = context.auth.user?.isManager;
 
     if (!isManager) {
       throw redirect({
-        to: '/app',
+        to: '/',
       });
     }
   },
