@@ -1,18 +1,18 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
-import FinanceListTable from '../../../../components/FinanceListTable';
 import { useState } from 'react';
-import { CategoriesData, FinanceOrderType } from '../../../../types/types';
-import Pagination from '../../../../components/Pagination';
-import CategoryFilter from '../../../../components/CategoryFilter';
-import { getAllExpenses } from '../../../../services/expenses';
-import LoadingSpinner from '../../../../components/LoadingSpinner';
+import { CategoriesData, FinanceOrderType } from '../../../types/types';
+import { getAllIncome } from '../../../services/income';
+import LoadingSpinner from '../../../components/LoadingSpinner';
+import CategoryFilter from '../../../components/CategoryFilter';
+import FinanceListTable from '../../../components/FinanceListTable';
+import Pagination from '../../../components/Pagination';
 
-export const Route = createFileRoute('/app/_layout/_authenticated/expense')({
-  component: Expense,
+export const Route = createFileRoute('/_layout/_authenticated/income')({
+  component: Income,
 });
 
-function Expense() {
+function Income() {
   const [filter, setFilter] = useState<CategoriesData>({
     id: 0,
     category: 'All',
@@ -23,8 +23,8 @@ function Expense() {
     direction: 'asc' | 'desc';
   }>();
   const { isPending, isError, data, error, isPlaceholderData } = useQuery({
-    queryKey: ['expense', page, filter, sortFilter],
-    queryFn: () => getAllExpenses(page, filter?.id, sortFilter),
+    queryKey: ['income', page, filter, sortFilter],
+    queryFn: () => getAllIncome(page, filter?.id, sortFilter),
   });
 
   if (isPending) {
@@ -42,7 +42,7 @@ function Expense() {
     );
   }
 
-  const expenseList = data.data;
+  const incomeList = data.data;
 
   const handleSortFilter = (
     order: FinanceOrderType,
@@ -65,10 +65,10 @@ function Expense() {
   };
 
   return (
-    <div className="w-full h-full text-xs lg:text-base">
+    <div className="w-full h-full text-xs lg:text-base px-2 md:px-10">
       <section>
         <h2 className="text-lg lg:text-xl text-slate-700 text-center mb-5">
-          Expense Records
+          Income Records
         </h2>
         <CategoryFilter<CategoriesData>
           onFilterSelect={handleFilterChange}
@@ -80,9 +80,9 @@ function Expense() {
           addAll
         />
         <FinanceListTable
-          data={expenseList}
+          data={incomeList}
           sortFilterChange={handleSortFilter}
-          amountColor="text-red-700"
+          amountColor="text-green-700"
         />
         <Pagination
           currentPage={page}

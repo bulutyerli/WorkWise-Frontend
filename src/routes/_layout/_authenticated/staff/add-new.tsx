@@ -2,24 +2,19 @@ import { createFileRoute, redirect } from '@tanstack/react-router';
 import { useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import toast, { Toaster } from 'react-hot-toast';
-import {
-  createNewStaff,
-  getAllCategories,
-} from '../../../../../services/staff';
-import { NewStaffType } from '../../../../../types/types';
-import LoadingSpinner from '../../../../../components/LoadingSpinner';
-import NewStaffForm from '../../../../../components/NewStaffForm';
+import { createNewStaff, getAllCategories } from '../../../../services/staff';
+import { NewStaffType } from '../../../../types/types';
+import LoadingSpinner from '../../../../components/LoadingSpinner';
+import NewStaffForm from '../../../../components/NewStaffForm';
 
-export const Route = createFileRoute(
-  '/app/_layout/_authenticated/staff/add-new'
-)({
+export const Route = createFileRoute('/_layout/_authenticated/staff/add-new')({
   beforeLoad: async ({ context }) => {
     const auth = context.auth.isAuthenticated;
     const isAdmin = context.auth.user?.isAdmin;
 
     if (!auth || (auth && !isAdmin)) {
       throw redirect({
-        to: '/app/staff',
+        to: '/staff',
       });
     }
   },

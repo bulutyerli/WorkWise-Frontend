@@ -1,13 +1,13 @@
 import { Link, createFileRoute } from '@tanstack/react-router';
-import { getStaffDates } from '../../../../services/staff';
 import { useQuery } from '@tanstack/react-query';
-import LoadingSpinner from '../../../../components/LoadingSpinner';
-import BirthdayCard from '../../../../components/BirthdayCard';
 import { LuPartyPopper } from 'react-icons/lu';
 import { FaBirthdayCake } from 'react-icons/fa';
-import dateFormat from '../../../../utils/dateFormat';
+import { getStaffDates } from '../../../services/staff';
+import LoadingSpinner from '../../../components/LoadingSpinner';
+import BirthdayCard from '../../../components/BirthdayCard';
+import dateFormat from '../../../utils/dateFormat';
 
-export const Route = createFileRoute('/app/_layout/_authenticated/')({
+export const Route = createFileRoute('/_layout/_authenticated/')({
   component: Index,
 });
 
@@ -35,8 +35,6 @@ function Index() {
   const birthdayData = data.birthdays;
   const newjoins = data.newJoins;
   const currentYear = new Date().getFullYear();
-
-  console.log(newjoins);
 
   return (
     <div className="p-4 space-y-24 md:px-10 mx-auto w-full">
@@ -103,7 +101,7 @@ function Index() {
                 <tr key={staff.id}>
                   <td className="w-1/4 py-4 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-0">
                     <Link
-                      to="/app/staff/$staffId"
+                      to="/staff/$staffId"
                       params={{ staffId: String(staff.id) }}
                       className="text-orange-800 hover:text-orange-950"
                     >

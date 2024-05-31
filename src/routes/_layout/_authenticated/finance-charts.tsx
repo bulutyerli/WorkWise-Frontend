@@ -1,29 +1,27 @@
 import { keepPreviousData, useQueries } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
+import { useState } from 'react';
+import { CategoriesData, FinanceData } from '../../../types/types';
 import {
-  getIncomeTotal,
   getIncomeByCategory,
-  getIncomeByYear,
   getIncomeByMonth,
-} from '../../../../services/income';
+  getIncomeByYear,
+  getIncomeTotal,
+} from '../../../services/income';
 import {
-  getExpensesTotal,
+  getExpenseByMonth,
   getExpensesByCategory,
   getExpensesByYear,
-  getExpenseByMonth,
-} from '../../../../services/expenses';
-import FinanceLineChart from '../../../../components/charts/FinanceLineChart';
-import { useState } from 'react';
-import { CategoriesData, FinanceData } from '../../../../types/types';
-import createCategoryData from '../../../../utils/createCategoryData';
-import CategoryFilter from '../../../../components/CategoryFilter';
-import LoadingSpinner from '../../../../components/LoadingSpinner';
-import FinancePieChart from '../../../../components/charts/FinancePieChart';
-import FinanceBarChart from '../../../../components/charts/FinanceBarChart';
+  getExpensesTotal,
+} from '../../../services/expenses';
+import LoadingSpinner from '../../../components/LoadingSpinner';
+import createCategoryData from '../../../utils/createCategoryData';
+import FinanceLineChart from '../../../components/charts/FinanceLineChart';
+import CategoryFilter from '../../../components/CategoryFilter';
+import FinancePieChart from '../../../components/charts/FinancePieChart';
+import FinanceBarChart from '../../../components/charts/FinanceBarChart';
 
-export const Route = createFileRoute(
-  '/app/_layout/_authenticated/finance-charts'
-)({
+export const Route = createFileRoute('/_layout/_authenticated/finance-charts')({
   component: FinanceCharts,
 });
 

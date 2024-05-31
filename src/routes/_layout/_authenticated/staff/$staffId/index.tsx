@@ -7,19 +7,19 @@ import { MdAbc } from 'react-icons/md';
 import { ImOffice } from 'react-icons/im';
 import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import { deleteStaff, getStaffById } from '../../../../../../services/staff';
-import LoadingSpinner from '../../../../../../components/LoadingSpinner';
-import dateFormat from '../../../../../../utils/dateFormat';
-import Modal from '../../../../../../components/Modal';
-import CustomButton from '../../../../../../components/CustomButton';
-import { useAuth } from '../../../../../../providers/AuthProvider';
-import { getCurrentAnnual } from '../../../../../../services/annual';
+import { useAuth } from '../../../../../providers/AuthProvider';
+import { deleteStaff, getStaffById } from '../../../../../services/staff';
+import { getCurrentAnnual } from '../../../../../services/annual';
+import LoadingSpinner from '../../../../../components/LoadingSpinner';
+import dateFormat from '../../../../../utils/dateFormat';
+import CustomButton from '../../../../../components/CustomButton';
+import Modal from '../../../../../components/Modal';
 
-export const Route = createFileRoute(
-  '/app/_layout/_authenticated/staff/$staffId/'
-)({
-  component: StaffDetails,
-});
+export const Route = createFileRoute('/_layout/_authenticated/staff/$staffId/')(
+  {
+    component: StaffDetails,
+  }
+);
 
 function StaffDetails() {
   const isAdmin = useAuth().user?.isAdmin;
@@ -50,7 +50,7 @@ function StaffDetails() {
     },
     onSuccess: () => {
       setModal(false);
-      navigate({ to: '/app/staff' });
+      navigate({ to: '/staff' });
     },
   });
 
@@ -193,7 +193,7 @@ function StaffDetails() {
         <div className="flex gap-5">
           <Link
             className="inline-flex justify-center items-center text-purple-600 font-semibold hover:underline hover:text-purple-700"
-            to="/app/staff/update/$staffId"
+            to="/staff/update/$staffId"
             params={{ staffId: String(staffQuery.data.id) }}
           >
             Edit

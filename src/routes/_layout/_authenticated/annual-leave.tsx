@@ -1,22 +1,20 @@
 import { createFileRoute } from '@tanstack/react-router';
-import LeaveTable from '../../../../components/LeaveTable';
 import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
+import toast, { Toaster } from 'react-hot-toast';
+import { useState } from 'react';
+import { useAuth } from '../../../providers/AuthProvider';
 import {
   deleteLeaveRequest,
   getAnnualLeaves,
   getCurrentAnnual,
   newAnnualRequest,
-} from '../../../../services/annual';
-import { useAuth } from '../../../../providers/AuthProvider';
-import LoadingSpinner from '../../../../components/LoadingSpinner';
-import DatePicker from '../../../../components/DatePicker';
-import toast, { Toaster } from 'react-hot-toast';
-import Modal from '../../../../components/Modal';
-import { useState } from 'react';
+} from '../../../services/annual';
+import LoadingSpinner from '../../../components/LoadingSpinner';
+import DatePicker from '../../../components/DatePicker';
+import LeaveTable from '../../../components/LeaveTable';
+import Modal from '../../../components/Modal';
 
-export const Route = createFileRoute(
-  '/app/_layout/_authenticated/annual-leave'
-)({
+export const Route = createFileRoute('/_layout/_authenticated/annual-leave')({
   component: AnnualLeave,
 });
 
@@ -149,7 +147,11 @@ function AnnualLeave() {
         <h3 className="text-sm text-slate-500 mb-2">
           List of all approved annual leave requests
         </h3>
-        <LeaveTable data={approvedLeaves} />
+        {approvedLeaves.length > 0 ? (
+          <LeaveTable data={approvedLeaves} />
+        ) : (
+          <span>You don't have any approved leave requests yet.</span>
+        )}
       </section>
       <section className="">
         <h2 className="text-xl text-red-600">Rejected Leave Requests</h2>
