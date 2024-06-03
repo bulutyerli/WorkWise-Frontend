@@ -1,30 +1,40 @@
-# React + TypeScript + Vite
+# Workwise Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Workwise Frontend is the frontend application for the Workwise project. It provides the user interface for the Workwise web application.
 
-Currently, two official plugins are available:
+## Table of Contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Workwise Frontend](#workwise-frontend)
+  - [Table of Contents](#table-of-contents)
+  - [Features](#features)
+  - [Technologies Used](#technologies-used)
+  - [Installation](#installation)
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **React Application**: Built with React, a popular JavaScript library for building user interfaces.
+- **Routing**: Utilizes `@tanstack/react-router` for client-side routing within the application.
+- **State Management**: Employs `@tanstack/react-query` for managing and caching server state in the frontend.
+- **Data Visualization**: Integrates with `recharts` for creating interactive and responsive charts.
+- **Form Handling**: Implements `react-hook-form` for easy and efficient form handling and validation.
+- **User Authentication**: Integrates with Firebase for user authentication and authorization.
+- **Styling**: Utilizes Tailwind CSS for utility-first CSS framework for styling.
 
-- Configure the top-level `parserOptions` property like this:
+## Technologies Used
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+- React Vite
+- @tanstack/react-query
+- @tanstack/react-router
+- Tailwind CSS
+- Firebase
+- Recharts
+- React Hook Form
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Installation
+
+1. **Clone the repository**:
+
+   ```bash
+   git clone https://github.com/your-username/workwise-frontend.git
+   cd workwise-frontend
+   ```
