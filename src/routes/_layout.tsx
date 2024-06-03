@@ -68,6 +68,10 @@ function LayoutComponent() {
     setModal(false);
   };
 
+  const handleMobile = () => {
+    setModal(true);
+  };
+
   return (
     <aside className="flex flex-col lg:flex-row lg:min-h-screen relative">
       <nav className="hidden bg-red-700 lg:flex flex-col pl-5 pr-20">
@@ -126,7 +130,7 @@ function LayoutComponent() {
         <Link to="/">
           <img src={logo} alt="WorkWise Logo" className="w-16" />
         </Link>
-        <MobileMenu routes={appMenuRoutes} app={true} />
+        <MobileMenu routes={appMenuRoutes} app={true} isModal={handleMobile} />
       </div>
       <div className="w-full xl:px-2">
         <QueryClientProvider client={queryClient}>

@@ -2,17 +2,21 @@ import { Transition } from '@headlessui/react';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { Link } from '@tanstack/react-router';
 import { RiMenu3Line, RiCloseLine } from 'react-icons/ri';
-import { GiExitDoor } from 'react-icons/gi';
+import { useAuth } from '../providers/AuthProvider';
+import { CiLogin, CiLogout } from 'react-icons/ci';
 
 export default function MobileMenu({
   routes,
   app,
+  isModal,
 }: {
   routes: { name: string; href: string; icon?: React.ReactNode }[];
   app?: boolean;
+  isModal: () => void;
 }) {
   const [menu, setMenu] = useState(false);
   const mobileRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -29,6 +33,14 @@ export default function MobileMenu({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [mobileRef]);
+
+  const auth = useAuth();
+
+  const handleModal = () => {
+    setMenu(false);
+    isModal();
+  };
+
   return (
     <>
       <RiMenu3Line
@@ -66,14 +78,21 @@ export default function MobileMenu({
                 </Link>
               </li>
             ))}
-            <li>
-              <Link to="/" className="flex items-center gap-5 text-indigo-200">
+            {!auth.isAuthenticated ? (
+              <li className="flex items-center gap-5 text-indigo-200">
                 <div className="text-3xl">
-                  <GiExitDoor />
+                  <CiLogin />
                 </div>
-                <span>Exit App</span>
-              </Link>
-            </li>
+                <Link to="/auth/sign-in">Sign In</Link>
+              </li>
+            ) : (
+              <li className="flex items-center gap-5 text-indigo-200">
+                <div className="text-3xl">
+                  <CiLogout />
+                </div>
+                <button onClick={handleModal}>Sign Out</button>
+              </li>
+            )}
           </ul>
         </nav>
       </Transition>
