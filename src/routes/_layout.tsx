@@ -73,8 +73,8 @@ function LayoutComponent() {
   };
 
   return (
-    <aside className="flex flex-col lg:flex-row lg:min-h-screen relative">
-      <nav className="hidden bg-red-700 lg:flex flex-col pl-5 pr-20">
+    <div className="flex min-h-screen">
+      <aside className="hidden lg:block sticky top-0 h-screen bg-red-700 px-5 py-2">
         <Link to="/">
           <img
             src={logo}
@@ -124,7 +124,7 @@ function LayoutComponent() {
             </li>
           )}
         </ul>
-      </nav>
+      </aside>
 
       <div className="bg-red-700 w-full flex items-center p-4 lg:hidden">
         <Link to="/">
@@ -151,6 +151,6 @@ function LayoutComponent() {
           buttonText="Yes"
         />
       )}
-    </aside>
+    </div>
   );
 }
