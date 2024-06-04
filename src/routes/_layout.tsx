@@ -134,7 +134,7 @@ function LayoutComponent() {
       </div>
       <div className="w-full xl:px-2 min-h-screen">
         <QueryClientProvider client={queryClient}>
-          <div className="h-full min-h-screen py-5 flex flex-col w-full  justify-between gap-10">
+          <div className="h-full min-h-screen py-5 flex flex-col w-full  justify-between gap-9">
             <Outlet />
             <Footer />
           </div>
