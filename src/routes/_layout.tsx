@@ -73,7 +73,7 @@ function LayoutComponent() {
   };
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen flex-col lg:flex-row">
       <aside className="hidden lg:block sticky top-0 h-screen bg-red-700 px-5 py-2">
         <Link to="/">
           <img
@@ -132,9 +132,9 @@ function LayoutComponent() {
         </Link>
         <MobileMenu routes={appMenuRoutes} app={true} isModal={handleMobile} />
       </div>
-      <div className="w-full xl:px-2">
+      <div className="w-full xl:px-2 min-h-screen">
         <QueryClientProvider client={queryClient}>
-          <div className="h-full py-5 flex flex-col w-full justify-between gap-10">
+          <div className="h-full min-h-screen py-5 flex flex-col w-full  justify-between gap-10">
             <Outlet />
             <Footer />
           </div>
