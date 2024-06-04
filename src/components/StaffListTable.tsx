@@ -60,7 +60,7 @@ export default function StaffListTable({
           </th>
           <th
             scope="col"
-            className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
+            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
           >
             <span className="flex items-center gap-1">
               Role
@@ -72,7 +72,7 @@ export default function StaffListTable({
           </th>
           <th
             scope="col"
-            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+            className="hidden lg:block px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
           >
             <span className="flex items-center gap-1">
               Department
@@ -90,7 +90,7 @@ export default function StaffListTable({
             <td className="px-1 py-4 text-sm text-gray-500 lg:table-cell">
               {staff.id}
             </td>
-            <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-0">
+            <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-0 flex flex-col">
               <Link
                 to="/staff/$staffId"
                 params={{ staffId: String(staff.id) }}
