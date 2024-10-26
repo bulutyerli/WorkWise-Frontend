@@ -14,6 +14,10 @@ export default function dateFormat(birthday: string) {
     'December',
   ];
   const newBday = new Date(birthday);
+
+  if (isNaN(newBday.getTime())) {
+    return 'Invalid Date';
+  }
   const day = newBday.getDate();
   const monthIndex = newBday.getMonth();
   const year = newBday.getFullYear();
