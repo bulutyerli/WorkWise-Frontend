@@ -62,7 +62,6 @@ export async function getAllCategories(): Promise<AllCategoriesType> {
     const response: AxiosResponse<AllCategoriesType> =
       await axiosAuth.get(`/categories`);
     return response.data;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error) {
     handleAxiosError(error as AxiosError<ErrorResponse>);
     throw new Error('Unreachable');

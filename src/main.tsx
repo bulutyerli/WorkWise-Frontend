@@ -26,7 +26,7 @@ declare module '@tanstack/react-router' {
   }
 }
 
-function InnerApp() {
+export function InnerApp() {
   const auth = useAuth();
 
   if (auth.isLoading) {
@@ -40,7 +40,7 @@ function InnerApp() {
   return <RouterProvider router={router} context={{ auth }} />;
 }
 
-function App() {
+export function App() {
   return (
     <AuthProvider>
       <InnerApp />
