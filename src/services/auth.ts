@@ -11,6 +11,5 @@ export async function getUserRole(firebaseId: string) {
     return response.data;
   } catch (error) {
     handleAxiosError(error as AxiosError<ErrorResponse>);
-    throw new Error('Unreachable');
   }
 }
