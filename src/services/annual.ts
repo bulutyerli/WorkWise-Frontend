@@ -3,7 +3,9 @@ import axiosAuth from '../utils/axiosAuth';
 import { handleAxiosError } from '../utils/errorHandler';
 import { AnnualLeaveType, ErrorResponse, RequestStatus } from '../types/types';
 
-export async function getAnnualLeaves(id: string): Promise<AnnualLeaveType[]> {
+export async function getAnnualLeaves(
+  id: string
+): Promise<AnnualLeaveType[] | undefined> {
   try {
     const response: AxiosResponse<AnnualLeaveType[]> = await axiosAuth.get(
       `/annual-leaves/${id}`
@@ -12,11 +14,12 @@ export async function getAnnualLeaves(id: string): Promise<AnnualLeaveType[]> {
     return response.data;
   } catch (error) {
     handleAxiosError(error as AxiosError<ErrorResponse>);
-    throw new Error('Unreachable');
   }
 }
 
-export async function getCurrentAnnual(id: string): Promise<number> {
+export async function getCurrentAnnual(
+  id: string
+): Promise<number | undefined> {
   try {
     const response: AxiosResponse<number> = await axiosAuth.get(
       `/annual-current/${id}`
@@ -25,7 +28,6 @@ export async function getCurrentAnnual(id: string): Promise<number> {
     return response.data;
   } catch (error) {
     handleAxiosError(error as AxiosError<ErrorResponse>);
-    throw new Error('Unreachable');
   }
 }
 
@@ -36,7 +38,6 @@ export async function newAnnualRequest(data: AnnualLeaveType) {
     return response.data;
   } catch (error) {
     handleAxiosError(error as AxiosError<ErrorResponse>);
-    throw new Error('Unreachable');
   }
 }
 
@@ -45,7 +46,6 @@ export async function deleteLeaveRequest(requestId: number) {
     await axiosAuth.delete('/annual', { params: { requestId } });
   } catch (error) {
     handleAxiosError(error as AxiosError<ErrorResponse>);
-    throw new Error('Unreachable');
   }
 }
 
@@ -57,13 +57,12 @@ export async function updateLeaveRequest(
     await axiosAuth.put('/annual', { requestId, status });
   } catch (error) {
     handleAxiosError(error as AxiosError<ErrorResponse>);
-    throw new Error('Unreachable');
   }
 }
 
 export async function getStaffAnnualRequests(
   managerId: number
-): Promise<AnnualLeaveType[]> {
+): Promise<AnnualLeaveType[] | undefined> {
   try {
     const response: AxiosResponse<AnnualLeaveType[]> = await axiosAuth.get(
       'annual',
@@ -73,6 +72,5 @@ export async function getStaffAnnualRequests(
     return response.data;
   } catch (error) {
     handleAxiosError(error as AxiosError<ErrorResponse>);
-    throw new Error('Unreachable');
   }
 }
