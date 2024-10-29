@@ -83,3 +83,89 @@ export const mockHierarchyData = {
   _directSubordinates: 3,
   _totalSubordinates: 12,
 };
+
+import {
+  StaffType,
+  StaffData,
+  StaffDatesType,
+  NewStaffType,
+  AllCategoriesType,
+} from '../types/types';
+
+export const mockStaffData: StaffData = {
+  id: 1,
+  name: 'John',
+  surname: 'Doe',
+  birthday: '1980-01-01',
+  phone: '123-456-7890',
+  salary: 50000,
+  join_date: '2020-01-01',
+  department: 'Engineering',
+  department_id: 2,
+  manager_id: 1,
+  office: 'Main Office',
+  office_id: 1,
+  role: 'Software Engineer',
+  role_id: 3,
+  shift: 'Day',
+  shift_id: 1,
+  email: 'john.doe@example.com',
+};
+
+export const mockStaffList: StaffType = {
+  success: true,
+  totalPages: 1,
+  totalStaff: 1,
+  hasMore: false,
+  data: [mockStaffData],
+};
+
+export const mockNewStaffData: NewStaffType = {
+  ...mockStaffData,
+  password: 'password123',
+  repassword: 'password123',
+};
+
+export const mockStaffDates: StaffDatesType = {
+  birthdays: [
+    {
+      birthday: new Date('1980-01-01'),
+      department: 'Engineering',
+      id: 1,
+      name: 'John',
+      surname: 'Doe',
+      office: 'Main Office',
+      role: 'Software Engineer',
+    },
+  ],
+  newJoins: [
+    {
+      id: 1,
+      join_date: new Date('2020-01-01'),
+      name: 'John',
+      surname: 'Doe',
+      role: 'Software Engineer',
+      department: 'Engineering',
+      office: 'Main Office',
+    },
+  ],
+};
+
+export const mockCategories: AllCategoriesType = {
+  data: {
+    offices: [{ name: 'Main Office', id: 1 }],
+    roles: [{ name: 'Software Engineer', id: 3 }],
+    departments: [{ name: 'Engineering', id: 2 }],
+    shifts: [{ name: 'Day', id: 1 }],
+    managers: [
+      {
+        name: 'Jane',
+        surname: 'Smith',
+        role_name: 'Manager',
+        shift: 'Day',
+        id: 1,
+        office: 'Main Office',
+      },
+    ],
+  },
+};
