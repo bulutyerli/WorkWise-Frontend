@@ -14,6 +14,7 @@ export async function getAnnualLeaves(
     return response.data;
   } catch (error) {
     handleAxiosError(error as AxiosError<ErrorResponse>);
+    throw new Error('Unreachable');
   }
 }
 
@@ -28,6 +29,7 @@ export async function getCurrentAnnual(
     return response.data;
   } catch (error) {
     handleAxiosError(error as AxiosError<ErrorResponse>);
+    throw new Error('Unreachable');
   }
 }
 
@@ -38,6 +40,7 @@ export async function newAnnualRequest(data: AnnualLeaveType) {
     return response.data;
   } catch (error) {
     handleAxiosError(error as AxiosError<ErrorResponse>);
+    throw new Error('Unreachable');
   }
 }
 
@@ -46,6 +49,7 @@ export async function deleteLeaveRequest(requestId: number) {
     await axiosAuth.delete('/annual', { params: { requestId } });
   } catch (error) {
     handleAxiosError(error as AxiosError<ErrorResponse>);
+    throw new Error('Unreachable');
   }
 }
 
@@ -57,6 +61,7 @@ export async function updateLeaveRequest(
     await axiosAuth.put('/annual', { requestId, status });
   } catch (error) {
     handleAxiosError(error as AxiosError<ErrorResponse>);
+    throw new Error('Unreachable');
   }
 }
 
@@ -72,5 +77,6 @@ export async function getStaffAnnualRequests(
     return response.data;
   } catch (error) {
     handleAxiosError(error as AxiosError<ErrorResponse>);
+    throw new Error('Unreachable');
   }
 }
