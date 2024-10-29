@@ -55,3 +55,31 @@ export const mockFinanceListType = {
   category: 'test_cat',
   id: 1,
 };
+
+export const mockHierarchyData = {
+  id: 2,
+  name: 'John',
+  surname: 'Doe',
+  role_name: 'Manager',
+  parentId: 5,
+  shift: null,
+  office: 'New York',
+  department: 'Technic',
+  children: [
+    {
+      id: 6,
+      name: 'Jane',
+      surname: 'Doe',
+      role_name: 'Chief',
+      parentId: 2,
+      shift: 'B',
+      office: 'New York',
+      department: 'Technic',
+      children: null,
+      _directSubordinates: 8,
+      _totalSubordinates: 15,
+    },
+  ],
+  _directSubordinates: 3,
+  _totalSubordinates: 12,
+};
