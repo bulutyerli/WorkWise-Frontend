@@ -1,4 +1,9 @@
-import { AnnualLeaveType, FinanceData, FinanceType } from '../types/types';
+import {
+  AnnualLeaveType,
+  BirthdayDataType,
+  FinanceData,
+  FinanceType,
+} from '../types/types';
 
 export const sampleAnnualLeave: AnnualLeaveType = {
   end_date: '2024-30-01',
@@ -129,7 +134,7 @@ export const mockNewStaffData: NewStaffType = {
 export const mockStaffDates: StaffDatesType = {
   birthdays: [
     {
-      birthday: new Date('1980-01-01'),
+      birthday: '1980-01-01',
       department: 'Engineering',
       id: 1,
       name: 'John',
@@ -168,4 +173,14 @@ export const mockCategories: AllCategoriesType = {
       },
     ],
   },
+};
+
+export const mockBirthdayData: BirthdayDataType = {
+  birthday: '01-12-2024',
+  department: 'Technic',
+  id: 2,
+  name: 'John',
+  surname: 'Doe',
+  office: 'New York',
+  role: 'Manager',
 };

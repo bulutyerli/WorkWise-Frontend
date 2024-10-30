@@ -190,7 +190,7 @@ export interface AnnualLeaveType {
 export type RequestStatus = 'approved' | 'pending' | 'rejected';
 
 export interface BirthdayDataType {
-  birthday: Date;
+  birthday: string;
   department: string;
   id: number;
   name: string;
