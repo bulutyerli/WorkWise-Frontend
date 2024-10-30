@@ -2,6 +2,7 @@ import {
   AnnualLeaveType,
   BirthdayDataType,
   FinanceData,
+  FinanceListType,
   FinanceType,
 } from '../types/types';
 
@@ -184,3 +185,22 @@ export const mockBirthdayData: BirthdayDataType = {
   office: 'New York',
   role: 'Manager',
 };
+
+export const mockFinanceList: FinanceListType[] = [
+  {
+    description: 'test-description',
+    amount: 1000,
+    date: '01-12-2024',
+    category_id: 2,
+    category: 'test-category',
+    id: 1,
+  },
+  {
+    description: 'test-description-2',
+    amount: 2000,
+    date: '12-12-2024',
+    category_id: 3,
+    category: 'test-category-2',
+    id: 2,
+  },
+];

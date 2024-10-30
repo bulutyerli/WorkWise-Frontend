@@ -32,10 +32,13 @@ export default function FinanceListTable({
           >
             <span className="flex items-center gap-1">
               Id
-              <FaSort
+              <button
+                aria-label="sort id"
                 className="cursor-pointer"
                 onClick={() => handleSortChange('id')}
-              />
+              >
+                <FaSort />
+              </button>
             </span>
           </th>
           <th
@@ -44,10 +47,13 @@ export default function FinanceListTable({
           >
             <span className="flex items-center gap-1 ">
               Description
-              <FaSort
+              <button
+                aria-label="sort description"
                 className="cursor-pointer"
                 onClick={() => handleSortChange('description')}
-              />
+              >
+                <FaSort />
+              </button>
             </span>
           </th>
           <th
@@ -56,10 +62,13 @@ export default function FinanceListTable({
           >
             <span className="flex items-center gap-1">
               Amount
-              <FaSort
+              <button
+                aria-label="sort amount"
                 className="cursor-pointer"
                 onClick={() => handleSortChange('amount')}
-              />
+              >
+                <FaSort />
+              </button>
             </span>
           </th>
           <th
@@ -68,10 +77,13 @@ export default function FinanceListTable({
           >
             <span className="flex items-center gap-1">
               Date
-              <FaSort
+              <button
+                aria-label="sort date"
                 className="cursor-pointer"
                 onClick={() => handleSortChange('date')}
-              />
+              >
+                <FaSort />
+              </button>
             </span>
           </th>
           <th
@@ -80,17 +92,26 @@ export default function FinanceListTable({
           >
             <span className="hidden lg:flex items-center gap-1">
               Category
-              <FaSort
+              <button
+                aria-label="sort category"
                 className="cursor-pointer"
                 onClick={() => handleSortChange('category')}
-              />
+              >
+                <FaSort />
+              </button>
             </span>
           </th>
         </tr>
       </thead>
       <tbody className="divide-y divide-gray-200 bg-white">
         {data.map((item) => {
-          const newDate = new Date(item.date).toLocaleDateString();
+          const date = new Date(item.date);
+          const day = String(date.getDate()).padStart(2, '0');
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const year = date.getFullYear();
+
+          const newDate = `${month}-${day}-${year}`;
+
           const amount = `${addCommasToMillion(item.amount)}`;
           return (
             <tr key={item.id}>

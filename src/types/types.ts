@@ -128,7 +128,7 @@ export interface FinanceByCategoryType {
 export interface FinanceListType {
   description: string;
   amount: number;
-  date: Date;
+  date: string;
   category_id: number;
   category: string;
   id: number;
