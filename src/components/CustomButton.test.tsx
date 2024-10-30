@@ -13,6 +13,10 @@ const color = 'primary';
 const text = 'test';
 
 describe('CustomButton', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   it('should render correct text if loading or not', () => {
     const { rerender } = render(
       <CustomButton
@@ -47,6 +51,8 @@ describe('CustomButton', () => {
   });
 
   it('should call onClick function on click', async () => {
+    const user = userEvent.setup();
+
     render(
       <CustomButton
         onClick={mockOnClick}
@@ -57,7 +63,6 @@ describe('CustomButton', () => {
       />
     );
     const button = screen.getByRole('button', { name: /test/i });
-    const user = userEvent.setup();
     await user.click(button);
     expect(mockOnClick).toHaveBeenCalledOnce();
   });

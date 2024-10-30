@@ -71,6 +71,7 @@ export default function DatePicker({
       <div className="relative w-full md:max-w-[45%]">
         <button
           type="button"
+          data-testid="back-button"
           className="absolute -left-1.5 -top-1 flex items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
           onClick={handlePrevMonth}
         >
@@ -79,6 +80,7 @@ export default function DatePicker({
         </button>
         <button
           type="button"
+          data-testid="forward-button"
           className="absolute right-0 -top-1 flex items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
           onClick={handleNextMonth}
         >
