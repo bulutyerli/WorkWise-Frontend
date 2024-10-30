@@ -21,6 +21,7 @@ export default function CategoryFilter<T>({
         {title}
       </label>
       <select
+        id="filter"
         value={keyCreator(selectedCategory)}
         onChange={(e) => onFilterSelect(e.target.value)}
       >
