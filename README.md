@@ -10,6 +10,7 @@ Workwise Frontend is the frontend application for the Workwise project. It provi
   - [Table of Contents](#table-of-contents)
   - [Features](#features)
   - [Technologies Used](#technologies-used)
+  - [Testing](#testing)
   - [Installation](#installation)
 
 ## Features
@@ -31,6 +32,14 @@ Workwise Frontend is the frontend application for the Workwise project. It provi
 - Firebase
 - Recharts
 - React Hook Form
+
+## Testing
+
+This project uses Vitest and React Testing Library for testing.
+
+```bash
+npm run test
+```
 
 ## Installation
 
