@@ -71,7 +71,10 @@ export default function LeaveTable({
               <td className="px-3 py-4 text-sm text-gray-500 lg:table-cell">
                 {toDate}
               </td>
-              <td className="px-3 py-4 text-sm text-gray-500 lg:table-cell">
+              <td
+                data-testid="test-difference"
+                className="px-3 py-4 text-sm text-gray-500 lg:table-cell"
+              >
                 {difference}
               </td>
 
