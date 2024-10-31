@@ -20,8 +20,6 @@ describe('DatePicker', () => {
       year: 'numeric',
     });
 
-    console.log(currentMonth);
-
     expect(screen.getByText(currentMonth)).toBeInTheDocument();
   });
 
@@ -35,13 +33,15 @@ describe('DatePicker', () => {
     await user.click(previousButton);
 
     const previousMonth = new Date();
-
+    previousMonth.setDate(1); // Set to the first of the month to avoid overflow issues
     previousMonth.setMonth(previousMonth.getMonth() - 1);
 
     const expectedMonthText = previousMonth.toLocaleString('default', {
       month: 'long',
       year: 'numeric',
     });
+
+    console.log(expectedMonthText);
 
     expect(screen.getByText(expectedMonthText)).toBeInTheDocument();
   });
@@ -51,15 +51,16 @@ describe('DatePicker', () => {
 
     render(<DatePicker handleSubmit={() => {}} />);
 
-    const previousButton = screen.getByTestId('forward-button');
+    const nextButton = screen.getByTestId('next-button');
 
-    await user.click(previousButton);
+    await user.click(nextButton);
 
-    const previousMonth = new Date();
+    const nextMonth = new Date();
 
-    previousMonth.setMonth(previousMonth.getMonth() + 1);
+    nextMonth.setDate(1);
+    nextMonth.setMonth(nextMonth.getMonth() + 1);
 
-    const expectedMonthText = previousMonth.toLocaleString('default', {
+    const expectedMonthText = nextMonth.toLocaleString('default', {
       month: 'long',
       year: 'numeric',
     });

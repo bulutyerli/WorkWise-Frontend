@@ -80,7 +80,7 @@ export default function DatePicker({
         </button>
         <button
           type="button"
-          data-testid="forward-button"
+          data-testid="next-button"
           className="absolute right-0 -top-1 flex items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
           onClick={handleNextMonth}
         >
