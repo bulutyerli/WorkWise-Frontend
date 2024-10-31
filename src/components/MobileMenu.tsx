@@ -45,6 +45,7 @@ export default function MobileMenu({
     <>
       <RiMenu3Line
         size={24}
+        data-testid="menu-button"
         onClick={() => setMenu(true)}
         className={`${app ? 'lg:hidden text-white' : 'sm:hidden'} absolute right-0 m-5`}
       />
