@@ -1,8 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import LeaveTable from './LeaveTable';
 import { sampleAnnualLeave } from '../__mocks__/mockData';
-import { getDateDifference } from '../utils/getDateDifference';
-import dateFormat from '../utils/dateFormat';
 import userEvent from '@testing-library/user-event';
 import CustomButton from './CustomButton';
 
