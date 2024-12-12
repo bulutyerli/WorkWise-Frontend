@@ -1,10 +1,9 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import logo from '/workwise.svg';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { MyRouterContext } from '../../__root';
-import { useAuth } from '../../../providers/AuthProvider';
 import { auth } from '../../../config/firebase-config';
 import CustomButton from '../../../components/CustomButton';
 import LoadingSpinner from '../../../components/LoadingSpinner';
@@ -45,28 +44,16 @@ function SignIn() {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const navigate = Route.useNavigate();
-  const { isAuthenticated, isLoading } = useAuth();
-
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
       setLoginLoading(true);
       await signInWithEmailAndPassword(auth, data.email, data.password);
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
+    } catch (error: unknown) {
       setError('Wrong email or password');
     } finally {
       setLoginLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (isAuthenticated && !isLoading) {
-      navigate({ to: '/' });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated, isLoading]);
 
   const onDemoSubmit = async () => {
     try {
@@ -74,8 +61,7 @@ function SignIn() {
       const pass = import.meta.env.VITE_DEMO_USER;
       const email = import.meta.env.VITE_DEMO_EMAIL;
       await signInWithEmailAndPassword(auth, email, pass);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
+    } catch (error: unknown) {
       setError('Demo is not active');
     } finally {
       setDemoLoading(false);

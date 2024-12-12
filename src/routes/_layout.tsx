@@ -63,7 +63,7 @@ function LayoutComponent() {
     );
   };
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
     auth.logout();
     setModal(false);
   };
@@ -74,7 +74,7 @@ function LayoutComponent() {
 
   return (
     <div className="flex min-h-screen flex-col lg:flex-row">
-      <aside className="hidden lg:block sticky top-0 h-screen bg-red-700 px-5 py-2">
+      <aside className="hidden lg:block sticky top-0 h-screen min-w-[230px] bg-red-700 px-5 py-2">
         <Link to="/">
           <img
             src={logo}
