@@ -29,16 +29,18 @@ export const HiearchyChart = ({ data }: { data: HierarchyData[] }) => {
             const borderColor = borderColors[d.depth % borderColors.length];
 
             return `
-            <div class="absolute bottom-0 w-full p-4 bg-slate-50 border border-gray-300 ${borderColor} border-l-4 rounded shadow-md">
+            <div class=" w-full h-full flex flex-col justify-around p-4 bg-slate-50 border border-gray-300 ${borderColor} border-l-4 rounded shadow-md">
               <div class="font-bold text-lg text-slate-700">${d.data.name} ${d.data.surname}</div>
-              <div class="flex justify-between">
-                <div class="text-sm text-slate-600">${d.data.role_name}</div>
-                <div class="text-sm italic text-slate-600">${d.data.office}</div>
-              </div>
-              ${d.data.shift !== null ? `<div class="text-sm italic absolute -top-3 -right-2 bg-white border border-gray-300 rounded-full w-8 h-8 flex items-center justify-center text-slate-600">${d.data.shift}</div>` : ''}
-              <div class="mt-2 flex justify-between text-slate-500">
-                <div>Manages: ${d.data._directSubordinates}</div>
-                <div>Oversees: ${d.data._totalSubordinates}</div>
+              <div>
+                <div class="flex justify-between">
+                  <div class="text-sm text-slate-600">${d.data.role_name}</div>
+                  <div class="text-sm italic text-slate-600">${d.data.office}</div>
+                </div>
+                  ${d.data.shift !== null ? `<div class="text-sm italic absolute -top-3 -right-2 bg-white border border-gray-300 rounded-full w-8 h-8 flex items-center justify-center text-slate-600">${d.data.shift}</div>` : ''}
+                <div class="mt-2 flex justify-between text-slate-500">
+                  <div>Manages: ${d.data._directSubordinates}</div>
+                  <div>Oversees: ${d.data._totalSubordinates}</div>
+                </div>
               </div>
             </div>
           `;
@@ -50,9 +52,5 @@ export const HiearchyChart = ({ data }: { data: HierarchyData[] }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, d3Container.current]);
 
-  return (
-    <div>
-      <div ref={d3Container} />
-    </div>
-  );
+  return <div ref={d3Container} />;
 };
